@@ -2,11 +2,11 @@
 
 ## Description 
 This is a mini project conducted in parallel with Code Academy 2023. This is a portal which allows the Mckinsey employees to:
-- view dashboards (charts, graphs and statistics of the studies)
-- view practitioners
-- view studies
-- analyse and view case studies
-- assigning studies to practitioners
+- View dashboards (charts, graphs and statistics of the studies)
+- View practitioners
+- View studies
+- Analyse and view case studies
+- Assigning studies to practitioners
 
 The application has three types of users:
 - Practitioners
@@ -17,24 +17,24 @@ The application includes role based access, hence each type of user has its own 
 
 ### Practitioners
 The practitioners can:
-- view the studies
-- view the other practitioners
-- view the case studies
-- edit tech stack (based on sub-role of the practitioner like team lead, architect, etc.)
+- View studies
+- View other practitioners
+- View case studies
+- Update their skills (based on sub-role of the practitioner like team lead, architect, etc.)
 
 ### Leaders 
 The leaders can:
-- view the studies
-- view the other practitioners
-- view the case studies
-- view statistics, charts and graphs of studies and contributions 
+- View studies
+- View other practitioners
+- View case studies
+- View statistics, charts and graphs of studies and contributions 
 
 ### PD Team
 The members of the PD Team can:
-- assign the studies to practitioners
-- view the studies 
-- view the other users
-- view the case studies and add case studies
+- View studies 
+- View other users
+- View and add case studies
+- Assign the studies to practitioners
 
 ## Important Links
 - Figma : https://www.figma.com/file/xtfoa6wuhfKzWl44Ak7fAG/Staffing-Pipeline?node-id=0%3A1&t=f4a3FcKdheGLuZ2p-1
