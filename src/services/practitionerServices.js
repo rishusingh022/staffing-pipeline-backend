@@ -5,18 +5,18 @@ const uuid = require('uuid');
 
 const practitioners = [
   {
-    'id': uuid.v4(),
-    'name': 'John Does',
-    'location': 'Toronto',
-    'skills': [
+    id: uuid.v4(),
+    name: 'John Does',
+    location: 'Toronto',
+    skills: [
       'React', 'Node', 'Mongo', 'Express'
     ],
-    'pastStudies': [
+    pastStudies: [
       'ABC', 'DEF', 'GHI'
     ],
-    'Role': 'Senior Engineer 1',
-    'Tenure': 5,
-    'Education': 'CSE'
+    Role: 'Senior Engineer 1',
+    Tenure: 5,
+    Education: 'CSE'
   }
 ];
 
