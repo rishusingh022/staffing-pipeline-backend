@@ -36,6 +36,16 @@ The members of the PD Team can:
 - View and add case studies
 - Assign the studies to practitioners
 
+## Team Members
+- Khushil M Sindhwad
+- Aganya Bajaj
+- Promit Revar
+- Sukhman Singh
+- Sneha Lall
+- Swapnil Kumar Singh
+- Harsh Agarwal
+- Chiranshu Khandelwal
+
 ## Important Links
 - Figma : https://www.figma.com/file/xtfoa6wuhfKzWl44Ak7fAG/Staffing-Pipeline?node-id=0%3A1&t=f4a3FcKdheGLuZ2p-1
 - Miro : https://miro.com/app/board/uXjVPv2Oypc=/
