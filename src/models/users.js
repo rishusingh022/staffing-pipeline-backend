@@ -21,13 +21,13 @@ module.exports = (sequelize, DataTypes) => {
     currentEngagementId: DataTypes.ARRAY(DataTypes.STRING),
     caseStudies: DataTypes.ARRAY(DataTypes.STRING),
     skills: DataTypes.ARRAY(DataTypes.STRING),
-    role: DataTypes.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2'),
-    guild: DataTypes.ENUM('Swe', 'Product', 'Data'),
+    role: DataTypes.ENUM('unspecified'),
+    guild: DataTypes.ENUM('unspecified'),
     pastEngagementId: DataTypes.ARRAY(DataTypes.STRING),
     image: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Users',
+    modelName: 'users',
   });
   return Users;
 };

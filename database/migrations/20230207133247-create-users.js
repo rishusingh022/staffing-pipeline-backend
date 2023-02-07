@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -32,10 +32,10 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
       role: {
-        type: Sequelize.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2')
+        type: Sequelize.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified')
       },
       guild: {
-        type: Sequelize.ENUM('Swe', 'Product', 'Data')
+        type: Sequelize.ENUM('swe', 'product', 'data', 'unspecified')
       },
       pastEngagementId: {
         type: Sequelize.ARRAY(Sequelize.STRING)
@@ -54,6 +54,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('users');
   }
 };

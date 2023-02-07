@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     engagementId: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'CaseStudies',
+    modelName: 'case_studies',
   });
   return CaseStudies;
 };

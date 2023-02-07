@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Engagements', {
+    await queryInterface.createTable('engagements', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
       guild: {
-        type: Sequelize.ENUM('Swe', 'Product', 'Data')
+        type: Sequelize.ENUM('swe', 'product', 'data', 'unspecified')
       },
       userIds: {
         type: Sequelize.ARRAY(Sequelize.STRING)
@@ -32,7 +32,7 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
       status: {
-        type: Sequelize.ENUM('upcoming', 'ongoing', 'completed')
+        type: Sequelize.ENUM('upcoming', 'ongoing', 'completed', 'unspecified')
       },
       startDate: {
         type: Sequelize.DATE
@@ -54,6 +54,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Engagements');
+    await queryInterface.dropTable('engagements');
   }
 };
