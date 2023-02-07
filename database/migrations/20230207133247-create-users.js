@@ -6,8 +6,12 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      userId: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+        allowNull: false
       },
       name: {
         type: Sequelize.STRING
@@ -18,20 +22,26 @@ module.exports = {
       fmno: {
         type: Sequelize.STRING
       },
-      skillId: {
-        type: Sequelize.UUID
+      currentEngagementIds: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
-      caseStudyId: {
-        type: Sequelize.UUID
+      caseStudies: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
-      studyId: {
-        type: Sequelize.UUID
+      skills: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
-      roleId: {
-        type: Sequelize.UUID
+      role: {
+        type: Sequelize.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2')
       },
-      guildId: {
-        type: Sequelize.UUID
+      guild: {
+        type: Sequelize.ENUM('Swe', 'Product', 'Data')
+      },
+      pastEngagementId: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
+      },
+      image: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

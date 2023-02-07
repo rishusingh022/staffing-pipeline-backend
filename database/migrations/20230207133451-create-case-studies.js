@@ -2,21 +2,34 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Roles', {
+    await queryInterface.createTable('CaseStudies', {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      caseStudyId: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+        allowNull: false
+      },
+      name: {
         type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING
       },
-      userId: {
-        type: Sequelize.UUID
+      collaboratorsIds: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
+      },
+      image: {
+        type: Sequelize.STRING
+      },
+      boxLink: {
+        type: Sequelize.STRING
+      },
+      engagementId: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Roles');
+    await queryInterface.dropTable('CaseStudies');
   }
 };
