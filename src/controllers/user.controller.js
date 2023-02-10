@@ -1,11 +1,18 @@
-
-
 const userServices = require('../services/user.service');
 
-const getUsers = async (_, res) => {
-  const allUsers = await userServices.getAllUsers();
-  res.status(200);
-  res.json(allUsers);
+const listUsers = async (_, res) => {
+  const allUsers = await userServices.listUsers();
+  res.status(200).json(allUsers);
 };
 
-module.exports = { getUsers };
+const postUser = async (req, res) => {
+  const newUser = await userServices.createUser(req.body);
+  res.status(201).json(newUser);
+};
+
+const deleteUser = async (req, res) => {
+  await userServices.deleteUser(req.params.id);
+  res.status(200).json({ message: 'User deleted' });
+};
+
+module.exports = { listUsers, postUser, deleteUser };
