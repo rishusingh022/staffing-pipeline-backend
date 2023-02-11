@@ -21,4 +21,21 @@ const createUser = async userDetails => {
   }
 };
 
-module.exports = { listUsers, createUser };
+const updateUser = async (userId, userDetails) => {
+  const user = await users.findOne({ where: { user_id: id } });
+  if (!user) {
+    return null;
+  }
+  for (let key in userDetails) {
+    user[key] = userDetails[key];
+  }
+  await user.save();
+  return user;
+};
+module.exports = {
+  listUsers,
+  createUser,
+  updateUser,
+};
+
+
