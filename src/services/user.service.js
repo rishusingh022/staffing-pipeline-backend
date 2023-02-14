@@ -44,6 +44,7 @@ const updateUser = async (userId, userDetails) => {
   await user.save();
   return user;
 };
+
 const deleteUser = async userId => {
   const deletedRows = db.users.destroy({
     where: {
@@ -52,6 +53,7 @@ const deleteUser = async userId => {
   });
   return deletedRows;
 };
+
 module.exports = {
   listUsers,
   createUser,
