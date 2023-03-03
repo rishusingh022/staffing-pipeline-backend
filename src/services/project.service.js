@@ -45,6 +45,50 @@ const deleteProject = async projectId => {
   });
 };
 
+const updateCaseStudyInProject = async (caseStudyId, body) => {
+  logger.info('updating case study in project');
+  const caseStudy = await db.case_studies.findOne({ where: { case_study_id: caseStudyId } });
+  if (!caseStudy) return;
+  const oldEngagement = caseStudy.engagementId;
+  const newEngagement = body.engagementId;
+  if (oldEngagement) {
+    let engagement = await db.engagements.findOne({ where: { engagementId: oldEngagement } });
+    if (engagement) {
+      // remove the case study from the old engagement
+      let caseStudies = engagement.caseStudyIds;
+      caseStudies = caseStudies.filter(id => id !== caseStudyId);
+      engagement.caseStudyIds = caseStudies;
+      await engagement.save();
+    }
+  }
+  if (newEngagement) {
+    let engagement = await db.engagements.findOne({ where: { engagementId: newEngagement } });
+    if (engagement) {
+      // add the case study to the new engagement
+      engagement.caseStudyIds = [...engagement.caseStudyIds, caseStudyId];
+      await engagement.save();
+      engagement = await db.engagements.findOne({ where: { engagementId: newEngagement } });
+    }
+  }
+};
+
+const removeCaseStudyFromProject = async caseStudyId => {
+  const caseStudy = await db.case_studies.findOne({ where: { case_study_id: caseStudyId } });
+  if (!caseStudy) return;
+  const engagementId = caseStudy.engagementId;
+  logger.info('removing case study from project');
+  if (engagementId) {
+    let engagement = await db.engagements.findOne({ where: { engagementId: engagementId } });
+    if (engagement) {
+      // remove the case study from the old engagement
+      let caseStudies = engagement.caseStudyIds;
+      caseStudies = caseStudies.filter(id => id !== caseStudyId);
+      engagement.caseStudyIds = caseStudies;
+      await engagement.save();
+    }
+  }
+};
+
 const createProject = async body => {
   try {
     logger.info('creating project');
@@ -55,4 +99,12 @@ const createProject = async body => {
   }
 };
 
-module.exports = { getProject, listProjects, deleteProject, updateProject, createProject };
+module.exports = {
+  getProject,
+  listProjects,
+  deleteProject,
+  updateProject,
+  updateCaseStudyInProject,
+  removeCaseStudyFromProject,
+  createProject,
+};
