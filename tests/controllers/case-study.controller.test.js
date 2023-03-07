@@ -1,8 +1,12 @@
 const updateCaseStudy = require('../../src/controllers/case-study.controller');
 const updateCaseStudyServices = require('../../src/services/case-study.service');
 const mockData = require('../__mocks__/case-study');
+const caseStudiesController = require('../../src/controllers/case-study.controller');
+const caseStudiesServices = require('../../src/services/case-study.service');
 const userServices = require('../../src/services/user.service');
+const { engagements } = require('../../src/models/');
 const projectServices = require('../../src/services/project.service');
+
 describe('CaseStudyController', () => {
   jest.spyOn(userServices, 'updateCaseStudyInUser').mockResolvedValue(true);
   jest.spyOn(projectServices, 'updateCaseStudyInProject').mockResolvedValue(true);
@@ -51,6 +55,30 @@ describe('CaseStudyController', () => {
     });
   });
 
+  describe('createCaseStudy', () => {
+    it('should create a new case study', async () => {
+      const { mockReq, mockRes, resolvedValue, mockUser, mockEngagement } = mockData.create;
+
+      jest.spyOn(caseStudiesServices, 'createCaseStudy').mockResolvedValue(resolvedValue);
+      jest.spyOn(userServices, 'getUser').mockResolvedValueOnce(mockUser);
+      jest.spyOn(userServices, 'updateUser').mockResolvedValue();
+      jest.spyOn(engagements, 'findByPk').mockResolvedValue(mockEngagement);
+
+      await caseStudiesController.createCaseStudy(mockReq, mockRes);
+      //expect(mockRes.status).toHaveBeenCalledWith(201);
+      expect(mockRes.json).toHaveBeenCalledWith(resolvedValue);
+    });
+
+    it('should throw an internal server error', async () => {
+      const { mockReq, mockRes } = mockData.create;
+
+      jest.spyOn(caseStudiesServices, 'createCaseStudy').mockRejectedValue(new Error());
+
+      await caseStudiesController.createCaseStudy(mockReq, mockRes);
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({ message: 'Something went wrong', success: false });
+    });
+  });
   describe('getCaseStudyController', () => {
     it('should get case study by id ', async () => {
       jest.spyOn(updateCaseStudyServices, 'getCaseStudy').mockResolvedValue(mockData.toGet.resolvedValue);

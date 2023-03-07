@@ -1,5 +1,12 @@
+const { case_studies } = require('../models');
 const db = require('../models');
 const logger = require('../logger');
+
+const createCaseStudy = async caseStudy => {
+  logger.info('insert new case study into database');
+  const newCaseStudy = await case_studies.create(caseStudy);
+  return newCaseStudy;
+};
 
 const deleteCaseStudy = async id => {
   logger.info('get case_study to be deleted with id: ' + id);
@@ -59,8 +66,10 @@ const addCurrentEngagement = async (caseStudyId, engagementId) => {
 };
 
 module.exports = {
+  removeProjectFromCaseStudy,
   updateCaseStudy,
   deleteCaseStudy,
+  createCaseStudy,
   removeProjectFromCaseStudy,
   getCaseStudy,
   listCaseStudies,

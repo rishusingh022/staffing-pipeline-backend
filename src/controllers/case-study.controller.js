@@ -1,10 +1,39 @@
 const caseStudyServices = require('../services/case-study.service');
-const logger = require('../logger');
 const userServices = require('../services/user.service');
+const logger = require('../logger');
 const projectServices = require('../services/project.service');
+
+const createCaseStudy = async (req, res) => {
+  try {
+    logger.info('creating a new case study');
+    const caseStudy = await caseStudyServices.createCaseStudy(req.body);
+    const { caseStudyId, collaboratorsIds, projectId } = caseStudy.dataValues;
+
+    // update users case_study_ids
+    for (let collabId of collaboratorsIds) {
+      user = await userServices.getUser(collabId);
+      console.log(user);
+      user.dataValues['caseStudyIds'].push(caseStudyId);
+      user.save();
+    }
+
+    // update engagements case_study_ids
+    const project = await projectServices.getProject(projectId);
+    console.log(project);
+    project.dataValues['caseStudyIds'].push(caseStudyId);
+    project.save();
+
+    res.status(201).json(caseStudy);
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({ message: 'Something went wrong', success: false });
+  }
+};
+
 const updateCaseStudy = async (req, res) => {
   try {
-    logger.info('updating caseStudy with id: ' + req.params.id);
+    logger.info('updating casestudy with id: ' + req.params.id);
+
     const { id } = req.params;
     const { body } = req;
     await userServices.updateCaseStudyInUser(id, body);
@@ -75,6 +104,7 @@ const listCaseStudies = async (req, res) => {
 };
 
 module.exports = {
+  createCaseStudy,
   updateCaseStudy,
   deleteCaseStudy,
   getCaseStudy,
