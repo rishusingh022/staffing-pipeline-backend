@@ -4,6 +4,7 @@ const LoginError = require('../utils/loginError');
 const { HttpError } = require('../utils/httpError');
 const jwt = require('jsonwebtoken');
 const logger = require('../logger');
+const { insertIntoRedis } = require('../utils/redisUtil');
 const validateUserAndReturnToken = async data => {
   const { email, password } = data;
   logger.info(`get the user data from database auth table by passing email: ${email}`);
@@ -14,7 +15,8 @@ const validateUserAndReturnToken = async data => {
     if (isPasswordCorrect) {
       logger.info('generate jwt token and return');
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+      logger.info('inserting token into redis');
+      await insertIntoRedis(token);
       return { data: user.dataValues, token: token, success: true, message: 'Login successful' };
     } else {
       logger.error('password is not correct');
