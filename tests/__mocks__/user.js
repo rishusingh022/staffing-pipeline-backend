@@ -8,12 +8,10 @@ const testData = [
     updatedAt: '2023-02-09T15:02:53.658Z',
     createdAt: '2023-02-09T15:02:53.658Z',
     fmno: null,
-    current_engagement_ids: null,
     case_study_ids: null,
     skills: null,
     role: null,
     guild: null,
-    past_engagement_ids: null,
     image: null,
   },
   {
@@ -21,12 +19,10 @@ const testData = [
     name: 'john doe',
     email: 'johndoe@mckinsey.com',
     fmno: '123456',
-    current_engagement_ids: ['1', '2'],
     caseStudyIds: ['1', '2'],
     skills: ['node, react'],
     role: 'intern',
     guild: 'swe',
-    past_engagement_ids: ['1', '2'],
     createdAt: '2022-01-17T04:33:12.000Z',
     updatedAt: '2022-01-17T04:33:12.000Z',
   },
@@ -111,7 +107,6 @@ const updateUser = {
     body: {
       name: testName,
       email: testEmail,
-      current_engagement_ids: ['1', '2', '3', '4'],
     },
   },
   mockRes: {
