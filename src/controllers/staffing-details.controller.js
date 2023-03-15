@@ -1,9 +1,9 @@
 const staffingDetailsService = require('../services/staffing-details.service');
 
 const createStaffingEntry = async (req, res) => {
-  console.log('In createStaffingEntry Controller');
-  const entryDetails = req.body;
   try {
+    console.log('In createStaffingEntry Controller');
+    const entryDetails = req.body;
     const newEntry = await staffingDetailsService.createStaffingEntry(entryDetails);
     res.status(200).json(newEntry);
   } catch (error) {
