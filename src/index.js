@@ -6,6 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 const projectRouter = require('./routes/project.route');
 const caseStudiesRouter = require('./routes/case-study.route');
+const staffingRouter = require('./routes/staffing-details.route');
 
 //add swagger documentation
 const swaggerUi = require('swagger-ui-express');
@@ -33,7 +34,7 @@ app.use(
 app.use('/api', router);
 app.use('/auth', authRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.use('/api/staffing', staffingRouter);
 //for the engagements
 app.use('/api/projects', projectRouter);
 app.use('/api/case-studies', caseStudiesRouter);
