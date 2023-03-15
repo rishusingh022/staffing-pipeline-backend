@@ -25,12 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       fmno: DataTypes.STRING,
-      currentEngagementIds: DataTypes.ARRAY(DataTypes.STRING),
       caseStudyIds: DataTypes.ARRAY(DataTypes.STRING),
       skills: DataTypes.ARRAY(DataTypes.STRING),
       role: DataTypes.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified'),
       guild: DataTypes.ENUM('swe', 'product', 'data', 'unspecified'),
-      pastEngagementIds: DataTypes.ARRAY(DataTypes.STRING),
       image: DataTypes.STRING,
     },
     {
