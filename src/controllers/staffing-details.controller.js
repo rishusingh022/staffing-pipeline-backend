@@ -1,4 +1,41 @@
 const staffingDetailsService = require('../services/staffing-details.service');
+const { HttpError } = require('../utils/httpError');
+
+const getUserCurrentEngagements = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userCurrentEngagements = await staffingDetailsService.getUserCurrentEngagements(userId);
+    res.status(200).json(userCurrentEngagements);
+  } catch (error) {
+    if (err instanceof HttpError) {
+      res.status(err.statusCode).json({
+        error: err.message,
+      });
+    } else {
+      res.status(500).json({
+        error: 'Internal Server Error',
+      });
+    }
+  }
+};
+
+const getUserPastEngagements = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userPastEngagements = await staffingDetailsService.getUserPastEngagements(userId);
+    res.status(200).json(userPastEngagements);
+  } catch (error) {
+    if (err instanceof HttpError) {
+      res.status(err.statusCode).json({
+        error: err.message,
+      });
+    } else {
+      res.status(500).json({
+        error: 'Internal Server Error',
+      });
+    }
+  }
+};
 
 const createStaffingEntry = async (req, res) => {
   try {
@@ -12,5 +49,5 @@ const createStaffingEntry = async (req, res) => {
   }
 };
 
-const staffingDetailsController = { createStaffingEntry };
+const staffingDetailsController = { createStaffingEntry, getUserCurrentEngagements, getUserPastEngagements };
 module.exports = staffingDetailsController;
