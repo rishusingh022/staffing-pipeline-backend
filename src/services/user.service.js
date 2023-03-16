@@ -16,6 +16,17 @@ const getUser = async userId => {
   }
   return user;
 };
+
+const getUsersByName = async name => {
+  logger.info(`get users from database with name: ${name}`);
+  const users = await db.users.findAll({
+    where: {
+      name: db.Sequelize.where(db.Sequelize.fn('LOWER', db.Sequelize.col('name')), 'LIKE', `%${name}%`),
+    },
+  });
+  return users;
+};
+
 const listUsers = async () => {
   try {
     logger.info('get all users from the database');
@@ -163,4 +174,5 @@ module.exports = {
   deleteProjectFromUsers,
   updateCaseStudyInUser,
   removeCaseStudyFromUser,
+  getUsersByName,
 };

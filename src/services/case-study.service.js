@@ -65,6 +65,16 @@ const addCurrentEngagement = async (caseStudyId, engagementId) => {
   await caseStudy.save();
 };
 
+const getCaseStudyByName = async name => {
+  logger.info(`get case studies from database with name: ${name}`);
+  const caseStudies = await db.case_studies.findAll({
+    where: {
+      name: db.Sequelize.where(db.Sequelize.fn('LOWER', db.Sequelize.col('name')), 'LIKE', `%${name}%`),
+    },
+  });
+  return caseStudies;
+};
+
 module.exports = {
   removeProjectFromCaseStudy,
   updateCaseStudy,
@@ -74,4 +84,5 @@ module.exports = {
   getCaseStudy,
   listCaseStudies,
   addCurrentEngagement,
+  getCaseStudyByName,
 };

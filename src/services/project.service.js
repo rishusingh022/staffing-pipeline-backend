@@ -24,6 +24,16 @@ const listProjects = async () => {
   }
 };
 
+const getProjectsByName = async name => {
+  logger.info(`get engagements from database with name: ${name}`);
+  const engagements = await db.engagements.findAll({
+    where: {
+      name: db.Sequelize.where(db.Sequelize.fn('LOWER', db.Sequelize.col('name')), 'LIKE', `%${name}%`),
+    },
+  });
+  return engagements;
+};
+
 const updateProject = async (id, body) => {
   const engagement = await engagements.findByPk(id);
   if (!engagement) {
@@ -107,4 +117,5 @@ module.exports = {
   updateCaseStudyInProject,
   removeCaseStudyFromProject,
   createProject,
+  getProjectsByName,
 };
