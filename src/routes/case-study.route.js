@@ -20,8 +20,8 @@ router.put(
   updateCaseStudy
 );
 router.delete('/:id', authMiddlewares.reqAuthValidator, caseStudyValidator.caseStudyIdValidator, deleteCaseStudy);
-router.get('/:id', getCaseStudy);
-router.get('/', listCaseStudies);
+router.get('/:id', authMiddlewares.reqAuthValidator, getCaseStudy);
+router.get('/', authMiddlewares.reqAuthValidator, listCaseStudies);
 
 router.post('/', authMiddlewares.reqAuthValidator, caseStudyValidator.createCaseStudyValidator, createCaseStudy);
 
