@@ -65,6 +65,11 @@ const addCurrentEngagement = async (caseStudyId, engagementId) => {
   await caseStudy.save();
 };
 
+const getCaseStudiesByEngagementId = async engagementId => {
+  logger.info(`get case studies by engagement id: ${engagementId}`);
+  const caseStudies = await db.case_studies.findAll({ where: { engagementId: engagementId } });
+  return caseStudies;
+};
 const getCaseStudyByName = async name => {
   logger.info(`get case studies from database with name: ${name}`);
   const caseStudies = await db.case_studies.findAll({
@@ -76,7 +81,6 @@ const getCaseStudyByName = async name => {
 };
 
 module.exports = {
-  removeProjectFromCaseStudy,
   updateCaseStudy,
   deleteCaseStudy,
   createCaseStudy,
@@ -84,5 +88,6 @@ module.exports = {
   getCaseStudy,
   listCaseStudies,
   addCurrentEngagement,
+  getCaseStudiesByEngagementId,
   getCaseStudyByName,
 };

@@ -11,7 +11,7 @@ projectRouter.post(
   projectMiddlewares.validateProject,
   projectController.createProject
 );
-projectRouter.get('/:id', authMiddlewares.reqAuthValidator, projectController.getProject);
+projectRouter.get('/:id', authMiddlewares.reqAuthValidator, projectController.getWholeProject);
 projectRouter.delete('/:id', authMiddlewares.reqAuthValidator, projectController.deleteProject);
 projectRouter.put(
   '/:id',

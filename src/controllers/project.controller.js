@@ -3,6 +3,41 @@ const projectServices = require('../services/project.service');
 const userService = require('../services/user.service');
 const { HttpError } = require('../utils/httpError');
 const caseStudyService = require('../services/case-study.service');
+const staffingDetailsService = require('../services/staffing-details.service');
+
+const getWholeProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    logger.info('fetching project by id: ' + id);
+    const project = await projectServices.getProject(id);
+
+    // get users data in engagements from staffing details
+    const usersInEngagement = await staffingDetailsService.getUsersInEngagement(id);
+    const usersInEngagementData = await Promise.all(
+      usersInEngagement.map(async entry => {
+        const userData = await userService.getUser(entry.userId);
+        userData.staffingEntry = entry;
+        return userData;
+      })
+    );
+
+    // get case studies in engagement
+    const caseStudiesInEngagement = await caseStudyService.getCaseStudiesByEngagementId(id);
+
+    res.status(200).json({
+      projectData: project,
+      usersInEngagement: usersInEngagementData,
+      caseStudiesInEngagement: caseStudiesInEngagement,
+    });
+  } catch (error) {
+    {
+      logger.error(error);
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
+};
 
 const getProject = async (req, res) => {
   try {
@@ -11,8 +46,11 @@ const getProject = async (req, res) => {
     const project = await projectServices.getProject(id);
     res.status(200).json(project);
   } catch (error) {
-    {
-      logger.error(error);
+    if (error instanceof HttpError) {
+      res.status(error.statusCode).json({
+        error: error.message,
+      });
+    } else {
       res.status(500).json({
         error: error.message,
       });
@@ -110,4 +148,4 @@ const createProject = async (req, res) => {
   }
 };
 
-module.exports = { getProject, listProjects, deleteProject, updateProject, createProject };
+module.exports = { getWholeProject, getProject, listProjects, deleteProject, updateProject, createProject };

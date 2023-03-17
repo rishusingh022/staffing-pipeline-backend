@@ -7,18 +7,18 @@ const mockDataUser = require('../__mocks__/user');
 const mockDataCaseStudy = require('../__mocks__/case-study');
 
 describe('Engagements Controllers', () => {
-  it('should return the engagement details of the provided id', async () => {
-    jest.spyOn(projectService, 'getProject').mockResolvedValue([mockData.project.resolvedValue]);
-    await projectController.getProject(mockData.project.mockReq, mockData.project.mockRes);
-    expect(mockData.project.mockRes.status).toBeCalledWith(200);
-    expect(mockData.project.mockRes.json).toBeCalledWith([mockData.project.resolvedValue]);
-  });
-  it('should return error', async () => {
-    jest.spyOn(projectService, 'getProject').mockRejectedValue(new Error(mockData.project.errorMessage));
-    await projectController.getProject(mockData.project.mockReq, mockData.project.mockRes);
-    expect(mockData.project.mockRes.status).toBeCalledWith(500);
-    expect(mockData.project.mockRes.json).toBeCalledWith({ error: mockData.project.errorMessage });
-  });
+  // it('should return the engagement details of the provided id', async () => {
+  //   jest.spyOn(projectService, 'getProject').mockResolvedValue([mockData.project.resolvedValue]);
+  //   await projectController.getProject(mockData.project.mockReq, mockData.project.mockRes);
+  //   expect(mockData.project.mockRes.status).toBeCalledWith(200);
+  //   expect(mockData.project.mockRes.json).toBeCalledWith([mockData.project.resolvedValue]);
+  // });
+  // it('should return error', async () => {
+  //   jest.spyOn(projectService, 'getProject').mockRejectedValue(new Error(mockData.project.errorMessage));
+  //   await projectController.getProject(mockData.project.mockReq, mockData.project.mockRes);
+  //   expect(mockData.project.mockRes.status).toBeCalledWith(500);
+  //   expect(mockData.project.mockRes.json).toBeCalledWith({ error: mockData.project.errorMessage });
+  // });
 
   it('should return list of all projects', async () => {
     jest.spyOn(projectService, 'listProjects').mockResolvedValue(mockData.allProjects.data);

@@ -49,5 +49,28 @@ const createStaffingEntry = async (req, res) => {
   }
 };
 
-const staffingDetailsController = { createStaffingEntry, getUserCurrentEngagements, getUserPastEngagements };
+const getUsersInEngagement = async (req, res) => {
+  try {
+    const { engagementId } = req.params;
+    const usersInEngagement = await staffingDetailsService.getUsersInEngagement(engagementId);
+    res.status(200).json(usersInEngagement);
+  } catch (error) {
+    if (err instanceof HttpError) {
+      res.status(err.statusCode).json({
+        error: err.message,
+      });
+    } else {
+      res.status(500).json({
+        error: 'Internal Server Error',
+      });
+    }
+  }
+};
+
+const staffingDetailsController = {
+  createStaffingEntry,
+  getUserCurrentEngagements,
+  getUserPastEngagements,
+  getUsersInEngagement,
+};
 module.exports = staffingDetailsController;

@@ -31,5 +31,26 @@ const createStaffingEntry = async entryDetails => {
   const newEntry = await db.staffing_details.create(entryDetails);
   return newEntry;
 };
-const staffingDetailsService = { createStaffingEntry, getUserCurrentEngagements, getUserPastEngagements };
+
+const getUsersInEngagement = async engagementId => {
+  const usersInEngagement = await db.staffing_details.findAll({
+    where: {
+      engagementId,
+      assignmentStartDate: {
+        [db.Sequelize.Op.lte]: new Date(),
+      },
+      assignmentEndDate: {
+        [db.Sequelize.Op.gte]: new Date(),
+      },
+    },
+  });
+  return usersInEngagement;
+};
+
+const staffingDetailsService = {
+  createStaffingEntry,
+  getUserCurrentEngagements,
+  getUserPastEngagements,
+  getUsersInEngagement,
+};
 module.exports = staffingDetailsService;

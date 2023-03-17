@@ -1,6 +1,8 @@
 const userServices = require('../services/user.service');
 const { NotFoundError } = require('../../src/utils/httpError');
 const logger = require('../logger');
+const staffingDetailsService = require('../services/staffing-details.service');
+const projectService = require('../services/project.service');
 const listUsers = async (_, res) => {
   logger.info('fetching all the users');
   const allUsers = await userServices.listUsers();
@@ -12,8 +14,31 @@ const getUser = async (req, res) => {
   try {
     logger.info('fetching user with id: ' + userId);
     const user = await userServices.getUser(userId);
-    res.status(200);
-    res.json(user);
+
+    // get current engagements data
+    const userCurrentEngagements = await staffingDetailsService.getUserCurrentEngagements(userId);
+    const userCurrentEngagementsData = await Promise.all(
+      userCurrentEngagements.map(async entry => {
+        const projectData = await projectService.getProject(entry.projectId);
+        projectData.staffingEntry = entry;
+        return projectData;
+      })
+    );
+
+    // get past engagements data
+    const userPastEngagements = await staffingDetailsService.getUserPastEngagements(userId);
+    const userPastEngagementsData = await Promise.all(
+      userPastEngagements.map(async entry => {
+        const projectData = await projectService.getProject(entry.projectId);
+        projectData.staffingEntry = entry;
+        return projectData;
+      })
+    );
+    res.status(200).json({
+      userData: user,
+      currentEngagements: userCurrentEngagementsData,
+      pastEngagements: userPastEngagementsData,
+    });
   } catch (error) {
     logger.error(error);
     if (error instanceof NotFoundError) {
