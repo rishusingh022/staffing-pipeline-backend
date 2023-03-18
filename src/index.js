@@ -8,6 +8,7 @@ const projectRouter = require('./routes/project.route');
 const caseStudiesRouter = require('./routes/case-study.route');
 const staffingRouter = require('./routes/staffing-details.route');
 const searchRouter = require('./routes/search.route');
+const skillsRouter = require('./routes/skills.route');
 
 //add swagger documentation
 const swaggerUi = require('swagger-ui-express');
@@ -40,6 +41,7 @@ app.use('/api/staffing', staffingRouter);
 app.use('/api/projects', projectRouter);
 app.use('/api/case-studies', caseStudiesRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/skills', skillsRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
