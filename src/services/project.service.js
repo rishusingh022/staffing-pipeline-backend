@@ -6,7 +6,12 @@ const CustomErrors = require('../utils/httpError');
 
 const getProject = async projectId => {
   logger.info(`find engagement data for the id: ${projectId}`);
-  const engagement = await db.engagements.findByPk(projectId);
+  const engagement = await db.engagements.findOne({
+    where: {
+      engagementId: projectId,
+    },
+  });
+  // console.log(projectId, engagement);
   if (!engagement) {
     throw new CustomErrors.NotFoundError('Engagement not found');
   }

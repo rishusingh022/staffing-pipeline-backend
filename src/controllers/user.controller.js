@@ -17,9 +17,10 @@ const getUser = async (req, res) => {
 
     // get current engagements data
     const userCurrentEngagements = await staffingDetailsService.getUserCurrentEngagements(userId);
+    console.log('userCurrentEngagements', userCurrentEngagements);
     const userCurrentEngagementsData = await Promise.all(
       userCurrentEngagements.map(async entry => {
-        const projectData = await projectService.getProject(entry.projectId);
+        const projectData = await projectService.getProject(entry.engagementId);
         projectData.staffingEntry = entry;
         return projectData;
       })
@@ -27,9 +28,10 @@ const getUser = async (req, res) => {
 
     // get past engagements data
     const userPastEngagements = await staffingDetailsService.getUserPastEngagements(userId);
+    console.log('userPastEngagements', userPastEngagements);
     const userPastEngagementsData = await Promise.all(
       userPastEngagements.map(async entry => {
-        const projectData = await projectService.getProject(entry.projectId);
+        const projectData = await projectService.getProject(entry.engagementId);
         projectData.staffingEntry = entry;
         return projectData;
       })

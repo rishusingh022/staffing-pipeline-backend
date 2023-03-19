@@ -96,9 +96,27 @@ const listCaseStudies = async (req, res) => {
   try {
     logger.info('fetching all the case studies');
     const allCaseStudies = await caseStudyServices.listCaseStudies();
-    res.status(200).json({ data: allCaseStudies, user: req.user });
+    const completeCaseStudiesData = await Promise.all(
+      allCaseStudies.map(async caseStudy => {
+        const { collaboratorsIds, engagementId } = caseStudy.dataValues;
+        const project = await projectServices.getProject(engagementId);
+        const collaborators = await Promise.all(
+          collaboratorsIds.map(async collabId => {
+            const user = await userServices.getUser(collabId);
+            return user;
+          })
+        );
+        return {
+          ...caseStudy.dataValues,
+          engagement: project,
+          collaborators,
+        };
+      })
+    );
+    res.status(200).json(completeCaseStudiesData);
   } catch (error) {
     logger.error(error);
+    console.log(error);
     res.status(500).json({
       message: 'Something went wrong',
       user: req.user,

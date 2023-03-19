@@ -29,7 +29,7 @@ module.exports = {
           study: 'Photo',
           utilization_percentage: 28,
           assignment_start_date: '2022-12-04T00:25:06.919Z',
-          assignment_end_date: '2023-03-18T00:28:45.949Z',
+          assignment_end_date: '2023-03-25T00:28:45.949Z',
           a_p_name: 'Gretchen',
           e_d_name: 'Maudie',
           e_m_name: 'Kareem',
@@ -67,7 +67,7 @@ module.exports = {
           study: 'Roll deep',
           utilization_percentage: 17,
           assignment_start_date: '2022-07-10T07:54:31.424Z',
-          assignment_end_date: '2023-03-17T20:41:07.454Z',
+          assignment_end_date: '2023-03-24T20:41:07.454Z',
           a_p_name: 'Wyman',
           e_d_name: 'Haskell',
           e_m_name: 'Hector',
@@ -137,7 +137,7 @@ module.exports = {
           study: 'Why Arjan',
           utilization_percentage: 78,
           assignment_start_date: '2023-01-20T22:37:51.934Z',
-          assignment_end_date: '2023-03-18T08:06:59.493Z',
+          assignment_end_date: '2023-03-26T08:06:59.493Z',
           a_p_name: 'Damion',
           e_d_name: 'Doyle',
           e_m_name: 'Zoie',
@@ -236,7 +236,7 @@ module.exports = {
           study: 'Loud',
           utilization_percentage: 82,
           assignment_start_date: '2022-10-10T12:17:22.117Z',
-          assignment_end_date: '2023-03-18T00:02:35.970Z',
+          assignment_end_date: '2023-03-28T00:02:35.970Z',
           a_p_name: 'Eric',
           e_d_name: 'Matilda',
           e_m_name: 'Cecelia',
@@ -303,7 +303,7 @@ module.exports = {
           study: 'YKWIM',
           utilization_percentage: 19,
           assignment_start_date: '2023-01-30T01:16:51.486Z',
-          assignment_end_date: '2023-03-17T14:58:58.845Z',
+          assignment_end_date: '2023-03-27T14:58:58.845Z',
           a_p_name: 'Gerry',
           e_d_name: 'Patrick',
           e_m_name: 'Serena',
@@ -370,7 +370,7 @@ module.exports = {
           study: 'Friends Matter',
           utilization_percentage: 48,
           assignment_start_date: '2022-09-11T08:06:37.751Z',
-          assignment_end_date: '2023-03-17T18:47:06.209Z',
+          assignment_end_date: '2023-03-23T18:47:06.209Z',
           a_p_name: 'Otis',
           e_d_name: 'Enrico',
           e_m_name: 'Claudine',
@@ -403,7 +403,7 @@ module.exports = {
           study: 'Why Arjan',
           utilization_percentage: 39,
           assignment_start_date: '2022-12-17T05:45:39.821Z',
-          assignment_end_date: '2023-03-18T00:21:21.065Z',
+          assignment_end_date: '2023-03-26T00:21:21.065Z',
           a_p_name: 'Sophie',
           e_d_name: 'Jessyca',
           e_m_name: 'Vena',
@@ -502,7 +502,7 @@ module.exports = {
           study: 'Why Arjan',
           utilization_percentage: 33,
           assignment_start_date: '2022-12-10T23:38:12.616Z',
-          assignment_end_date: '2023-03-18T09:08:09.354Z',
+          assignment_end_date: '2023-03-23T09:08:09.354Z',
           a_p_name: 'Darryl',
           e_d_name: 'Alisha',
           e_m_name: 'Arvel',
@@ -534,6 +534,7 @@ module.exports = {
      *
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
-     */
+    */
+    await queryInterface.bulkDelete('staffing_details', null, {});
   },
 };
