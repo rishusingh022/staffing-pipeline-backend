@@ -37,9 +37,11 @@ const getUser = async (req, res) => {
       })
     );
     res.status(200).json({
-      userData: user,
-      currentEngagements: userCurrentEngagementsData,
-      pastEngagements: userPastEngagementsData,
+      data: {
+        userData: user,
+        currentEngagements: userCurrentEngagementsData,
+        pastEngagements: userPastEngagementsData,
+      },
       user: req.user,
     });
   } catch (error) {

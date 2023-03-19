@@ -54,7 +54,7 @@ const parse_xlsx_sheets = fname => {
           await db.engagements.findOne({
             attributes: ['engagementId'],
             where: {
-              name: res['Study'],
+              charge_code: res['Charge Code'],
             },
           })
         )
@@ -95,16 +95,18 @@ const parse_xlsx_sheets = fname => {
 };
 
 function ExcelDateToJSDate(serial) {
-  var utc_days = Math.floor(serial - 25569);
-  var utc_value = utc_days * 86400;
-  var date_info = new Date(utc_value * 1000);
-  var fractional_day = serial - Math.floor(serial) + 0.0000001;
-  var total_seconds = Math.floor(86400 * fractional_day);
-  var seconds = total_seconds % 60;
-  total_seconds -= seconds;
-  var hours = Math.floor(total_seconds / (60 * 60));
-  var minutes = Math.floor(total_seconds / 60) % 60;
-  return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate(), hours, minutes, seconds);
+  const date_data = serial.split('/');
+  console.log(date_data);
+  // var utc_days = Math.floor(serial - 25569);
+  // var utc_value = utc_days * 86400;
+  // var date_info = new Date(utc_value * 1000);
+  // var fractional_day = serial - Math.floor(serial) + 0.0000001;
+  // var total_seconds = Math.floor(86400 * fractional_day);a
+  // var seconds = total_seconds % 60;
+  // total_seconds -= seconds;
+  // var hours = Math.floor(total_seconds / (60 * 60));
+  // var minutes = Math.floor(total_seconds / 60) % 60;
+  return new Date(parseInt(date_data[2]), parseInt(date_data[0] - 1), parseInt(date_data[1]), 0, 0, 0).toISOString();
 }
 
 const getUsersInEngagement = async engagementId => {
