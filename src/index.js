@@ -2,6 +2,7 @@
 const express = require('express');
 const router = require('./routes/user.route');
 const authRouter = require('./routes/login.route');
+const uploadExcelRouter = require('./routes/upload-excel.route');
 const cors = require('cors');
 require('dotenv').config();
 const projectRouter = require('./routes/project.route');
@@ -33,6 +34,7 @@ app.use(
     origin: '*',
   })
 );
+app.use('/excel', uploadExcelRouter);
 app.use('/api', router);
 app.use('/auth', authRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

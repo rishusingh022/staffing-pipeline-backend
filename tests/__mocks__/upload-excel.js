@@ -1,0 +1,38 @@
+const excelData = [
+  {
+    fmno: 'Fmno',
+    name: 'Full Name',
+    userId: undefined,
+    engagementId: undefined,
+    assignmentType: 'Assignment Type',
+    study: 'Study',
+    utilizationPercentage: 80,
+    staffingStatus: 'Staffing Status',
+    assignmentStartDate: 'Assignment Start Date',
+    assignmentEndDate: 'Assignment End Date',
+    APName: 'AP Name',
+    EDName: 'ED Name',
+    EMName: 'EM Name',
+    staffingManager: 'Staffing Manager',
+    guild: 'Guild',
+    country: 'Country',
+    departmentCode: 'Department Code',
+    role: 'Role',
+    practice: 'Practice',
+    departmentName: 'Department Name',
+    integrated: 'Integrated?',
+    email: 'Mckinsey E-mail Address',
+    path: 'Path',
+    practiceFunction: 'Practice Function',
+    practiceIndustry: 'Practice Industry',
+    region: 'Region',
+    roleCategory: 'Role Category',
+    roleSubCategory: 'Role SubCategory',
+    staffingOffice: 'Staffing Office',
+  },
+];
+const filePath = 'tests/__mocks__/upload-excel.js';
+module.exports = {
+  excelData,
+  filePath,
+};
