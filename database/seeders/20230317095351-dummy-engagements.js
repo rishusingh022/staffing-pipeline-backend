@@ -17,6 +17,7 @@ module.exports = {
       [
         {
           engagement_id: 'c5b2f04b-33cd-4b40-bc87-098a2b091a2d',
+          charge_code: '7WAW5ZN',
           name: 'Photo',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
@@ -31,6 +32,7 @@ module.exports = {
         },
         {
           engagement_id: 'e51adf62-1e64-409d-8902-f7cb36eb9f9c',
+          charge_code: 'CIIOCI4',
           name: 'Roll deep',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
@@ -45,6 +47,7 @@ module.exports = {
         },
         {
           engagement_id: '2544abad-bda7-4029-8923-3762220e7b31',
+          charge_code: 'SWCXB7D',
           name: 'Same Town',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
@@ -59,6 +62,7 @@ module.exports = {
         },
         {
           engagement_id: '2f45f1c6-53db-4cf0-955e-2662f9517345',
+          charge_code: '0R0MBT4',
           name: 'Why Arjan',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
@@ -74,6 +78,7 @@ module.exports = {
         {
           engagement_id: '4e733f84-92af-4cc9-b0ab-d71dab092e85',
           name: 'Baller',
+          charge_code: 'X2FEO7Q',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
           guild: 'swe',
@@ -86,6 +91,7 @@ module.exports = {
           created_at: '2023-03-17T10:32:27.625Z',
         },
         {
+          charge_code: '3QXQ1BF',
           engagement_id: '64c8e683-7ee6-4380-a71c-e5cdb42d6a68',
           name: 'Friends Matter',
           tags: ['urgent'],
@@ -101,6 +107,7 @@ module.exports = {
         },
         {
           engagement_id: 'c3422128-a648-4ca9-a0b5-d6dd516bf631',
+          charge_code: 'UGEOHQJ',
           name: 'My Dear Punjab',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
@@ -115,6 +122,7 @@ module.exports = {
         },
         {
           engagement_id: '5f5c9464-e557-4bbf-88db-2c7baaade758',
+          charge_code: 'VWX2JTS',
           name: 'Loud',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
@@ -129,6 +137,7 @@ module.exports = {
         },
         {
           engagement_id: '2b445943-a57f-44c3-8d51-b056d08820e3',
+          charge_code: '7XSMH9D',
           name: 'Unforgettable',
           tags: ['urgent'],
           skills: ['React', 'Node', 'Pop', 'Swift', 'C#'],
@@ -150,6 +159,7 @@ module.exports = {
           case_study_ids: ['11fd5be1-6bb8-49ed-97cd-c605342a66f4'],
           status: 'ongoing',
           start_date: '2022-11-07T02:36:54.185Z',
+          charge_code: 'XLW6536',
           end_date: '2023-07-02T17:33:19.266Z',
           image: 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg',
           updated_at: '2023-03-17T10:32:27.625Z',

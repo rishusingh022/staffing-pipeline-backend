@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.STRING,
       },
+      chargeCode: {
+        type: DataTypes.STRING,
+      },
       engagementId: {
         type: DataTypes.STRING,
       },

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       tags: DataTypes.ARRAY(DataTypes.STRING),
+      chargeCode: DataTypes.STRING,
       skills: DataTypes.ARRAY(DataTypes.STRING),
       guild: DataTypes.ENUM('swe', 'product', 'data', 'unspecified'),
       caseStudyIds: DataTypes.ARRAY(DataTypes.STRING),
