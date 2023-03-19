@@ -37,15 +37,24 @@ const createUser = {
       email: testEmail,
       name: testName,
     },
+    user: {
+      role: 'engineer 1',
+    },
   },
   mockReqName: {
     body: {
       name: testName,
     },
+    user: {
+      role: 'engineer 1',
+    },
   },
   resolvedValue: {
     data: testData[0],
     success: true,
+    user: {
+      role: 'engineer 1',
+    },
   },
   newUser: {
     id: 1,
@@ -65,6 +74,9 @@ const getUser = {
     params: {
       user_id: '1',
     },
+    user: {
+      role: 'engineer 1',
+    },
   },
   resolvedValue: testData[1],
 };
@@ -72,6 +84,9 @@ const deleteUser = {
   mockReq: {
     params: {
       user_id: '1',
+    },
+    user: {
+      role: 'engineer 1',
     },
   },
   mockRes: {
@@ -107,6 +122,9 @@ const updateUser = {
     body: {
       name: testName,
       email: testEmail,
+    },
+    user: {
+      role: 'engineer 1',
     },
   },
   mockRes: {

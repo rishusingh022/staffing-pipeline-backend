@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING),
       },
       role: {
-        type: Sequelize.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified'),
+        type: Sequelize.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified','pd'),
       },
       guild: {
         type: Sequelize.ENUM('swe', 'product', 'data', 'unspecified'),

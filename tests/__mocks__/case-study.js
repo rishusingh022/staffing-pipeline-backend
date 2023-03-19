@@ -5,6 +5,9 @@ const create = {
       description: 'test',
       collaborators_ids: ['1', '2'],
     },
+    user: {
+      role: 'engineer 1',
+    },
   },
   mockRes: {
     status: jest.fn().mockReturnThis(),
@@ -72,6 +75,9 @@ const update = {
       description: 'test',
       collaboratorsIds: ['1', '2'],
     },
+    user: {
+      role: 'engineer 1',
+    },
   },
   mockRes: {
     status: jest.fn().mockReturnThis(),
@@ -94,6 +100,9 @@ const toDelete = {
   mockReq: {
     params: {
       id: '1',
+    },
+    user: {
+      role: 'engineer 1',
     },
   },
   mockRes: {
@@ -118,6 +127,9 @@ const toGet = {
     params: {
       id: '1',
     },
+    user: {
+      role: 'engineer 1',
+    },
   },
   mockRes: {
     status: jest.fn().mockReturnThis(),
@@ -140,6 +152,9 @@ const toList = {
   mockReq: {
     params: {
       id: '1',
+    },
+    user: {
+      role: 'engineer 1',
     },
   },
   mockRes: {

@@ -1,6 +1,9 @@
 const project = {
   mockReq: {
     params: jest.fn(),
+    user: {
+      role: 'engineer 1',
+    },
   },
   mockRes: {
     status: jest.fn().mockReturnThis(),
@@ -21,7 +24,7 @@ const project = {
   errorMessage: 'Internal Server error!!',
 };
 const allProjects = {
-  data: [
+  resolvedValue: [
     {
       engagementId: 1223,
       userIds: ['771', '882', '93'],
@@ -38,7 +41,11 @@ const allProjects = {
       caseStudyIds: ['235', '364', '576'],
     },
   ],
-  mockReq: {},
+  mockReq: {
+    user: {
+      role: 'engineer 1',
+    },
+  },
   mockRes: {
     status: jest.fn().mockReturnThis(),
     json: jest.fn(),
@@ -48,6 +55,9 @@ const allProjects = {
 const todelete = {
   mockReq: {
     params: jest.fn(),
+    user: {
+      role: 'engineer 1',
+    },
   },
   mockRes: {
     status: jest.fn().mockReturnThis(),
@@ -63,6 +73,9 @@ const toUpdate = {
   mockReq: {
     params: jest.fn(),
     body: project.resolvedValue,
+    user: {
+      role: 'engineer 1',
+    },
   },
   mockRes: {
     status: jest.fn().mockReturnThis(),

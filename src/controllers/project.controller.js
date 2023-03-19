@@ -28,12 +28,14 @@ const getWholeProject = async (req, res) => {
       projectData: project,
       usersInEngagement: usersInEngagementData,
       caseStudiesInEngagement: caseStudiesInEngagement,
+      user: req.user,
     });
   } catch (error) {
     {
       logger.error(error);
       res.status(500).json({
         error: error.message,
+        user: req.user,
       });
     }
   }
@@ -44,15 +46,17 @@ const getProject = async (req, res) => {
     const { id } = req.params;
     logger.info('fetching project by id: ' + id);
     const project = await projectServices.getProject(id);
-    res.status(200).json(project);
+    res.status(200).json({ data: project, user: req.user });
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
         error: error.message,
+        user: req.user,
       });
     } else {
       res.status(500).json({
         error: error.message,
+        user: req.user,
       });
     }
   }
@@ -62,12 +66,13 @@ const listProjects = async (req, res) => {
   try {
     logger.info('fetching all the projects');
     const allProjects = await projectServices.listProjects();
-    res.status(200).json(allProjects);
+    res.status(200).json({ data: allProjects, user: req.user });
   } catch (error) {
     logger.error(error);
     {
       res.status(500).json({
         error: error.message,
+        user: req.user,
       });
     }
   }
@@ -94,15 +99,17 @@ const updateProject = async (req, res) => {
       );
       updatedProject['userIds'] = body['userIds'];
     }
-    res.status(200).json(updatedProject);
+    res.status(200).json({ data: updatedProject, user: req.user });
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
         error: error.message,
+        user: req.user,
       });
     } else {
       res.status(500).json({
         message: error.message,
+        user: req.user,
       });
     }
   }
@@ -115,11 +122,12 @@ const deleteProject = async (req, res) => {
     await userService.deleteProjectFromUsers(userIds, id);
     await caseStudyService.removeProjectFromCaseStudy(id);
     await projectServices.deleteProject(id);
-    res.status(200).json({ message: 'engagement has been deleted' });
+    res.status(200).json({ message: 'engagement has been deleted', user: req.user });
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       error: error.message,
+      user: req.user,
     });
   }
 };
@@ -139,11 +147,13 @@ const createProject = async (req, res) => {
     );
     res.status(201).json({
       data: createdProject,
+      user: req.user,
     });
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       error: error.message,
+      user: req.user,
     });
   }
 };

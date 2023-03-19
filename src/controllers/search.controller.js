@@ -11,13 +11,13 @@ const getUsersByName = async (req, res) => {
     logger.info('fetching users with name: ' + name);
     const users = await userServices.getUsersByName(lowerCaseName);
     res.status(200);
-    res.json(users);
+    res.json({ data: users, user: req.user });
   } catch (error) {
     logger.error(error);
     if (error instanceof NotFoundError) {
-      res.status(error.code).json({ message: error.message });
+      res.status(error.code).json({ message: error.message, user: req.user });
     } else {
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({ message: 'Internal Server Error', user: req.user });
     }
   }
 };
@@ -28,13 +28,13 @@ const getProjectsByName = async (req, res) => {
   try {
     logger.info('fetching projects with name: ' + name);
     const projects = await projectServices.getProjectsByName(lowerCaseName);
-    res.status(200).json(projects);
+    res.status(200).json({ data: projects, user: req.user });
   } catch (error) {
     logger.error(error);
     if (error instanceof NotFoundError) {
-      res.status(error.code).json({ message: error.message });
+      res.status(error.code).json({ message: error.message, user: req.user });
     } else {
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({ message: 'Internal Server Error', user: req.user });
     }
   }
 };
@@ -45,13 +45,13 @@ const getCaseStudyByName = async (req, res) => {
   try {
     logger.info('fetching case studies with name: ' + name);
     const caseStudies = await caseStudyServices.getCaseStudyByName(lowerCaseName);
-    res.status(200).json(caseStudies);
+    res.status(200).json({ data: caseStudies, user: req.user });
   } catch (error) {
     logger.error(error);
     if (error instanceof NotFoundError) {
-      res.status(error.code).json({ message: error.message });
+      res.status(error.code).json({ message: error.message, user: req.user });
     } else {
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({ message: 'Internal Server Error', user: req.user });
     }
   }
 };

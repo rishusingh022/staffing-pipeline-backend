@@ -9,12 +9,13 @@ const validateUserAndReturnToken = async data => {
   const { email, password } = data;
   logger.info(`get the user data from database auth table by passing email: ${email}`);
   const user = await db.auth.findOne({ where: { email: email } });
+  const role = JSON.parse(JSON.stringify(await db.users.findOne({ attributes: ['role'], where: { email: email } })));
   if (user) {
     logger.info('check if password is correct by comparing entered password with the one present in database');
     const isPasswordCorrect = await bcrypt.compare(password, user.dataValues.password);
     if (isPasswordCorrect) {
       logger.info('generate jwt token and return');
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ email: user.email, role: role.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
       logger.info('inserting token into redis');
       await insertIntoRedis(token);
       return { data: user.dataValues, token: token, success: true, message: 'Login successful' };

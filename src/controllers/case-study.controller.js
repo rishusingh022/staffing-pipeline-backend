@@ -12,21 +12,19 @@ const createCaseStudy = async (req, res) => {
     // update users case_study_ids
     for (let collabId of collaboratorsIds) {
       user = await userServices.getUser(collabId);
-      console.log(user);
-      user.dataValues['caseStudyIds'].push(caseStudyId);
+      user.dataValues['caseStudyIds'].push({ data: caseStudyId, user: req.user });
       user.save();
     }
 
     // update engagements case_study_ids
     const project = await projectServices.getProject(projectId);
-    console.log(project);
     project.dataValues['caseStudyIds'].push(caseStudyId);
     project.save();
 
-    res.status(201).json(caseStudy);
+    res.status(201).json({ data: caseStudy, user: req.user });
   } catch (error) {
     logger.error(error);
-    res.status(500).json({ message: 'Something went wrong', success: false });
+    res.status(500).json({ message: 'Something went wrong', success: false, user: req.user });
   }
 };
 
@@ -39,12 +37,13 @@ const updateCaseStudy = async (req, res) => {
     await userServices.updateCaseStudyInUser(id, body);
     await projectServices.updateCaseStudyInProject(id, body);
     const caseStudy = await caseStudyServices.updateCaseStudy(id, body);
-    if (!caseStudy) res.status(404).json({ message: 'Case study not found' });
-    res.status(200).json(caseStudy);
+    if (!caseStudy) res.status(404).json({ message: 'Case study not found', user: req.user });
+    res.status(200).json({ data: caseStudy, user: req.user });
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       message: error.message,
+      user: req.user,
     });
   }
 };
@@ -58,19 +57,21 @@ const deleteCaseStudy = async (req, res) => {
       await projectServices.removeCaseStudyFromProject(id);
       const deletedCaseStudy = await caseStudyServices.deleteCaseStudy(id);
       if (!deletedCaseStudy) {
-        res.status(404).json({ message: 'Case study not found' });
+        res.status(404).json({ message: 'Case study not found', user: req.user });
       }
-      res.status(200).json(deletedCaseStudy);
+      res.status(200).json({ data: deletedCaseStudy, user: req.user });
     } catch (error) {
       logger.error(error);
       res.status(500).json({
         message: 'Something went wrong',
+        user: req.user,
       });
     }
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       message: 'Something went wrong',
+      user: req.user,
     });
   }
 };
@@ -81,11 +82,12 @@ const getCaseStudy = async (req, res) => {
     logger.info('fetching case study by id: ' + id);
     const caseStudy = await caseStudyServices.getCaseStudy(id);
     if (!caseStudy) throw new Error('Case study not found');
-    res.status(200).json(caseStudy);
+    res.status(200).json({ data: caseStudy, user: req.user });
   } catch (error) {
     logger.error(error);
     res.status(404).json({
       message: error.message,
+      user: req.user,
     });
   }
 };
@@ -94,11 +96,12 @@ const listCaseStudies = async (req, res) => {
   try {
     logger.info('fetching all the case studies');
     const allCaseStudies = await caseStudyServices.listCaseStudies();
-    res.status(200).json(allCaseStudies);
+    res.status(200).json({ data: allCaseStudies, user: req.user });
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       message: 'Something went wrong',
+      user: req.user,
     });
   }
 };

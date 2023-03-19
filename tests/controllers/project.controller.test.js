@@ -21,16 +21,22 @@ describe('Engagements Controllers', () => {
   // });
 
   it('should return list of all projects', async () => {
-    jest.spyOn(projectService, 'listProjects').mockResolvedValue(mockData.allProjects.data);
+    jest.spyOn(projectService, 'listProjects').mockResolvedValue(mockData.allProjects.resolvedValue);
     await projectController.listProjects(mockData.allProjects.mockReq, mockData.allProjects.mockRes);
     expect(mockData.allProjects.mockRes.status).toBeCalledWith(200);
-    expect(mockData.allProjects.mockRes.json).toBeCalledWith(mockData.allProjects.data);
+    expect(mockData.allProjects.mockRes.json).toBeCalledWith({
+      data: mockData.allProjects.resolvedValue,
+      user: mockData.allProjects.mockReq.user,
+    });
   });
   it('should return error', async () => {
     jest.spyOn(projectService, 'listProjects').mockRejectedValue(new Error(mockData.allProjects.errorMessage));
     await projectController.listProjects(mockData.allProjects.mockReq, mockData.allProjects.mockRes);
     expect(mockData.allProjects.mockRes.status).toBeCalledWith(500);
-    expect(mockData.allProjects.mockRes.json).toBeCalledWith({ error: mockData.allProjects.errorMessage });
+    expect(mockData.allProjects.mockRes.json).toBeCalledWith({
+      error: mockData.allProjects.errorMessage,
+      user: mockData.allProjects.mockReq.user,
+    });
   });
 
   it('should delete engagement of the provided id', async () => {
@@ -40,13 +46,19 @@ describe('Engagements Controllers', () => {
     jest.spyOn(projectService, 'deleteProject').mockResolvedValue('engagement has been deleted');
     await projectController.deleteProject(mockData.todelete.mockReq, mockData.todelete.mockRes);
     expect(mockData.todelete.mockRes.status).toBeCalledWith(200);
-    expect(mockData.todelete.mockRes.json).toBeCalledWith({ message: 'engagement has been deleted' });
+    expect(mockData.todelete.mockRes.json).toBeCalledWith({
+      message: 'engagement has been deleted',
+      user: mockData.todelete.mockReq.user,
+    });
   });
   it('should return error', async () => {
     jest.spyOn(projectService, 'getProject').mockRejectedValue(new Error(mockData.todelete.errorMessage));
     await projectController.deleteProject(mockData.todelete.mockReq, mockData.todelete.mockRes);
     expect(mockData.todelete.mockRes.status).toBeCalledWith(500);
-    expect(mockData.todelete.mockRes.json).toBeCalledWith({ error: mockData.todelete.errorMessage });
+    expect(mockData.todelete.mockRes.json).toBeCalledWith({
+      error: mockData.todelete.errorMessage,
+      user: mockData.todelete.mockReq.user,
+    });
   });
   it('Should update the project', async () => {
     jest.spyOn(projectService, 'updateProject').mockResolvedValue(mockData.project.resolvedValue);
@@ -55,7 +67,10 @@ describe('Engagements Controllers', () => {
     jest.spyOn(userService, 'removeCurrentEngagement').mockResolvedValue(mockDataUser.getUser.resolvedValue);
     await projectController.updateProject(mockData.toUpdate.mockReq, mockData.project.mockRes);
     expect(mockData.project.mockRes.status).toBeCalledWith(200);
-    expect(mockData.project.mockRes.json).toBeCalledWith(mockData.project.resolvedValue);
+    expect(mockData.project.mockRes.json).toBeCalledWith({
+      data: mockData.project.resolvedValue,
+      user: mockData.toUpdate.mockReq.user,
+    });
   });
   it('Should create a project', async () => {
     jest.spyOn(projectService, 'createProject').mockResolvedValue(mockData.project.resolvedValue);
@@ -63,6 +78,9 @@ describe('Engagements Controllers', () => {
     jest.spyOn(caseStudyService, 'addCurrentEngagement').mockResolvedValue(mockDataCaseStudy.update.resolvedValue);
     await projectController.createProject(mockData.toUpdate.mockReq, mockData.project.mockRes);
     expect(mockData.project.mockRes.status).toBeCalledWith(201);
-    expect(mockData.project.mockRes.json).toBeCalledWith(mockData.project.resolvedValue);
+    expect(mockData.project.mockRes.json).toBeCalledWith({
+      data: mockData.project.resolvedValue,
+      user: mockData.toUpdate.mockReq.user,
+    });
   });
 });

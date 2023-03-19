@@ -18,6 +18,7 @@ describe('User Controller', () => {
       expect(mockdata.createUser.mockRes.status).toBeCalledWith(400);
       expect(mockdata.createUser.mockRes.json).toBeCalledWith({
         error: mockdata.createUser.errorMessage,
+        user: mockdata.createUser.mockReq.user,
       });
     });
   });
@@ -41,7 +42,10 @@ describe('User Controller', () => {
         jest.spyOn(userServices, 'listUsers').mockResolvedValue(resolvedValue);
         await userController.listUsers(mockdata.getUser.mockReq, mockdata.getUser.mockRes);
         expect(mockdata.getUser.mockRes.status).toHaveBeenCalledWith(200);
-        expect(mockdata.getUser.mockRes.json).toHaveBeenCalledWith(resolvedValue);
+        expect(mockdata.getUser.mockRes.json).toHaveBeenCalledWith({
+          data: resolvedValue,
+          user: mockdata.getUser.mockReq.user,
+        });
       });
     });
     describe('function deleteUser', () => {
@@ -56,7 +60,10 @@ describe('User Controller', () => {
         jest.spyOn(userServices, 'getUser').mockRejectedValue(err);
         await userController.getUser(mockdata.deleteUser.mockReq, mockdata.deleteUser.mockRes);
         expect(mockdata.deleteUser.mockRes.status).toHaveBeenCalledWith(err.code);
-        expect(mockdata.deleteUser.mockRes.json).toHaveBeenCalledWith({ message: err.message });
+        expect(mockdata.deleteUser.mockRes.json).toHaveBeenCalledWith({
+          message: err.message,
+          user: mockdata.deleteUser.mockReq.user,
+        });
       });
     });
     describe('function updateUser', () => {
@@ -64,20 +71,29 @@ describe('User Controller', () => {
         jest.spyOn(userServices, 'updateUser').mockResolvedValue(mockdata.updateUser.resolvedValue);
         await userController.updateUser(mockdata.updateUser.mockReq, mockdata.updateUser.mockRes);
         expect(mockdata.updateUser.mockRes.status).toHaveBeenCalledWith(200);
-        expect(mockdata.updateUser.mockRes.json).toHaveBeenCalledWith(mockdata.updateUser.resolvedValue);
+        expect(mockdata.updateUser.mockRes.json).toHaveBeenCalledWith({
+          data: mockdata.updateUser.resolvedValue,
+          user: mockdata.updateUser.mockReq.user,
+        });
       });
       it('should return 404 if user not found', async () => {
         const resolvedValue = null;
         jest.spyOn(userServices, 'updateUser').mockResolvedValue(resolvedValue);
         await userController.updateUser(mockdata.updateUser.mockReq, mockdata.updateUser.mockRes);
         expect(mockdata.updateUser.mockRes.status).toHaveBeenCalledWith(404);
-        expect(mockdata.updateUser.mockRes.json).toHaveBeenCalledWith({ message: 'User not found' });
+        expect(mockdata.updateUser.mockRes.json).toHaveBeenCalledWith({
+          message: 'User not found',
+          user: mockdata.updateUser.mockReq.user,
+        });
       });
       it('should return 500 if something went wrong', async () => {
         jest.spyOn(userServices, 'updateUser').mockRejectedValue(new Error('Something went wrong'));
         await userController.updateUser(mockdata.updateUser.mockReq, mockdata.updateUser.mockRes);
         expect(mockdata.updateUser.mockRes.status).toHaveBeenCalledWith(500);
-        expect(mockdata.updateUser.mockRes.json).toHaveBeenCalledWith({ message: 'Something went wrong' });
+        expect(mockdata.updateUser.mockRes.json).toHaveBeenCalledWith({
+          message: 'Something went wrong',
+          user: mockdata.updateUser.mockReq.user,
+        });
       });
     });
   });

@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       fmno: DataTypes.STRING,
       caseStudyIds: DataTypes.ARRAY(DataTypes.STRING),
       skills: DataTypes.ARRAY(DataTypes.STRING),
-      role: DataTypes.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified'),
+      role: DataTypes.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified','pd'),
       guild: DataTypes.ENUM('swe', 'product', 'data', 'unspecified'),
       image: DataTypes.STRING,
     },

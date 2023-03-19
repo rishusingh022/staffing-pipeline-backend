@@ -7,7 +7,7 @@ const listUsers = async (_, res) => {
   logger.info('fetching all the users');
   const allUsers = await userServices.listUsers();
   res.status(200);
-  res.json(allUsers);
+  res.json({ data: allUsers, user: _.user });
 };
 const getUser = async (req, res) => {
   const { userId } = req.params;
@@ -38,15 +38,16 @@ const getUser = async (req, res) => {
       userData: user,
       currentEngagements: userCurrentEngagementsData,
       pastEngagements: userPastEngagementsData,
+      user: req.user,
     });
   } catch (error) {
     logger.error(error);
     if (error instanceof NotFoundError) {
       res.status(error.code);
-      res.json({ message: error.message });
+      res.json({ message: error.message, user: req.user });
     } else {
       res.status(500);
-      res.json({ message: 'Internal Server Error' });
+      res.json({ message: 'Internal Server Error', user: req.user });
     }
   }
 };
@@ -55,11 +56,12 @@ const createUser = async (req, res) => {
   try {
     logger.info('creating the user');
     const newUser = await userServices.createUser(req.body);
-    res.status(201).json({ data: newUser, success: true });
+    res.status(201).json({ data: newUser, success: true, user: req.user });
   } catch (error) {
     logger.error(error);
     res.status(error.statusCode).json({
       error: error.message,
+      user: req.user,
     });
   }
 };
@@ -67,10 +69,10 @@ const deleteUser = async (req, res) => {
   try {
     logger.info('deleting the user with id: ' + req.params.id);
     await userServices.deleteUser(req.params.id);
-    res.status(200).json({ message: 'User deleted' });
+    res.status(200).json({ message: 'User deleted', user: req.user });
   } catch (error) {
     logger.error(error);
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong.', user: req.user });
   }
 };
 const updateUser = async (req, res) => {
@@ -79,12 +81,13 @@ const updateUser = async (req, res) => {
     const { body } = req;
     logger.info('updating user with id: ' + req.params.userId);
     const updatedUser = await userServices.updateUser(id, body);
-    if (!updatedUser) res.status(404).json({ message: 'User not found' });
-    res.status(200).json(updatedUser);
+    if (!updatedUser) res.status(404).json({ message: 'User not found', user: req.user });
+    res.status(200).json({ data: updatedUser, user: req.user });
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       message: error.message,
+      user: req.user,
     });
   }
 };
