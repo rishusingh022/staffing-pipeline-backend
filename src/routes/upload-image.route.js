@@ -11,4 +11,10 @@ uploadImageRouter.post(
 
 uploadImageRouter.post('/upload/user', upload.uploadUserImage.single('file'), uploadImageController.uploadUserImage);
 
+uploadImageRouter.post(
+  '/upload/case-study',
+  upload.uploadCaseStudyImage.single('file'),
+  uploadImageController.uploadCaseStudyImage
+);
+
 module.exports = uploadImageRouter;

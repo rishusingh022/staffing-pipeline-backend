@@ -2,3 +2,11 @@ node_modules
 .DS_Store
 .env
 coverage
+src/public/engagement-images/*.png
+src/public/engagement-images/*.jpg
+src/public/engagement-images/*.jpeg
+src/public/engagement-images/*.svg
+src/public/user-images/*.png
+src/public/user-images/*.jpg
+src/public/user-images/*.jpeg
+src/public/user-images/*.svg

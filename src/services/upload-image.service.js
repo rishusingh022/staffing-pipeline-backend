@@ -20,7 +20,18 @@ const userImageStorage = multer.diskStorage({
   },
 });
 
+const caseStudyImageStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/case-study-images/'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
+});
+
 const uploadEngagementImage = multer({ storage: engagementImageStorage });
 const uploadUserImage = multer({ storage: userImageStorage });
 
-module.exports = { uploadEngagementImage, uploadUserImage };
+const uploadCaseStudyImage = multer({ storage: caseStudyImageStorage });
+
+module.exports = { uploadEngagementImage, uploadUserImage, uploadCaseStudyImage };
