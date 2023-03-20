@@ -6,6 +6,8 @@ const staffingDetailsController = require('../controllers/staffing-details.contr
 // const authMiddlewares = require('../middlewares/request.validator');
 staffingRouter.get('/user-current-engagements/:userId', staffingDetailsController.getUserCurrentEngagements);
 
+staffingRouter.get('/all-users/:engagementId', staffingDetailsController.getUsersInvolvedInEngagement);
+
 staffingRouter.get('/user-past-engagements/:userId', staffingDetailsController.getUserPastEngagements);
 
 staffingRouter.post('/', authMiddlewares.reqAuthValidator, validator, staffingDetailsController.createStaffingEntry);

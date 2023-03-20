@@ -3,6 +3,7 @@ const { NotFoundError } = require('../../src/utils/httpError');
 const logger = require('../logger');
 const staffingDetailsService = require('../services/staffing-details.service');
 const projectService = require('../services/project.service');
+const skillsService = require('../services/skills.service');
 const listUsers = async (_, res) => {
   logger.info('fetching all the users');
   const allUsers = await userServices.listUsers();
@@ -36,11 +37,13 @@ const getUser = async (req, res) => {
         return projectData;
       })
     );
+    const userSkills = await skillsService.getSkillsByUserId(userId);
     res.status(200).json({
       data: {
         userData: user,
         currentEngagements: userCurrentEngagementsData,
         pastEngagements: userPastEngagementsData,
+        userSkills: userSkills,
       },
       user: req.user,
     });

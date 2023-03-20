@@ -1,12 +1,13 @@
 const staffingDetailsService = require('../services/staffing-details.service');
 const { HttpError } = require('../utils/httpError');
+const userService = require('../services/user.service');
 
 const getUserCurrentEngagements = async (req, res) => {
   try {
     const { userId } = req.params;
     const userCurrentEngagements = await staffingDetailsService.getUserCurrentEngagements(userId);
     res.status(200).json({ data: userCurrentEngagements, user: req.user });
-  } catch (error) {
+  } catch (err) {
     if (err instanceof HttpError) {
       res.status(err.statusCode).json({
         error: err.message,
@@ -73,10 +74,41 @@ const getUsersInEngagement = async (req, res) => {
   }
 };
 
+const getUsersInvolvedInEngagement = async (req, res) => {
+  try {
+    const { engagementId } = req.params;
+    const usersInEngagement = await staffingDetailsService.getUsersInvolvedInEngagement(engagementId);
+    const usersInvolvedInEngagement = await Promise.all(
+      usersInEngagement.map(async entry => {
+        const userData = await userService.getUser(entry.userId);
+        return {
+          ...userData.dataValues,
+          staffingEntry: entry,
+        };
+      })
+    );
+    res.status(200).json({ data: usersInvolvedInEngagement, user: req.user });
+  } catch (err) {
+    console.log(err);
+    if (err instanceof HttpError) {
+      res.status(err.statusCode).json({
+        error: err.message,
+        user: req.user,
+      });
+    } else {
+      res.status(500).json({
+        error: 'Internal Server Error',
+        user: req.user,
+      });
+    }
+  }
+};
+
 const staffingDetailsController = {
   createStaffingEntry,
   getUserCurrentEngagements,
   getUserPastEngagements,
   getUsersInEngagement,
+  getUsersInvolvedInEngagement,
 };
 module.exports = staffingDetailsController;

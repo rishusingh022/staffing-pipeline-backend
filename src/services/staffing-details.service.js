@@ -124,11 +124,21 @@ const getUsersInEngagement = async engagementId => {
   return usersInEngagement;
 };
 
+const getUsersInvolvedInEngagement = async engagementId => {
+  const usersInvolvedInEngagement = await db.staffing_details.findAll({
+    where: {
+      engagementId,
+    },
+  });
+  return usersInvolvedInEngagement;
+};
+
 const staffingDetailsService = {
   createStaffingEntry,
   getUserCurrentEngagements,
   getUserPastEngagements,
   parse_xlsx_sheets,
   getUsersInEngagement,
+  getUsersInvolvedInEngagement,
 };
 module.exports = staffingDetailsService;
