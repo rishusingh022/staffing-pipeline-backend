@@ -1,6 +1,5 @@
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 
 const engagementImageStorage = multer.diskStorage({
   destination: function (req, file, cb) {

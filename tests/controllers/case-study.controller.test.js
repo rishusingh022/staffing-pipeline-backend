@@ -4,7 +4,6 @@ const mockData = require('../__mocks__/case-study');
 const caseStudiesController = require('../../src/controllers/case-study.controller');
 const caseStudiesServices = require('../../src/services/case-study.service');
 const userServices = require('../../src/services/user.service');
-const { engagements } = require('../../src/models/');
 const projectServices = require('../../src/services/project.service');
 
 describe('CaseStudyController', () => {

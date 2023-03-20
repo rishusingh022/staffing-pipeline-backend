@@ -13,7 +13,7 @@ module.exports = {
           fmno: '328060',
           case_study_ids: ['9225cf89-97f7-4ec8-8c36-54c68842a2e6'],
           skills: ['React', 'Node', 'GoLang'],
-          role: 'engineer 1',
+          role: 'pd',
           guild: 'product',
           image: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
           updated_at: new Date(),
