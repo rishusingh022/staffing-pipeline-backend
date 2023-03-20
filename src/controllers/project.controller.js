@@ -140,10 +140,7 @@ const createProject = async (req, res) => {
     const { body } = req;
     const createdProject = await projectServices.createProject(body);
     await Promise.all(
-      createdProject.userIds.map(userId => userService.addCurrentEngagement(userId, createdProject.engagementId))
-    );
-    await Promise.all(
-      createdProject.caseStudyIds.map(caseStudyId =>
+      createdProject?.caseStudyIds?.map(caseStudyId =>
         caseStudyService.addCurrentEngagement(caseStudyId, createdProject.engagementId)
       )
     );
