@@ -25,10 +25,12 @@ const getWholeProject = async (req, res) => {
     const caseStudiesInEngagement = await caseStudyService.getCaseStudiesByEngagementId(id);
 
     res.status(200).json({
-      projectData: project,
-      usersInEngagement: usersInEngagementData,
-      caseStudiesInEngagement: caseStudiesInEngagement,
-      user: req.user,
+      data: {
+        projectData: project,
+        usersInEngagement: usersInEngagementData,
+        caseStudiesInEngagement: caseStudiesInEngagement,
+        user: req.user,
+      },
     });
   } catch (error) {
     {

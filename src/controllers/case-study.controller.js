@@ -113,7 +113,7 @@ const listCaseStudies = async (req, res) => {
         };
       })
     );
-    res.status(200).json(completeCaseStudiesData);
+    res.status(200).json({ data: completeCaseStudiesData });
   } catch (error) {
     logger.error(error);
     console.log(error);
