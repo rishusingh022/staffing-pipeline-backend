@@ -10,3 +10,4 @@ src/public/user-images/*.png
 src/public/user-images/*.jpg
 src/public/user-images/*.jpeg
 src/public/user-images/*.svg
+dump.rdb

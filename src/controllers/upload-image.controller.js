@@ -10,7 +10,7 @@ const uploadEngagementImage = (req, res) => {
   res.json({
     data: {
       fileName: file.filename,
-      imageUrl: `${req.protocol}://${req.get('host')}/images/engagement-images/${file.filename}`,
+      filePath: `${req.protocol}://${req.get('host')}/images/engagement-images/${file.filename}`,
     },
   });
 };
