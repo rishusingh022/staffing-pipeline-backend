@@ -6,7 +6,7 @@ const getSkillsByUserId = async (req, res) => {
   try {
     const { id } = req.params;
     const skills = await skillsService.getSkillsByUserId(id);
-    res.status(200).json(skills);
+    res.status(200).json({ data: skills });
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
@@ -27,7 +27,7 @@ const addSkill = async (req, res) => {
     if (!user) throw new HttpError(404, 'User not found');
     const skill = await skillsService.addSkill(id, req.body);
 
-    res.status(200).json(skill);
+    res.status(200).json({ data: skill });
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
@@ -46,7 +46,7 @@ const updateSkill = async (req, res) => {
     const { id } = req.params;
     const { skillId } = req.body;
     const skill = await skillsService.updateSkill(id, skillId, req.body);
-    res.status(200).json(skill);
+    res.status(200).json({ data: skill });
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
@@ -65,7 +65,7 @@ const deleteSkill = async (req, res) => {
     const { id } = req.params;
     const { skillId } = req.body;
     const skill = await skillsService.deleteSkill(id, skillId);
-    res.status(200).json(skill);
+    res.status(200).json({ data: skill });
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
