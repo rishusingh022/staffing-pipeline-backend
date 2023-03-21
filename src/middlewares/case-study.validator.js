@@ -21,7 +21,6 @@ const updateCaseStudyBodySchema = Joi.object({
 });
 
 const createCaseStudySchema = Joi.object({
-  caseStudyId: uuidType.required(),
   name: Joi.string().min(3).max(30).required(),
   description: Joi.string(),
   collaboratorsIds: Joi.array().items(uuidType),

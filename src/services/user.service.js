@@ -11,7 +11,6 @@ const getUser = async userId => {
     },
   });
   if (!user) {
-    console.log('user', userId, user);
     logger.error(`no user with id: ${userId}`);
     throw new CustomErrors.NotFoundError('User not found');
   }

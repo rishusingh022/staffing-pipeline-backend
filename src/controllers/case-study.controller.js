@@ -7,7 +7,7 @@ const createCaseStudy = async (req, res) => {
   try {
     logger.info('creating a new case study');
     const caseStudy = await caseStudyServices.createCaseStudy(req.body);
-    const { caseStudyId, collaboratorsIds, projectId } = caseStudy.dataValues;
+    const { caseStudyId, collaboratorsIds, engagementId } = caseStudy.dataValues;
 
     // update users case_study_ids
     for (let collabId of collaboratorsIds) {
@@ -17,13 +17,14 @@ const createCaseStudy = async (req, res) => {
     }
 
     // update engagements case_study_ids
-    const project = await projectServices.getProject(projectId);
+    const project = await projectServices.getProject(engagementId);
     project.dataValues['caseStudyIds'].push(caseStudyId);
     project.save();
 
     res.status(201).json({ data: caseStudy, user: req.user });
   } catch (error) {
     logger.error(error);
+    console.log(error);
     res.status(500).json({ message: 'Something went wrong', success: false, user: req.user });
   }
 };

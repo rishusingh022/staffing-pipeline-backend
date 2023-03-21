@@ -13,7 +13,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   CaseStudies.init(
     {
-      caseStudyId: DataTypes.STRING,
+      caseStudyId: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
+      },
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       collaboratorsIds: DataTypes.ARRAY(DataTypes.STRING),

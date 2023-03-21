@@ -54,7 +54,6 @@ const getCaseStudy = async id => {
 const listCaseStudies = async () => {
   logger.info('get all the case studies from the database');
   const allCaseStudies = await db.case_studies.findAll();
-  console.log(allCaseStudies);
   return allCaseStudies;
 };
 

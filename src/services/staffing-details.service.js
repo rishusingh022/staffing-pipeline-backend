@@ -96,7 +96,6 @@ const parse_xlsx_sheets = fname => {
 
 function ExcelDateToJSDate(serial) {
   const date_data = serial.split('/');
-  console.log(date_data);
   // var utc_days = Math.floor(serial - 25569);
   // var utc_value = utc_days * 86400;
   // var date_info = new Date(utc_value * 1000);
