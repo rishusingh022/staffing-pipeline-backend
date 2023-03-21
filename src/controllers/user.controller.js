@@ -29,7 +29,6 @@ const getUser = async (req, res) => {
 
     // get past engagements data
     const userPastEngagements = await staffingDetailsService.getUserPastEngagements(userId);
-    console.log('userPastEngagements', userPastEngagements);
     const userPastEngagementsData = await Promise.all(
       userPastEngagements.map(async entry => {
         const projectData = await projectService.getProject(entry.engagementId);
@@ -98,5 +97,14 @@ const updateUser = async (req, res) => {
     });
   }
 };
+const getUserRole = async (req, res) => {
+  console.log(req);
+  res.status(200).json({
+    data: {
+      role: req.user.role,
+      userId: req.user.userId,
+    },
+  });
+};
 
-module.exports = { listUsers, createUser, deleteUser, updateUser, getUser };
+module.exports = { listUsers, createUser, deleteUser, updateUser, getUser, getUserRole };

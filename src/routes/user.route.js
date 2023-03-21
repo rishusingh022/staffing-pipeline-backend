@@ -25,5 +25,6 @@ router.put(
   updateBodyValidator,
   userControllers.updateUser
 );
+router.get('/user-role', authMiddlewares.reqAuthValidator, userControllers.getUserRole);
 
 module.exports = router;
