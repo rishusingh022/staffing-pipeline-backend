@@ -15,6 +15,6 @@ describe('Upload Excel Controller uploadExcel', () => {
       json: jest.fn(),
     };
     await uploadExcelController.uploadExcel(req, mockRes);
-    expect(mockRes.json).toHaveBeenCalledWith(mockData.excelData);
+    expect(mockRes.json).toHaveBeenCalledWith({ data: mockData.excelData, success: true });
   });
 });
