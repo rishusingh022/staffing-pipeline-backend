@@ -16,6 +16,7 @@ const updateUserBodySchema = Joi.object({
   skills: Joi.array().items(Joi.string()),
   image: Joi.string(),
   caseStudyIds: Joi.array().items(uuidType),
+  fmno: Joi.string().pattern(/^[0-9]+$/),
 });
 
 const updateIdValidator = (req, res, next) => {
@@ -43,7 +44,7 @@ const updateBodyValidator = (req, res, next) => {
     next();
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).json({ message: error.message });
+      res.status(error.statusCode).json({ message: error.message });
     } else {
       res.status(500).json({ message: error.message });
     }
