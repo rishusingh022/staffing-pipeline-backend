@@ -21,6 +21,60 @@ module.exports = {
           updated_at: new Date(),
           created_at: new Date(),
         },
+        {
+          email: 'Khushil@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'Sukhman@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'harsh@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'promit@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'sneha@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'aganya@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'chiranshu@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'swapnil@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
+        {
+          email: 'manjeeta@mckinsey.com',
+          password: '$2b$08$ap2OSCeWEBVlDY.xui2bPuoblmWTDQwetDvMHZF1B7k.NI3Ae5Tyq',
+          updated_at: new Date(),
+          created_at: new Date(),
+        },
       ],
       {}
     );
