@@ -18,6 +18,19 @@ const getProject = async projectId => {
   return engagement;
 };
 
+const getProjectByChargeCode = async chargeCode => {
+  logger.info(`find engagement data for the charge code: ${chargeCode}`);
+  const engagement = await db.engagements.findOne({
+    where: {
+      chargeCode,
+    },
+  });
+  if (!engagement) {
+    throw new CustomErrors.NotFoundError('Engagement not found');
+  }
+  return engagement;
+};
+
 const listProjects = async () => {
   try {
     logger.info('get all the engagements from the database');
@@ -123,4 +136,5 @@ module.exports = {
   removeCaseStudyFromProject,
   createProject,
   getProjectsByName,
+  getProjectByChargeCode,
 };

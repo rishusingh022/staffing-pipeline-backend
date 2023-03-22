@@ -17,6 +17,20 @@ const getUser = async userId => {
   return user;
 };
 
+const getUserByFmno = async fmno => {
+  logger.info(`get user from database with fmno: ${fmno}`);
+  const user = await db.users.findOne({
+    where: {
+      fmno,
+    },
+  });
+  if (!user) {
+    logger.error(`no user with fmno: ${fmno}`);
+    throw new CustomErrors.NotFoundError('User not found');
+  }
+  return user;
+};
+
 const getUsersByName = async name => {
   logger.info(`get users from database with name: ${name}`);
   const users = await db.users.findAll({
@@ -175,4 +189,5 @@ module.exports = {
   updateCaseStudyInUser,
   removeCaseStudyFromUser,
   getUsersByName,
+  getUserByFmno,
 };

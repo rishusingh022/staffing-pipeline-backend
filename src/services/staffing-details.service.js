@@ -1,5 +1,6 @@
 const db = require('../models');
 const reader = require('xlsx');
+const { HttpError } = require('../utils/httpError');
 const getUserCurrentEngagements = async userId => {
   const userCurrentEngagements = await db.staffing_details.findAll({
     where: {
@@ -59,6 +60,9 @@ const parse_xlsx_sheets = fname => {
           })
         )
       );
+      if (!user || !engagement) {
+        throw new HttpError('User or Engagement not found', 400);
+      }
       return {
         fmno: res.Fmno,
         name: res['Full Name'],
@@ -96,6 +100,7 @@ const parse_xlsx_sheets = fname => {
 
 function ExcelDateToJSDate(serial) {
   const date_data = serial.split('/');
+
   // var utc_days = Math.floor(serial - 25569);
   // var utc_value = utc_days * 86400;
   // var date_info = new Date(utc_value * 1000);
@@ -132,6 +137,18 @@ const getUsersInvolvedInEngagement = async engagementId => {
   return usersInvolvedInEngagement;
 };
 
+const getStaffingEntry = async (userId, engagementId, assignmentStartDate, assignmentEndDate) => {
+  const staffingEntry = await db.staffing_details.findOne({
+    where: {
+      userId,
+      engagementId,
+      assignmentStartDate,
+      assignmentEndDate,
+    },
+  });
+  return staffingEntry;
+};
+
 const staffingDetailsService = {
   createStaffingEntry,
   getUserCurrentEngagements,
@@ -139,5 +156,6 @@ const staffingDetailsService = {
   parse_xlsx_sheets,
   getUsersInEngagement,
   getUsersInvolvedInEngagement,
+  getStaffingEntry,
 };
 module.exports = staffingDetailsService;

@@ -91,6 +91,7 @@ const updateUser = async (req, res) => {
     res.status(200).json({ data: updatedUser, user: req.user });
   } catch (error) {
     logger.error(error);
+    console.log(error);
     res.status(500).json({
       message: error.message,
       user: req.user,
