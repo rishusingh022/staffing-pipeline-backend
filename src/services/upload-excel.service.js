@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
 const uploadExcel = multer({ storage: storage });
 const insertExcelDataToDatabase = async fname => {
   const data = await staffingDetailsService.parse_xlsx_sheets(fname);
-  console.log(data);
   const newData = await Promise.all(
     data.map(async entry => {
       const staffingEntry = await staffingDetailsService.getStaffingEntry(

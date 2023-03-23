@@ -1,11 +1,12 @@
 const { HttpError } = require('../utils/httpError');
 const uploadExcelService = require('../services/upload-excel.service');
+const fs = require('fs');
 const uploadExcel = async (req, res) => {
   try {
     const result = await uploadExcelService.insertExcelDataToDatabase(req.file.path);
     res.status(200).json({ data: result, success: true });
   } catch (error) {
-    // console.log(error);
+    fs.unlinkSync(req.file.path);
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
         error: error.message,
