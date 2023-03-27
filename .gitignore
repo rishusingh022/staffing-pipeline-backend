@@ -15,3 +15,5 @@ src/public/case-study-images/*.jpg
 src/public/case-study-images/*.jpeg
 src/public/case-study-images/*.svg
 dump.rdb
+
+staffing_pipeline_db

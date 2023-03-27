@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING),
       },
       role: {
-        type: Sequelize.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified','pd'),
+        type: Sequelize.ENUM('intern', 'junior engineer', 'engineer 1', 'engineer 2', 'unspecified', 'pd'),
       },
       guild: {
         type: Sequelize.ENUM('swe', 'product', 'data', 'unspecified'),
@@ -55,6 +55,6 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('users');
-    queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_users_role";')
+    queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_users_role";');
   },
 };

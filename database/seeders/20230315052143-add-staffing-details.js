@@ -11,7 +11,7 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
+     */
     await queryInterface.bulkInsert('staffing_details', [
       {
         entry_id: 'ff1d8b5a-c2f5-11ed-afa1-0242ac120002',
@@ -114,7 +114,7 @@ module.exports = {
         staffing_office: 'Staffing Office',
         created_at: '2021-01-17T04:33:12.000Z',
         updated_at: '2021-01-17T04:33:12.000Z',
-      }
+      },
     ]);
   },
 
@@ -126,5 +126,5 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     return await queryInterface.bulkDelete('staffing_details', null, {});
-  }
+  },
 };

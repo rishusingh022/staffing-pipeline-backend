@@ -1,0 +1,47 @@
+version: '3'
+services:
+  staffing-pipeline-backend-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: staffing_pipeline_db
+    volumes:
+      - ./staffing_pipeline_db:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready', '-U', 'postgres']
+      interval: 10s
+      timeout: 10s
+      retries: 20
+
+  redis:
+    image: redis
+
+  staffing-pipeline-backend-migration:
+    build:
+      context: .
+      dockerfile: Dockerfile.migration
+    environment:
+      NODE_ENV: docker
+    depends_on:
+      staffing-pipeline-backend-db:
+        condition: service_healthy
+
+  staffing-pipeline-backend-server:
+    build: .
+    ports:
+      - '8000:8000'
+    environment:
+      NODE_ENV: docker
+      JWT_SECRET: your_jwt_secret
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+    depends_on:
+      staffing-pipeline-backend-migration:
+        condition: service_completed_successfully
+      staffing-pipeline-backend-db:
+        condition: service_healthy
+      redis:
+        condition: service_started

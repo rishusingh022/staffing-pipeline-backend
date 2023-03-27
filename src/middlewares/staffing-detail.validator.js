@@ -1,4 +1,4 @@
-const Joi = require('Joi');
+const Joi = require('joi');
 
 const uuidType = Joi.string().uuid({
   version: ['uuidv4', 'uuidv1'],

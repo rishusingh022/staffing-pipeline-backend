@@ -5,13 +5,21 @@
     "database": "staffing_pipeline_db",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "port": 5432
+    "port": 5433
   },
   "test": {
     "username": "postgres",
     "password": null,
-    "database": "postgres",
+    "database": "staffing_pipeline_db",
     "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432
+  },
+  "docker": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "staffing_pipeline_db",
+    "host": "staffing-pipeline-backend-db",
     "dialect": "postgres",
     "port": 5432
   }
