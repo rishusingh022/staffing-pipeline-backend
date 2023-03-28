@@ -12,7 +12,7 @@ const getUser = async userId => {
   });
   if (!user) {
     logger.error(`no user with id: ${userId}`);
-    throw new CustomErrors.NotFoundError('User not found');
+    throw new CustomErrors.NotFoundError('User not found', 404);
   }
   return user;
 };

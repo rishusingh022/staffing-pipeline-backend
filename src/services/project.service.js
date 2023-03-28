@@ -58,6 +58,9 @@ const updateProject = async (id, body) => {
     throw new HttpError('Project not found', 404);
   }
   for (let key in body) {
+    if (key === 'chargeCode') {
+      continue;
+    }
     engagement[key] = body[key];
   }
   await engagement.save();

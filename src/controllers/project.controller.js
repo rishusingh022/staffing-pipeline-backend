@@ -103,6 +103,7 @@ const updateProject = async (req, res) => {
     }
     res.status(200).json({ data: updatedProject, user: req.user });
   } catch (error) {
+    console.log(error);
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
         error: error.message,

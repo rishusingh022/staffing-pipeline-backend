@@ -17,11 +17,25 @@ const projectSchema = Joi.object({
 });
 
 const validateProject = (req, res, next) => {
-  const { error } = projectSchema.validate(req.body);
-  if (error) {
-    throw new HttpError(error.message, 400);
+  try {
+    const { error } = projectSchema.validate(req.body);
+    if (error) {
+      throw new HttpError(error.message, 400);
+    }
+    next();
+  } catch (error) {
+    if (error instanceof HttpError) {
+      res.status(error.statusCode).json({
+        error: error.message,
+        user: req.user,
+      });
+    } else {
+      res.status(500).json({
+        error: 'Internal Server Error',
+        user: req.user,
+      });
+    }
   }
-  next();
 };
 
 module.exports = { validateProject };

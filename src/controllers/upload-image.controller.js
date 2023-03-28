@@ -20,7 +20,9 @@ const uploadUserImage = (req, res) => {
   if (!file) {
     const error = new Error('Please upload a file');
     error.httpStatusCode = 400;
-    return next(error);
+    return res.status(400).json({
+      error: 'Please upload a file',
+    });
   }
   res.json({
     data: {
@@ -35,7 +37,9 @@ const uploadCaseStudyImage = (req, res) => {
   if (!file) {
     const error = new Error('Please upload a file');
     error.httpStatusCode = 400;
-    return next(error);
+    return res.status(400).json({
+      error: 'Please upload a file',
+    });
   }
   res.json({
     data: {
