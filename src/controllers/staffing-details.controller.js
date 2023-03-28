@@ -58,9 +58,16 @@ const getUsersInEngagement = async (req, res) => {
   try {
     const { engagementId } = req.params;
     const usersInEngagement = await staffingDetailsService.getUsersInEngagement(engagementId);
-    res.status(200).json({ data: usersInEngagement, user: req.user });
+    const allUsers = await Promise.all(
+      usersInEngagement.map(entry => {
+        return userService.getUser(entry.userId);
+      })
+    );
+
+    res.status(200).json({ data: allUsers, user: req.user });
   } catch (error) {
-    if (err instanceof HttpError) {
+    console.log(error);
+    if (error instanceof HttpError) {
       res.status(err.statusCode).json({
         error: err.message,
         user: req.user,

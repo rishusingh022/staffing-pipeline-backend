@@ -20,7 +20,14 @@ const getWholeProject = async (req, res) => {
         return userData;
       })
     );
-
+    const pastUsersInEngagement = await staffingDetailsService.getPastUsersInEngagement(id);
+    const pastUsersInEngagementData = await Promise.all(
+      pastUsersInEngagement.map(async entry => {
+        const userData = await userService.getUser(entry.userId);
+        userData.staffingEntry = entry;
+        return userData;
+      })
+    );
     // get case studies in engagement
     const caseStudiesInEngagement = await caseStudyService.getCaseStudiesByEngagementId(id);
 
@@ -29,6 +36,7 @@ const getWholeProject = async (req, res) => {
         projectData: project,
         usersInEngagement: usersInEngagementData,
         caseStudiesInEngagement: caseStudiesInEngagement,
+        pastUsersInEngagement: pastUsersInEngagementData,
         user: req.user,
       },
     });

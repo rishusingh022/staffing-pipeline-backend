@@ -132,6 +132,18 @@ const getUsersInEngagement = async engagementId => {
   return usersInEngagement;
 };
 
+const getPastUsersInEngagement = async engagementId => {
+  const pastUsersInEngagement = await db.staffing_details.findAll({
+    where: {
+      engagementId,
+      assignmentEndDate: {
+        [db.Sequelize.Op.lt]: new Date(),
+      },
+    },
+  });
+  return pastUsersInEngagement;
+};
+
 const getUsersInvolvedInEngagement = async engagementId => {
   const usersInvolvedInEngagement = await db.staffing_details.findAll({
     where: {
@@ -161,5 +173,6 @@ const staffingDetailsService = {
   getUsersInEngagement,
   getUsersInvolvedInEngagement,
   getStaffingEntry,
+  getPastUsersInEngagement,
 };
 module.exports = staffingDetailsService;
