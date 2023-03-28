@@ -56,4 +56,10 @@ describe('Engagement Services', () => {
     );
     expect(resolvedValue.save).toHaveBeenCalled();
   });
+  it('Should return an array of engagements in all months', async () => {
+    const resolvedValue = [1, 2, 3];
+    jest.spyOn(engagements, 'count').mockResolvedValue(resolvedValue);
+    await projectService.getProjectsInMonths();
+    expect(engagements.count).toHaveBeenCalled();
+  });
 });

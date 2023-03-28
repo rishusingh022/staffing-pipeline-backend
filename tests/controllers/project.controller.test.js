@@ -83,4 +83,13 @@ describe('Engagements Controllers', () => {
       user: mockData.toUpdate.mockReq.user,
     });
   });
+  it('Should return an array of engagements monthwise', async () => {
+    jest.spyOn(projectService, 'getProjectsInMonths').mockResolvedValue(mockData.engagementByMonth.resolvedValue);
+    await projectController.getProjectsInMonths(mockData.engagementByMonth.mockReq, mockData.engagementByMonth.mockRes);
+    expect(mockData.engagementByMonth.mockRes.status).toBeCalledWith(200);
+    expect(mockData.engagementByMonth.mockRes.json).toBeCalledWith({
+      data: mockData.engagementByMonth.resolvedValue,
+      user: mockData.engagementByMonth.mockReq.user,
+    });
+  });
 });

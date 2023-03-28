@@ -4,7 +4,8 @@ const authMiddlewares = require('../middlewares/okta-auth.validator');
 const projectMiddlewares = require('../middlewares/project.validator');
 const projectRouter = express.Router();
 
-projectRouter.get('/', authMiddlewares.validateToken, projectController.listProjects);
+projectRouter.get('/', authMiddlewares.reqAuthValidator, projectController.listProjects);
+projectRouter.get('/metrics', authMiddlewares.reqAuthValidator, projectController.getProjectsInMonths);
 projectRouter.post(
   '/',
   authMiddlewares.validateToken,

@@ -83,9 +83,29 @@ const toUpdate = {
   },
   errorMessage: 'Internal Server error!!',
 };
+const engagementByMonth = {
+  mockReq: {
+    params: jest.fn(),
+    body: project.resolvedValue,
+    user: {
+      role: 'engineer 1',
+    },
+  },
+  mockRes: {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  },
+  resolvedValue: {
+    data: [1, 2, 3],
+    user: {
+      role: 'engineer 1',
+    },
+  },
+};
 module.exports = {
   project,
   allProjects,
   todelete,
   toUpdate,
+  engagementByMonth,
 };

@@ -157,5 +157,28 @@ const createProject = async (req, res) => {
     });
   }
 };
+const getProjectsInMonths = async (req, res) => {
+  try {
+    const projectsInMonths = await projectServices.getProjectsInMonths();
+    res.status(200).json({
+      data: projectsInMonths,
+      user: req.user,
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      error: error.message,
+      user: req.user,
+    });
+  }
+};
 
-module.exports = { getWholeProject, getProject, listProjects, deleteProject, updateProject, createProject };
+module.exports = {
+  getWholeProject,
+  getProject,
+  listProjects,
+  deleteProject,
+  updateProject,
+  createProject,
+  getProjectsInMonths,
+};

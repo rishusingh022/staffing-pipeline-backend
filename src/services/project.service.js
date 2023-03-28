@@ -129,6 +129,25 @@ const createProject = async body => {
     throw new CustomErrors.HttpError(error.message, 500);
   }
 };
+const getProjectsInMonths = async () => {
+  console.log('getting project in months service');
+  const promiseArray = [];
+  const year = new Date().getFullYear();
+  for (let i = 1; i <= 12; i++) {
+    promiseArray.push(
+      db.engagements.count({
+        where: {
+          startDate: {
+            [db.Sequelize.Op.gte]: new Date(year, i - 1, 1),
+            [db.Sequelize.Op.lte]: new Date(year, i, 1),
+          },
+        },
+      })
+    );
+  }
+  const projects = await Promise.all(promiseArray);
+  return projects;
+};
 
 module.exports = {
   getProject,
@@ -140,4 +159,5 @@ module.exports = {
   createProject,
   getProjectsByName,
   getProjectByChargeCode,
+  getProjectsInMonths,
 };
