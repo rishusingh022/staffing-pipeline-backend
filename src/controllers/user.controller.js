@@ -99,13 +99,23 @@ const updateUser = async (req, res) => {
   }
 };
 const getUserRole = async (req, res) => {
-  console.log(req);
-  res.status(200).json({
-    data: {
-      role: req.user.role,
-      userId: req.user.userId,
-    },
-  });
+  try {
+    const { email } = req.user;
+    logger.info('fetching user role with email: ' + email);
+    const userRole = await userServices.getUserRole(email);
+    res.status(200).json({
+      data: {
+        role: userRole.role,
+        userId: userRole.userId,
+      },
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      message: error.message,
+      user: req.user,
+    });
+  }
 };
 
 module.exports = { listUsers, createUser, deleteUser, updateUser, getUser, getUserRole };

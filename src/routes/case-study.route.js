@@ -1,6 +1,6 @@
 const express = require('express');
 
-const authMiddlewares = require('../middlewares/request.validator');
+const authMiddlewares = require('../middlewares/okta-auth.validator');
 const caseStudyValidator = require('../middlewares/case-study.validator');
 const {
   createCaseStudy,
@@ -14,15 +14,15 @@ const router = express.Router();
 
 router.put(
   '/:id',
-  authMiddlewares.reqAuthValidator,
+  authMiddlewares.validateToken,
   caseStudyValidator.caseStudyIdValidator,
   caseStudyValidator.updateCaseStudyBodyValidator,
   updateCaseStudy
 );
-router.delete('/:id', authMiddlewares.reqAuthValidator, caseStudyValidator.caseStudyIdValidator, deleteCaseStudy);
-router.get('/:id', authMiddlewares.reqAuthValidator, getCaseStudy);
-router.get('/', authMiddlewares.reqAuthValidator, listCaseStudies);
+router.delete('/:id', authMiddlewares.validateToken, caseStudyValidator.caseStudyIdValidator, deleteCaseStudy);
+router.get('/:id', authMiddlewares.validateToken, getCaseStudy);
+router.get('/', authMiddlewares.validateToken, listCaseStudies);
 
-router.post('/', authMiddlewares.reqAuthValidator, caseStudyValidator.createCaseStudyValidator, createCaseStudy);
+router.post('/', authMiddlewares.validateToken, caseStudyValidator.createCaseStudyValidator, createCaseStudy);
 
 module.exports = router;

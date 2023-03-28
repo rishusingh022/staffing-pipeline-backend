@@ -177,6 +177,14 @@ const removeCaseStudyFromUser = async caseStudyId => {
   }
 };
 
+const getUserRole = async email => {
+  const user = await db.users.findOne({ where: { email } });
+  if (!user) {
+    return null;
+  }
+  return { role: user.role, userId: user.userId };
+};
+
 module.exports = {
   getUser,
   listUsers,
@@ -190,4 +198,5 @@ module.exports = {
   removeCaseStudyFromUser,
   getUsersByName,
   getUserByFmno,
+  getUserRole,
 };

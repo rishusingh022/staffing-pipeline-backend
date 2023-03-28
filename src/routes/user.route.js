@@ -5,26 +5,26 @@ const schemas = require('../middlewares/schemas.validator');
 const { updateIdValidator, updateBodyValidator } = require('../middlewares/user.validator');
 
 const userControllers = require('../controllers/user.controller');
-const authMiddlewares = require('../middlewares/request.validator');
+const authMiddlewares = require('../middlewares/okta-auth.validator');
 const router = express.Router();
 
-router.get('/users', authMiddlewares.reqAuthValidator, userControllers.listUsers);
+router.get('/users', authMiddlewares.validateToken, userControllers.listUsers);
 router.get(
   '/users/:userId',
-  authMiddlewares.reqAuthValidator,
+  authMiddlewares.validateToken,
   requestValidator.validate(schemas.userIdSchema, 'params'),
   userControllers.getUser
 );
 
-router.post('/users', authMiddlewares.reqAuthValidator, userControllers.createUser);
-router.delete('/users/:id', authMiddlewares.reqAuthValidator, userControllers.deleteUser);
+router.post('/users', authMiddlewares.validateToken, userControllers.createUser);
+router.delete('/users/:id', authMiddlewares.validateToken, userControllers.deleteUser);
 router.put(
   '/users/:id',
-  authMiddlewares.reqAuthValidator,
+  authMiddlewares.validateToken,
   updateIdValidator,
   updateBodyValidator,
   userControllers.updateUser
 );
-router.get('/user-role', authMiddlewares.reqAuthValidator, userControllers.getUserRole);
+router.get('/user-role', authMiddlewares.validateToken, userControllers.getUserRole);
 
 module.exports = router;
