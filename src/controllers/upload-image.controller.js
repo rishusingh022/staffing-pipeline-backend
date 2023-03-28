@@ -1,4 +1,5 @@
-const uploadEngagementImage = (req, res) => {
+const { uploadFile } = require('../utils/s3Client');
+const uploadEngagementImage = async (req, res) => {
   const file = req.file;
   if (!file) {
     const error = new Error('Please upload a file');
@@ -7,15 +8,15 @@ const uploadEngagementImage = (req, res) => {
       error: 'Please upload a file',
     });
   }
+  const imageUrl = await uploadFile(file, 'engagement-images');
   res.json({
     data: {
-      fileName: file.filename,
-      imageUrl: `${req.protocol}://${req.get('host')}/images/engagement-images/${file.filename}`,
+      imageUrl,
     },
   });
 };
 
-const uploadUserImage = (req, res) => {
+const uploadUserImage = async (req, res) => {
   const file = req.file;
   if (!file) {
     const error = new Error('Please upload a file');
@@ -24,15 +25,15 @@ const uploadUserImage = (req, res) => {
       error: 'Please upload a file',
     });
   }
+  const imageUrl = await uploadFile(file, 'user-images');
   res.json({
     data: {
-      fileName: file.filename,
-      imageUrl: `${req.protocol}://${req.get('host')}/images/user-images/${file.filename}`,
+      imageUrl,
     },
   });
 };
 
-const uploadCaseStudyImage = (req, res) => {
+const uploadCaseStudyImage = async (req, res) => {
   const file = req.file;
   if (!file) {
     const error = new Error('Please upload a file');
@@ -41,11 +42,12 @@ const uploadCaseStudyImage = (req, res) => {
       error: 'Please upload a file',
     });
   }
+  const imageUrl = await uploadFile(file, 'case-study-images');
   res.json({
     data: {
-      fileName: file.filename,
-      imageUrl: `${req.protocol}://${req.get('host')}/images/case-study-images/${file.filename}`,
+      imageUrl,
     },
   });
 };
+
 module.exports = { uploadEngagementImage, uploadUserImage, uploadCaseStudyImage };
