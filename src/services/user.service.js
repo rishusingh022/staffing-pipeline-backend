@@ -187,6 +187,7 @@ const getUsersCount = async () => {
   const count = await db.users.count();
   return count;
 };
+
 const getUserRole = async email => {
   const user = await db.users.findOne({ where: { email } });
   if (!user) {
