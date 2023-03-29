@@ -153,6 +153,20 @@ const getProjectsInMonths = async () => {
   return projects;
 };
 
+const getEngagementStatus = async () => {
+  const statusCount = {};
+  const engagements = await db.engagements.findAll();
+  engagements.map(engagement => {
+    if (statusCount[engagement.status]) {
+      statusCount[engagement.status] += 1;
+    } else {
+      statusCount[engagement.status] = 1;
+    }
+  });
+  console.log(statusCount);
+  return statusCount;
+};
+
 const getEngagementsCount = async () => {
   try {
     logger.info('get engagements count');
@@ -176,4 +190,5 @@ module.exports = {
   getProjectByChargeCode,
   getEngagementsCount,
   getProjectsInMonths,
+  getEngagementStatus,
 };

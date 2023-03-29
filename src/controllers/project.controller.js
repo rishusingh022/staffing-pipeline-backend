@@ -186,6 +186,21 @@ const getProjectsInMonths = async (req, res) => {
   }
 };
 
+const getEngagementStatus = async (req, res) => {
+  try {
+    const engagementStatus = await projectServices.getEngagementStatus();
+    res.status(200).json({
+      data: engagementStatus,
+      user: req.user,
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      error: error.message,
+      user: req.user,
+    });
+  }
+};
 const getEngagementsCount = async (req, res) => {
   try {
     logger.info('fetching project count');
@@ -209,4 +224,5 @@ module.exports = {
   createProject,
   getEngagementsCount,
   getProjectsInMonths,
+  getEngagementStatus,
 };
