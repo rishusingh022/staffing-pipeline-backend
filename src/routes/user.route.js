@@ -9,6 +9,7 @@ const authMiddlewares = require('../middlewares/okta-auth.validator');
 const router = express.Router();
 
 router.get('/users', authMiddlewares.validateToken, userControllers.listUsers);
+router.get('/users/metrics', authMiddlewares.validateToken, userControllers.getUserMetrics);
 router.get(
   '/users/:userId',
   authMiddlewares.validateToken,

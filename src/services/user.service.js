@@ -184,7 +184,28 @@ const getUserRole = async email => {
   }
   return { role: user.role, userId: user.userId };
 };
-
+const getUserMetrics = async () => {
+  const countOfUsers = await db.users.count();
+  const currentYear = new Date().getFullYear();
+  const peopleStaffed = [];
+  for (let i = 1; i <= 12; i++) {
+    const currentMonthStartDate = new Date(currentYear, i - 1, 1);
+    const currentMonthEndDate = new Date(currentYear, i, 0);
+    let peopleStaffedInCurrentMonth = await db.staffing_details.count({
+      where: {
+        assignment_start_date: {
+          [db.Sequelize.Op.lte]: currentMonthStartDate,
+        },
+        assignment_end_date: {
+          [db.Sequelize.Op.gte]: currentMonthEndDate,
+        },
+      },
+    });
+    peopleStaffedInCurrentMonth = Math.round((peopleStaffedInCurrentMonth / countOfUsers) * 100);
+    peopleStaffed.push(peopleStaffedInCurrentMonth);
+  }
+  return peopleStaffed;
+};
 module.exports = {
   getUser,
   listUsers,
@@ -199,4 +220,5 @@ module.exports = {
   getUsersByName,
   getUserByFmno,
   getUserRole,
+  getUserMetrics,
 };

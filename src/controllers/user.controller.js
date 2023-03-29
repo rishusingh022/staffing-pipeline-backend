@@ -117,5 +117,20 @@ const getUserRole = async (req, res) => {
     });
   }
 };
+const getUserMetrics = async (req, res) => {
+  try {
+    const users = await userServices.getUserMetrics();
+    res.status(200).json({
+      data: users,
+      user: req.user,
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      message: error.message,
+      user: req.user,
+    });
+  }
+};
 
-module.exports = { listUsers, createUser, deleteUser, updateUser, getUser, getUserRole };
+module.exports = { listUsers, createUser, deleteUser, updateUser, getUser, getUserRole, getUserMetrics };
