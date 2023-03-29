@@ -118,7 +118,8 @@ const getCurrentStaffingDetails = async (req, res) => {
     const allUsersCount = await userService.getUsersCount();
     const userStats = {
       totalUsers: allUsersCount,
-      currentUsers: uniqueUserIds.length,
+      staffedUsers: uniqueUserIds.length,
+      unstaffedUsers: allUsersCount - uniqueUserIds.length,
     };
     res.status(200).json({ data: userStats, user: req.user });
   } catch (err) {
