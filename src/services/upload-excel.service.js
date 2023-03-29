@@ -24,12 +24,36 @@ const insertExcelDataToDatabase = async fname => {
       );
       console.log(staffingEntry);
       if (staffingEntry) {
-        throw new HttpError('Staffing entry already exists', 400);
+        return null;
+      }
+      const staffingEntryOverDateBound = await staffingDetailsService.getStaffingEntryOverDateBound(
+        entry.userId,
+        entry.engagementId,
+        entry.assignmentStartDate,
+        entry.assignmentEndDate
+      );
+      if (staffingEntryOverDateBound) {
+        const staffingEntryStartDate = new Date(staffingEntryOverDateBound.assignmentStartDate).getTime();
+        const staffingEntryEndDate = new Date(staffingEntryOverDateBound.assignmentEndDate).getTime();
+        const entryStartDate = new Date(entry.assignmentStartDate).getTime();
+        const entryEndDate = new Date(entry.assignmentEndDate).getTime();
+        if (staffingEntryStartDate > entryStartDate) {
+          staffingEntryOverDateBound.assignmentStartDate = entry.assignmentStartDate;
+        }
+        if (staffingEntryEndDate < entryEndDate) {
+          staffingEntryOverDateBound.assignmentEndDate = entry.assignmentEndDate;
+        }
+        await staffingDetailsService.updateStaffingEntry(
+          staffingEntryOverDateBound.entryId,
+          staffingEntryOverDateBound.dataValues
+        );
+        return null;
       }
       return entry;
     })
   );
-  const result = await staffingDetailsService.createStaffingEntry(newData);
+  const filteredData = newData.filter(entry => entry !== null);
+  const result = await staffingDetailsService.createStaffingEntry(filteredData);
   fs.unlinkSync(fname);
   return JSON.parse(JSON.stringify(result));
 };

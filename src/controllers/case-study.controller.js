@@ -96,7 +96,12 @@ const getCaseStudy = async (req, res) => {
 const listCaseStudies = async (req, res) => {
   try {
     logger.info('fetching all the case studies');
-    const allCaseStudies = await caseStudyServices.listCaseStudies();
+    let allCaseStudies;
+    if (req.query.page && req.query.page > 0) {
+      allCaseStudies = await caseStudyServices.listCaseStudies(req.query.page);
+    } else {
+      allCaseStudies = await caseStudyServices.listCaseStudies();
+    }
     const completeCaseStudiesData = await Promise.all(
       allCaseStudies.map(async caseStudy => {
         const { collaboratorsIds, engagementId } = caseStudy.dataValues;
@@ -125,10 +130,25 @@ const listCaseStudies = async (req, res) => {
   }
 };
 
+const getCaseStudiesCount = async (req, res) => {
+  try {
+    logger.info('fetching case study count');
+    const count = await caseStudyServices.getCaseStudiesCount();
+    res.status(200).json({ data: count, user: req.user });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      message: 'Something went wrong',
+      user: req.user,
+    });
+  }
+};
+
 module.exports = {
   createCaseStudy,
   updateCaseStudy,
   deleteCaseStudy,
   getCaseStudy,
   listCaseStudies,
+  getCaseStudiesCount,
 };

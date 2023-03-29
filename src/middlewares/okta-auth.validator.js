@@ -30,7 +30,7 @@ const validateToken = async (req, res, next) => {
     console.log('successfully loged in');
     next();
   } catch (err) {
-    console.error(err);
+    console.log(err);
     return res.status(401).json({ message: 'invalid okta token' });
   }
 };

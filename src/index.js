@@ -10,6 +10,7 @@ const caseStudiesRouter = require('./routes/case-study.route');
 const staffingRouter = require('./routes/staffing-details.route');
 const searchRouter = require('./routes/search.route');
 const skillsRouter = require('./routes/skills.route');
+const countRouter = require('./routes/count.route');
 const uploadImageRouter = require('./routes/upload-image.route');
 
 //add swagger documentation
@@ -46,6 +47,8 @@ app.use('/api/projects', projectRouter);
 app.use('/api/case-studies', caseStudiesRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/skills', skillsRouter);
+app.use('/api/count', countRouter);
+
 // app.use(express.static(__dirname + 'public'));
 app.use('/images', express.static(__dirname + '/public'));
 app.get('/', (req, res) => {

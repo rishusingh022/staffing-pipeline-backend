@@ -49,7 +49,7 @@ const createStaffingEntry = async (req, res) => {
     const newEntry = await staffingDetailsService.createStaffingEntry(entryDetails);
     res.status(200).json({ data: newEntry, user: req.user });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     res.status(500).json({ message: error.message, user: req.user });
   }
 };

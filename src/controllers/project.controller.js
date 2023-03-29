@@ -75,7 +75,12 @@ const getProject = async (req, res) => {
 const listProjects = async (req, res) => {
   try {
     logger.info('fetching all the projects');
-    const allProjects = await projectServices.listProjects();
+    let allProjects;
+    if (req.query.page && req.query.page > 0) {
+      allProjects = await projectServices.listProjects(req.query.page);
+    } else {
+      allProjects = await projectServices.listProjects();
+    }
     res.status(200).json({ data: allProjects, user: req.user });
   } catch (error) {
     logger.error(error);
@@ -181,6 +186,20 @@ const getProjectsInMonths = async (req, res) => {
   }
 };
 
+const getEngagementsCount = async (req, res) => {
+  try {
+    logger.info('fetching project count');
+    const count = await projectServices.getEngagementsCount();
+    res.status(200).json({ data: count, user: req.user });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      error: error.message,
+      user: req.user,
+    });
+  }
+};
+
 module.exports = {
   getWholeProject,
   getProject,
@@ -188,5 +207,6 @@ module.exports = {
   deleteProject,
   updateProject,
   createProject,
+  getEngagementsCount,
   getProjectsInMonths,
 };

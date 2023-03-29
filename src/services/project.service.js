@@ -3,6 +3,7 @@ const { HttpError } = require('../utils/httpError');
 const db = require('../models');
 const logger = require('../logger');
 const CustomErrors = require('../utils/httpError');
+const PAGE_LIMIT = 48;
 
 const getProject = async projectId => {
   logger.info(`find engagement data for the id: ${projectId}`);
@@ -31,10 +32,13 @@ const getProjectByChargeCode = async chargeCode => {
   return engagement;
 };
 
-const listProjects = async () => {
+const listProjects = async page => {
   try {
     logger.info('get all the engagements from the database');
-    const allProjects = await db.engagements.findAll();
+    const allProjects = await db.engagements.findAll({
+      limit: PAGE_LIMIT,
+      offset: page ? (page - 1) * PAGE_LIMIT : 0,
+    });
     return allProjects;
   } catch (error) {
     logger.error({ error: error, text: 'error in fetching all the engagements from the database' });
@@ -149,6 +153,17 @@ const getProjectsInMonths = async () => {
   return projects;
 };
 
+const getEngagementsCount = async () => {
+  try {
+    logger.info('get engagements count');
+    const count = await db.engagements.count();
+    return count;
+  } catch (error) {
+    logger.error({ error: error, text: 'error in fetching engagements count from the database' });
+    throw new CustomErrors.HttpError(error.message, 500);
+  }
+};
+
 module.exports = {
   getProject,
   listProjects,
@@ -159,5 +174,6 @@ module.exports = {
   createProject,
   getProjectsByName,
   getProjectByChargeCode,
+  getEngagementsCount,
   getProjectsInMonths,
 };

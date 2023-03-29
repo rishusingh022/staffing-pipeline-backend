@@ -74,6 +74,9 @@ const getUser = {
     params: {
       user_id: '1',
     },
+    query: {
+      page: 1,
+    },
     user: {
       role: 'engineer 1',
     },

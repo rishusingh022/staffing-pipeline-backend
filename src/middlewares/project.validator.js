@@ -22,6 +22,11 @@ const validateProject = (req, res, next) => {
     if (error) {
       throw new HttpError(error.message, 400);
     }
+    const startDate = new Date(req.body.startDate).getTime();
+    const endDate = new Date(req.body.endDate).getTime();
+    if (startDate >= endDate) {
+      throw new HttpError('Start date cannot be after end date', 400);
+    }
     next();
   } catch (error) {
     if (error instanceof HttpError) {

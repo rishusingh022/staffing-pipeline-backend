@@ -3,6 +3,8 @@
 const CustomErrors = require('../utils/httpError');
 const db = require('../models');
 const logger = require('../logger');
+const PAGE_LIMIT = 16;
+
 const getUser = async userId => {
   logger.info(`get user from database with id: ${userId}`);
   const user = await db.users.findOne({
@@ -41,10 +43,14 @@ const getUsersByName = async name => {
   return users;
 };
 
-const listUsers = async () => {
+const listUsers = async page => {
   try {
     logger.info('get all users from the database');
-    const allUsers = await db.users.findAll();
+
+    const allUsers = await db.users.findAll({
+      limit: PAGE_LIMIT,
+      offset: page ? (page - 1) * PAGE_LIMIT : 0,
+    });
     return allUsers;
   } catch (error) {
     logger.error(error);
@@ -177,6 +183,10 @@ const removeCaseStudyFromUser = async caseStudyId => {
   }
 };
 
+const getUsersCount = async () => {
+  const count = await db.users.count();
+  return count;
+};
 const getUserRole = async email => {
   const user = await db.users.findOne({ where: { email } });
   if (!user) {
@@ -219,6 +229,7 @@ module.exports = {
   removeCaseStudyFromUser,
   getUsersByName,
   getUserByFmno,
+  getUsersCount,
   getUserRole,
   getUserMetrics,
 };

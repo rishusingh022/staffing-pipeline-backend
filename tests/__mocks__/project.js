@@ -42,6 +42,9 @@ const allProjects = {
     },
   ],
   mockReq: {
+    query: {
+      page: 1,
+    },
     user: {
       role: 'engineer 1',
     },

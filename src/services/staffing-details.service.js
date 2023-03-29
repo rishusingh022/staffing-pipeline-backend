@@ -100,21 +100,28 @@ const parse_xlsx_sheets = fname => {
 
 function ExcelDateToJSDate(serial) {
   console.log(serial);
-  // if (typeof serial === 'string') {
-  const date_data = serial.split('/');
-  return new Date(parseInt(date_data[2]), parseInt(date_data[0] - 1), parseInt(date_data[1]), 0, 0, 0).toISOString();
-  // } else {
-  //   var utc_days = Math.floor(serial - 25569);
-  //   var utc_value = utc_days * 86400;
-  //   var date_info = new Date(utc_value * 1000);
-  //   var fractional_day = serial - Math.floor(serial) + 0.0000001;
-  //   var total_seconds = Math.floor(86400 * fractional_day);
-  //   var seconds = total_seconds % 60;
-  //   total_seconds -= seconds;
-  //   var hours = Math.floor(total_seconds / (60 * 60));
-  //   var minutes = Math.floor(total_seconds / 60) % 60;
-  //   return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate(), hours, minutes, seconds);
-  // }
+  if (typeof serial === 'string') {
+    const date_data = serial.split('/');
+    return new Date(parseInt(date_data[2]), parseInt(date_data[0] - 1), parseInt(date_data[1]), 0, 0, 0).toISOString();
+  } else {
+    let utc_days = Math.floor(serial - 25569);
+    let utc_value = utc_days * 86400;
+    let date_info = new Date(utc_value * 1000);
+    let fractional_day = serial - Math.floor(serial) + 0.0000001;
+    let total_seconds = Math.floor(86400 * fractional_day);
+    let seconds = total_seconds % 60;
+    total_seconds -= seconds;
+    let hours = Math.floor(total_seconds / (60 * 60));
+    let minutes = Math.floor(total_seconds / 60) % 60;
+    return new Date(
+      date_info.getFullYear(),
+      date_info.getDate() - 1,
+      date_info.getMonth() + 1,
+      hours,
+      minutes,
+      seconds
+    );
+  }
 }
 
 const getUsersInEngagement = async engagementId => {
@@ -158,11 +165,53 @@ const getStaffingEntry = async (userId, engagementId, assignmentStartDate, assig
     where: {
       userId,
       engagementId,
-      assignmentStartDate,
-      assignmentEndDate,
+      assignmentStartDate: {
+        [db.Sequelize.Op.lte]: new Date(assignmentStartDate),
+      },
+      assignmentEndDate: {
+        [db.Sequelize.Op.gte]: new Date(assignmentEndDate),
+      },
     },
   });
   return staffingEntry;
+};
+
+const getStaffingEntryOverDateBound = async (userId, engagementId, assignmentStartDate, assignmentEndDate) => {
+  const staffingEntry = await db.staffing_details.findOne({
+    where: {
+      userId,
+      engagementId,
+      [db.Sequelize.Op.or]: [
+        {
+          assignmentStartDate: {
+            [db.Sequelize.Op.gte]: new Date(assignmentStartDate),
+            [db.Sequelize.Op.lt]: new Date(assignmentEndDate),
+          },
+        },
+        {
+          assignmentEndDate: {
+            [db.Sequelize.Op.lte]: new Date(assignmentEndDate),
+            [db.Sequelize.Op.gt]: new Date(assignmentStartDate),
+          },
+        },
+      ],
+    },
+  });
+  return staffingEntry;
+};
+
+const updateStaffingEntry = async (entryId, entryDetails) => {
+  const updatedEntry = await db.staffing_details.update(
+    {
+      ...entryDetails,
+    },
+    {
+      where: {
+        entryId,
+      },
+    }
+  );
+  return updatedEntry;
 };
 
 const staffingDetailsService = {
@@ -174,5 +223,7 @@ const staffingDetailsService = {
   getUsersInvolvedInEngagement,
   getStaffingEntry,
   getPastUsersInEngagement,
+  getStaffingEntryOverDateBound,
+  updateStaffingEntry,
 };
 module.exports = staffingDetailsService;

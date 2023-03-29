@@ -1,6 +1,7 @@
 const { case_studies } = require('../models');
 const db = require('../models');
 const logger = require('../logger');
+const PAGE_LIMIT = 24;
 
 const createCaseStudy = async caseStudy => {
   logger.info('insert new case study into database');
@@ -51,9 +52,12 @@ const getCaseStudy = async id => {
   return caseStudy;
 };
 
-const listCaseStudies = async () => {
+const listCaseStudies = async page => {
   logger.info('get all the case studies from the database');
-  const allCaseStudies = await db.case_studies.findAll();
+  const allCaseStudies = await db.case_studies.findAll({
+    limit: PAGE_LIMIT,
+    offset: page ? (page - 1) * PAGE_LIMIT : 0,
+  });
   return allCaseStudies;
 };
 
@@ -79,6 +83,12 @@ const getCaseStudyByName = async name => {
   return caseStudies;
 };
 
+const getCaseStudiesCount = async () => {
+  logger.info('get case study count');
+  const count = await db.case_studies.count();
+  return count;
+};
+
 module.exports = {
   updateCaseStudy,
   deleteCaseStudy,
@@ -89,4 +99,5 @@ module.exports = {
   addCurrentEngagement,
   getCaseStudiesByEngagementId,
   getCaseStudyByName,
+  getCaseStudiesCount,
 };

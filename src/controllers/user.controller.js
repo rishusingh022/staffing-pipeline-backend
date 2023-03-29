@@ -4,11 +4,16 @@ const logger = require('../logger');
 const staffingDetailsService = require('../services/staffing-details.service');
 const projectService = require('../services/project.service');
 const skillsService = require('../services/skills.service');
-const listUsers = async (_, res) => {
+const listUsers = async (req, res) => {
   logger.info('fetching all the users');
-  const allUsers = await userServices.listUsers();
+  let allUsers;
+  if (req.query.page && req.query.page > 0) {
+    allUsers = await userServices.listUsers(req.query.page);
+  } else {
+    allUsers = await userServices.listUsers();
+  }
   res.status(200);
-  res.json({ data: allUsers, user: _.user });
+  res.json({ data: allUsers, user: req.user });
 };
 const getUser = async (req, res) => {
   const { userId } = req.params;
@@ -133,4 +138,19 @@ const getUserMetrics = async (req, res) => {
   }
 };
 
-module.exports = { listUsers, createUser, deleteUser, updateUser, getUser, getUserRole, getUserMetrics };
+const getUsersCount = async (req, res) => {
+  try {
+    const count = await userServices.getUsersCount();
+    res.status(200).json({
+      data: count,
+      user: req.user,
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+};
+
+module.exports = { listUsers, createUser, deleteUser, updateUser, getUser, getUserRole, getUserMetrics, getUsersCount };
