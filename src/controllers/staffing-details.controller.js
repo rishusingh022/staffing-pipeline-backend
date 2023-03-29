@@ -63,7 +63,6 @@ const getUsersInEngagement = async (req, res) => {
         return userService.getUser(entry.userId);
       })
     );
-
     res.status(200).json({ data: allUsers, user: req.user });
   } catch (error) {
     console.log(error);
@@ -111,11 +110,39 @@ const getUsersInvolvedInEngagement = async (req, res) => {
   }
 };
 
+const getCurrentStaffingDetails = async (req, res) => {
+  try {
+    const currentStaffingDetails = await staffingDetailsService.getCurrentStaffingDetails();
+    const currentUserIds = currentStaffingDetails.map(entry => entry.userId);
+    const uniqueUserIds = [...new Set(currentUserIds)];
+    const allUsersCount = await userService.getUsersCount();
+    const userStats = {
+      totalUsers: allUsersCount,
+      currentUsers: uniqueUserIds.length,
+    };
+    res.status(200).json({ data: userStats, user: req.user });
+  } catch (err) {
+    console.log(err);
+    if (err instanceof HttpError) {
+      res.status(err.statusCode).json({
+        error: err.message,
+        user: req.user,
+      });
+    } else {
+      res.status(500).json({
+        error: 'Internal Server Error',
+        user: req.user,
+      });
+    }
+  }
+};
+
 const staffingDetailsController = {
   createStaffingEntry,
   getUserCurrentEngagements,
   getUserPastEngagements,
   getUsersInEngagement,
   getUsersInvolvedInEngagement,
+  getCurrentStaffingDetails,
 };
 module.exports = staffingDetailsController;

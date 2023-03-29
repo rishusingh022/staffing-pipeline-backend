@@ -16,6 +16,7 @@ const uploadImageRouter = require('./routes/upload-image.route');
 //add swagger documentation
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
+const metricsRouter = require('./routes/metrics.route');
 // const swaggerAutogen = require('swagger-autogen')();
 
 // const outputFile = "../swagger.json";
@@ -48,6 +49,7 @@ app.use('/api/case-studies', caseStudiesRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/skills', skillsRouter);
 app.use('/api/count', countRouter);
+app.use('/api/metrics', metricsRouter);
 
 // app.use(express.static(__dirname + 'public'));
 app.use('/images', express.static(__dirname + '/public'));

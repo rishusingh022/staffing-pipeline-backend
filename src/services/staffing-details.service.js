@@ -214,6 +214,20 @@ const updateStaffingEntry = async (entryId, entryDetails) => {
   return updatedEntry;
 };
 
+const getCurrentStaffingDetails = async () => {
+  const currentStaffingDetails = await db.staffing_details.findAll({
+    where: {
+      assignmentStartDate: {
+        [db.Sequelize.Op.lte]: new Date(),
+      },
+      assignmentEndDate: {
+        [db.Sequelize.Op.gte]: new Date(),
+      },
+    },
+  });
+  return currentStaffingDetails;
+};
+
 const staffingDetailsService = {
   createStaffingEntry,
   getUserCurrentEngagements,
@@ -225,5 +239,6 @@ const staffingDetailsService = {
   getPastUsersInEngagement,
   getStaffingEntryOverDateBound,
   updateStaffingEntry,
+  getCurrentStaffingDetails,
 };
 module.exports = staffingDetailsService;
