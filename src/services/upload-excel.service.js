@@ -2,7 +2,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const staffingDetailsService = require('./staffing-details.service');
-const { HttpError } = require('../utils/httpError');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../uploads/'));
@@ -22,7 +21,6 @@ const insertExcelDataToDatabase = async fname => {
         entry.assignmentStartDate,
         entry.assignmentEndDate
       );
-      console.log(staffingEntry);
       if (staffingEntry) {
         return null;
       }

@@ -12,6 +12,7 @@ module.exports = {
     // add column charge_code to table engagements
     await queryInterface.addColumn('engagements', 'charge_code', {
       type: Sequelize.STRING,
+      unique: true
     });
   },
 

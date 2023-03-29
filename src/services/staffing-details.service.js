@@ -1,5 +1,6 @@
 const db = require('../models');
 const reader = require('xlsx');
+const projectService = require('./project.service');
 const { HttpError } = require('../utils/httpError');
 const getUserCurrentEngagements = async userId => {
   const userCurrentEngagements = await db.staffing_details.findAll({
@@ -55,19 +56,27 @@ const parse_xlsx_sheets = fname => {
           await db.engagements.findOne({
             attributes: ['engagementId'],
             where: {
-              charge_code: res['Charge Code'],
+              chargeCode: res['Charge Code'],
             },
           })
         )
       );
-      if (!user || !engagement) {
-        throw new HttpError('User or Engagement not found', 400);
+      let newEngagementId = undefined;
+      if (!engagement) {
+        const newEngagement = await projectService.createProject({
+          name: res['Study'],
+          chargeCode: res['Charge Code'],
+        });
+        newEngagementId = newEngagement.engagementId;
+      }
+      if (!user) {
+        throw new HttpError('User not found', 400);
       }
       return {
         fmno: res.Fmno,
         name: res['Full Name'],
         userId: user ? user.userId : undefined,
-        engagementId: engagement ? engagement.engagementId : undefined,
+        engagementId: engagement ? engagement.engagementId : newEngagementId,
         assignmentType: res['Assignment Type'],
         study: res['Study'],
         utilizationPercentage: parseInt(res['Utilization %'] * 100),

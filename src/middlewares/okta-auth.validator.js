@@ -18,7 +18,7 @@ const validateToken = async (req, res, next) => {
     if (!authorization) {
       return res.status(401).json({ message: 'missing okta token' });
     }
-    console.log(authorization);
+    //console.log(authorization);
     const accessToken = req.headers.authorization;
     const audience = 'api://default';
 
