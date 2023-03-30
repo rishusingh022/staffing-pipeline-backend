@@ -134,25 +134,36 @@ const createProject = async body => {
   }
 };
 const getProjectsInMonths = async () => {
-  console.log('getting project in months service');
-  const promiseArray = [];
-  const year = new Date().getFullYear();
-  for (let i = 1; i <= 12; i++) {
-    promiseArray.push(
-      db.engagements.count({
-        where: {
-          startDate: {
-            [db.Sequelize.Op.gte]: new Date(year, i - 1, 1),
-            [db.Sequelize.Op.lte]: new Date(year, i, 1),
-          },
-        },
-      })
-    );
-  }
-  const projects = await Promise.all(promiseArray);
-  return projects;
-};
+  logger.info('Getting projects metrics');
+  const startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - 12);
+  const engagements = await db.engagements.findAll({
+    where: {
+      startDate: {
+        [db.Sequelize.Op.gte]: startDate,
+      },
+    },
+  });
+  const engagementsCount = {};
+  engagements.map(engagement => {
+    const month = new Date(engagement.startDate).getMonth();
+    if (engagementsCount[month]) {
+      engagementsCount[month] += 1;
+    } else {
+      engagementsCount[month] = 1;
+    }
+  });
 
+  const projectsInMonths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  for (const key in engagementsCount) {
+    const month = parseInt(key);
+    projectsInMonths[(month - 1) % 12] = engagementsCount[key];
+  }
+  const first = projectsInMonths[0];
+  projectsInMonths.splice(0, 1);
+  projectsInMonths.push(first);
+  return projectsInMonths;
+};
 const getEngagementStatus = async () => {
   const statusCount = {};
   const engagements = await db.engagements.findAll();
