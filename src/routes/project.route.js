@@ -5,8 +5,6 @@ const projectMiddlewares = require('../middlewares/project.validator');
 const projectRouter = express.Router();
 
 projectRouter.get('/', authMiddlewares.validateToken, projectController.listProjects);
-projectRouter.get('/metrics', authMiddlewares.validateToken, projectController.getProjectsInMonths);
-projectRouter.get('/engagementStatus', projectController.getEngagementStatus);
 projectRouter.post(
   '/',
   authMiddlewares.validateToken,
