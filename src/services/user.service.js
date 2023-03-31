@@ -195,27 +195,104 @@ const getUserRole = async email => {
   }
   return { role: user.role, userId: user.userId, roleId: user.roleId };
 };
+const startAndEndDates = {
+  Jan: {
+    startDate: '01-01',
+    endDate: '01-31',
+  },
+  Feb: {
+    startDate: '02-01',
+    endDate: '02-28',
+  },
+  Mar: {
+    startDate: '03-01',
+    endDate: '03-31',
+  },
+  Apr: {
+    startDate: '04-01',
+    endDate: '04-30',
+  },
+  May: {
+    startDate: '05-01',
+    endDate: '05-31',
+  },
+  Jun: {
+    startDate: '06-01',
+    endDate: '06-30',
+  },
+  Jul: {
+    startDate: '07-01',
+    endDate: '07-31',
+  },
+  Aug: {
+    startDate: '08-01',
+    endDate: '08-31',
+  },
+  Sep: {
+    startDate: '09-01',
+    endDate: '09-30',
+  },
+  Oct: {
+    startDate: '10-01',
+    endDate: '10-31',
+  },
+  Nov: {
+    startDate: '11-01',
+    endDate: '11-30',
+  },
+  Dec: {
+    startDate: '12-01',
+    endDate: '12-31',
+  },
+};
+const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const getUserMetrics = async () => {
-  const countOfUsers = await db.users.count();
-  const currentYear = new Date().getFullYear();
-  const peopleStaffed = [];
-  for (let i = 1; i <= 12; i++) {
-    const currentMonthStartDate = new Date(currentYear, i - 1, 1);
-    const currentMonthEndDate = new Date(currentYear, i, 0);
-    let peopleStaffedInCurrentMonth = await db.staffing_details.count({
+  const totalUsers = await db.users.count();
+  // get currentMonth
+  const currentMonth = new Date().toLocaleString('en-us', { month: 'short' });
+  const metrics = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const currentMonthIndex = allMonths.indexOf(currentMonth);
+  const thisYearMonthsTillNow = allMonths.slice(0, currentMonthIndex + 1);
+  const thisYear = new Date().getFullYear();
+  const lastYear = thisYear - 1;
+  const lastYearMonths = allMonths.slice(currentMonthIndex + 1);
+
+  // for each month in thisYearMonthsTillNow, get the count of users whose assignment_start_date and assingment_end_date is in that month's start and end date
+  for (let i = 0; i < thisYearMonthsTillNow.length; i++) {
+    const startDate = `${thisYear}-${startAndEndDates[thisYearMonthsTillNow[i]].startDate}T10:36:09.638Z`;
+    const endDate = `${thisYear}-${startAndEndDates[thisYearMonthsTillNow[i]].endDate}T10:36:09.638Z`;
+    console.log(startDate, 'startDate');
+    console.log(endDate, 'endDate');
+    const count = await db.staffing_details.count({
       where: {
         assignment_start_date: {
-          [db.Sequelize.Op.lte]: currentMonthStartDate,
+          [db.Sequelize.Op.lte]: startDate,
         },
         assignment_end_date: {
-          [db.Sequelize.Op.gte]: currentMonthEndDate,
+          [db.Sequelize.Op.gte]: endDate,
         },
       },
     });
-    peopleStaffedInCurrentMonth = Math.round((peopleStaffedInCurrentMonth / countOfUsers) * 100);
-    peopleStaffed.push(peopleStaffedInCurrentMonth);
+    // convert count into percentage of totalUsers
+    metrics[i] = Math.round((count / totalUsers) * 100);
   }
-  return peopleStaffed;
+  // for each month in lastYearMonths, get the count of users whose assignment_start_date and assignment_end_date is in that month's start and end date for last year
+  for (let i = 0; i < lastYearMonths.length; i++) {
+    const startDate = `${lastYear}-${startAndEndDates[lastYearMonths[i]].startDate}T10:36:09.638Z`;
+    const endDate = `${lastYear}-${startAndEndDates[lastYearMonths[i]].endDate}T10:36:09.638Z`;
+    const count = await db.staffing_details.count({
+      where: {
+        assignment_start_date: {
+          [db.Sequelize.Op.lte]: startDate,
+        },
+        assignment_end_date: {
+          [db.Sequelize.Op.gte]: endDate,
+        },
+      },
+    });
+    metrics[i + thisYearMonthsTillNow.length] = Math.round((count / totalUsers) * 100);
+  }
+  return metrics;
 };
 module.exports = {
   getUser,
