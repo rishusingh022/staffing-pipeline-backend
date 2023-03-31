@@ -170,6 +170,21 @@ const createProject = async (req, res) => {
     });
   }
 };
+const getProjectsMonthwise = async (req, res) => {
+  try {
+    const engagements = await projectServices.getEngagementsMonthwise(req.body.startDate);
+    res.status(200).json({
+      data: engagements,
+      success: true,
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      error: error.message,
+      success: false,
+    });
+  }
+};
 const getProjectsInMonths = async (req, res) => {
   try {
     const projectsInMonths = await projectServices.getProjectsInMonths();
@@ -225,4 +240,5 @@ module.exports = {
   getEngagementsCount,
   getProjectsInMonths,
   getEngagementStatus,
+  getProjectsMonthwise,
 };

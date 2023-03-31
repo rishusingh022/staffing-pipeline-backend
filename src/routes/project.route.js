@@ -11,6 +11,7 @@ projectRouter.post(
   projectMiddlewares.validateProject,
   projectController.createProject
 );
+projectRouter.post('/projects-monthly', authMiddlewares.validateToken, projectController.getProjectsMonthwise);
 projectRouter.get('/:id', authMiddlewares.validateToken, projectController.getWholeProject);
 projectRouter.delete('/:id', authMiddlewares.validateToken, projectController.deleteProject);
 projectRouter.put(

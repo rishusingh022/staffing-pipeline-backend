@@ -164,6 +164,15 @@ const getProjectsInMonths = async () => {
   projectsInMonths.push(first);
   return projectsInMonths;
 };
+const getEngagementsMonthwise = async startDate => {
+  return db.engagements.findAll({
+    where: {
+      createdAt: {
+        [db.Sequelize.Op.lte]: new Date(startDate),
+      },
+    },
+  });
+};
 const getEngagementStatus = async () => {
   const statusCount = {};
   const engagements = await db.engagements.findAll();
@@ -202,4 +211,5 @@ module.exports = {
   getEngagementsCount,
   getProjectsInMonths,
   getEngagementStatus,
+  getEngagementsMonthwise,
 };
