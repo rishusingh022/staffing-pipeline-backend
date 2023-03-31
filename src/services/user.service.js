@@ -193,7 +193,7 @@ const getUserRole = async email => {
   if (!user) {
     return null;
   }
-  return { role: user.role, userId: user.userId };
+  return { role: user.role, userId: user.userId, roleId: user.roleId };
 };
 const getUserMetrics = async () => {
   const countOfUsers = await db.users.count();

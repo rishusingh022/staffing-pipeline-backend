@@ -4,6 +4,7 @@ const logger = require('../logger');
 const staffingDetailsService = require('../services/staffing-details.service');
 const projectService = require('../services/project.service');
 const skillsService = require('../services/skills.service');
+const roleFeatureServices = require('../services/role-feature.service');
 const listUsers = async (req, res) => {
   logger.info('fetching all the users');
   let allUsers;
@@ -108,10 +109,22 @@ const getUserRole = async (req, res) => {
     const { email } = req.user;
     logger.info('fetching user role with email: ' + email);
     const userRole = await userServices.getUserRole(email);
+    const userFeatures = await roleFeatureServices.getRoleFeatures(userRole.roleId);
+    const allFeatures = await roleFeatureServices.getAllFeatures();
+    const permissions = {};
+    allFeatures.forEach(feature => {
+      permissions[feature.featureName] = false;
+    });
+    const allowedFeatures = userFeatures.features;
+    console.log('userFeatures', userFeatures);
+    allowedFeatures.forEach(feature => {
+      if (feature.featureAvailable) permissions[feature.featureName] = true;
+    });
     res.status(200).json({
       data: {
         role: userRole.role,
         userId: userRole.userId,
+        features: permissions,
       },
     });
   } catch (error) {

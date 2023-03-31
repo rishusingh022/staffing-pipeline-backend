@@ -12,6 +12,7 @@ const searchRouter = require('./routes/search.route');
 const skillsRouter = require('./routes/skills.route');
 const countRouter = require('./routes/count.route');
 const uploadImageRouter = require('./routes/upload-image.route');
+const roleFeatureRouter = require('./routes/role-feature.route');
 
 //add swagger documentation
 const swaggerUi = require('swagger-ui-express');
@@ -50,6 +51,7 @@ app.use('/api/search', searchRouter);
 app.use('/api/skills', skillsRouter);
 app.use('/api/count', countRouter);
 app.use('/api/metrics', metricsRouter);
+app.use('/api/role-feature', roleFeatureRouter);
 
 // app.use(express.static(__dirname + 'public'));
 app.use('/images', express.static(__dirname + '/public'));
