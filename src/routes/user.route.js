@@ -6,6 +6,8 @@ const { updateIdValidator, updateBodyValidator } = require('../middlewares/user.
 
 const userControllers = require('../controllers/user.controller');
 const authMiddlewares = require('../middlewares/okta-auth.validator');
+const { checkRolePermission } = require('../middlewares/role-permission.validator');
+const allFeatures = require('../utils/features');
 const router = express.Router();
 
 router.get('/users', authMiddlewares.validateToken, userControllers.listUsers);
@@ -25,6 +27,11 @@ router.put(
   updateBodyValidator,
   userControllers.updateUser
 );
-router.get('/user-role', authMiddlewares.validateToken, userControllers.getUserRole);
+router.get(
+  '/user-role',
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_case_study),
+  userControllers.getUserRole
+);
 
 module.exports = router;

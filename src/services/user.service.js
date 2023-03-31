@@ -193,7 +193,13 @@ const getUserRole = async email => {
   if (!user) {
     return null;
   }
-  return { role: user.role, userId: user.userId, roleId: user.roleId };
+  const userRoles = await db.m_user_role.findAll({
+    where: {
+      userId: user.userId,
+    },
+  });
+  const roles = userRoles.map(userRole => userRole.roleId);
+  return { userId: user.userId, roles };
 };
 const startAndEndDates = {
   Jan: {

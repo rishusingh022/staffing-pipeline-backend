@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         through: models.m_role_feature,
         foreignKey: 'roleId',
       });
+      this.belongsToMany(models.users, {
+        through: models.m_user_role,
+        foreignKey: 'roleId',
+      });
     }
   }
   role.init({

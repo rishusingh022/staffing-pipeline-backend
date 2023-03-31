@@ -10,21 +10,25 @@ const getRole = async roleId => {
   return role;
 };
 
-const getRoleFeatures = async roleId => {
-  const role = await db.role.findByPk(roleId, {
-    attributes: ['roleId', 'roleName'],
-    include: [
-      {
-        model: db.feature,
-        as: 'features',
-        through: {
-          attributes: [],
-        },
-        attributes: ['featureName', 'featureAvailable'],
-      },
-    ],
-  });
-  return role;
+const getRoleFeatures = async roles => {
+  const rolesData = await Promise.all(
+    roles.map(roleId => {
+      return db.role.findByPk(roleId, {
+        attributes: ['roleId', 'roleName'],
+        include: [
+          {
+            model: db.feature,
+            as: 'features',
+            through: {
+              attributes: [],
+            },
+            attributes: ['featureName', 'featureAvailable'],
+          },
+        ],
+      });
+    })
+  );
+  return rolesData;
 };
 
 const getAllFeatures = async () => {

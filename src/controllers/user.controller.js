@@ -24,7 +24,6 @@ const getUser = async (req, res) => {
 
     // get current engagements data
     const userCurrentEngagements = await staffingDetailsService.getUserCurrentEngagements(userId);
-    console.log('userCurrentEngagements', userCurrentEngagements);
     const userCurrentEngagementsData = await Promise.all(
       userCurrentEngagements.map(async entry => {
         const projectData = await projectService.getProject(entry.engagementId);
@@ -97,7 +96,6 @@ const updateUser = async (req, res) => {
     res.status(200).json({ data: updatedUser, user: req.user });
   } catch (error) {
     logger.error(error);
-    console.log(error);
     res.status(500).json({
       message: error.message,
       user: req.user,
@@ -108,27 +106,23 @@ const getUserRole = async (req, res) => {
   try {
     const { email } = req.user;
     logger.info('fetching user role with email: ' + email);
-    const userRole = await userServices.getUserRole(email);
-    const userFeatures = await roleFeatureServices.getRoleFeatures(userRole.roleId);
-    const allFeatures = await roleFeatureServices.getAllFeatures();
-    const permissions = {};
-    allFeatures.forEach(feature => {
-      permissions[feature.featureName] = false;
-    });
-    const allowedFeatures = userFeatures.features;
-    console.log('userFeatures', userFeatures);
-    allowedFeatures.forEach(feature => {
-      if (feature.featureAvailable) permissions[feature.featureName] = true;
+    const userRoles = await userServices.getUserRole(email);
+    const userFeatures = await roleFeatureServices.getRoleFeatures(userRoles.roles);
+    const userAllFeatures = [];
+    userFeatures.forEach(userFeature => {
+      userFeature.features.forEach(feature => {
+        if (feature.featureAvailable) userAllFeatures.push(feature.featureName);
+      });
     });
     res.status(200).json({
       data: {
-        role: userRole.role,
-        userId: userRole.userId,
-        features: permissions,
+        userId: userRoles.userId,
+        featureAccess: [...new Set(userAllFeatures)],
       },
     });
   } catch (error) {
     logger.error(error);
+    console.log(error);
     res.status(500).json({
       message: error.message,
       user: req.user,
