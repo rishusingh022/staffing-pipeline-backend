@@ -17,7 +17,7 @@ uploadImageRouter.post(
 uploadImageRouter.post(
   '/upload/user',
   authMiddlewares.validateToken,
-  checkRolePermission(allFeatures.upload_image_user),
+  checkRolePermission(allFeatures.upload_image_user_self),
   uploadImageServices.uploadImage.single('file'),
   uploadImageController.uploadUserImage
 );
