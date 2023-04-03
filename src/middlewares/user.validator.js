@@ -19,6 +19,11 @@ const updateUserBodySchema = Joi.object({
   fmno: Joi.string().pattern(/^[0-9]+$/),
 });
 
+const updateUserSelfBodySchema = Joi.object({
+  image: Joi.string(),
+  skills: Joi.array().items(Joi.string()),
+});
+
 const updateIdValidator = (req, res, next) => {
   try {
     const { error } = updateUserIdSchema.validate(req.params);
@@ -29,6 +34,22 @@ const updateIdValidator = (req, res, next) => {
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.status).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
+  }
+};
+
+const updateSelfBodyValidator = (req, res, next) => {
+  try {
+    const { error } = updateUserSelfBodySchema.validate(req.body);
+    if (error) {
+      throw new HttpError(error.message, 400);
+    }
+    next();
+  } catch (error) {
+    if (error instanceof HttpError) {
+      res.status(error.statusCode).json({ message: error.message });
     } else {
       res.status(500).json({ message: error.message });
     }
@@ -54,4 +75,5 @@ const updateBodyValidator = (req, res, next) => {
 module.exports = {
   updateIdValidator,
   updateBodyValidator,
+  updateSelfBodyValidator,
 };

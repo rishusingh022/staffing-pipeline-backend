@@ -59,7 +59,7 @@ describe('User Controller', () => {
         const err = new NotFoundError('User not found');
         jest.spyOn(userServices, 'getUser').mockRejectedValue(err);
         await userController.getUser(mockdata.deleteUser.mockReq, mockdata.deleteUser.mockRes);
-        expect(mockdata.deleteUser.mockRes.status).toHaveBeenCalledWith(err.code);
+        expect(mockdata.deleteUser.mockRes.status).toHaveBeenCalledWith(err.statusCode);
         expect(mockdata.deleteUser.mockRes.json).toHaveBeenCalledWith({
           message: err.message,
           user: mockdata.deleteUser.mockReq.user,

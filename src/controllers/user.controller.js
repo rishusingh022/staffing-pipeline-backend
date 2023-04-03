@@ -54,7 +54,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     logger.error(error);
     if (error instanceof NotFoundError) {
-      res.status(error.code);
+      res.status(error.statusCode);
       res.json({ message: error.message, user: req.user });
     } else {
       res.status(500);
