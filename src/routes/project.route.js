@@ -19,6 +19,12 @@ projectRouter.post(
   projectMiddlewares.validateProject,
   projectController.createProject
 );
+projectRouter.post(
+  '/projects-monthly',
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_engagement),
+  projectController.getProjectsMonthwise
+);
 projectRouter.get(
   '/:id',
   authMiddlewares.validateToken,
