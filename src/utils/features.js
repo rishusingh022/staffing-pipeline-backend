@@ -27,6 +27,11 @@ const allFeatures = {
   edit_skill_self: 'edit_skill_self',
   edit_user_self: 'edit_user_self',
   upload_image_user_self: 'upload_image_user_self',
+  delete_skill_self: 'delete_skill_self',
+  read_users_in_engagement: 'read_users_in_engagement',
+  read_past_users_in_engagement: 'read_past_users_in_engagement',
+  create_staffing_entry: 'create_staffing_entry',
+  read_metrics: 'read_metrics',
 };
 
 module.exports = allFeatures;

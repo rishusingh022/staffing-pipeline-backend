@@ -19,5 +19,8 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-  }
+    await queryInterface.addColumn('users', 'role_id', {
+      type: Sequelize.UUID,
+    });
+  },
 };

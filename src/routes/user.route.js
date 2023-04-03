@@ -18,20 +18,26 @@ router.get(
   userControllers.getUser
 );
 
-router.post('/users', authMiddlewares.validateToken, userControllers.createUser);
-router.delete('/users/:id', authMiddlewares.validateToken, userControllers.deleteUser);
+router.post(
+  '/users',
+  checkRolePermission(allFeatures.create_user),
+  authMiddlewares.validateToken,
+  userControllers.createUser
+);
+router.delete(
+  '/users/:id',
+  checkRolePermission(allFeatures.delete_user),
+  authMiddlewares.validateToken,
+  userControllers.deleteUser
+);
 router.put(
   '/users/:id',
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.edit_user_self),
   updateIdValidator,
   updateBodyValidator,
   userControllers.updateUser
 );
-router.get(
-  '/user-role',
-  authMiddlewares.validateToken,
-  checkRolePermission(allFeatures.read_case_study),
-  userControllers.getUserRole
-);
+router.get('/user-role', authMiddlewares.validateToken, userControllers.getUserRole);
 
 module.exports = router;

@@ -28,9 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      roleId: {
-        type: DataTypes.UUID,
-      },
       fmno: DataTypes.STRING,
       caseStudyIds: DataTypes.ARRAY(DataTypes.STRING),
       skills: DataTypes.ARRAY(DataTypes.STRING),
