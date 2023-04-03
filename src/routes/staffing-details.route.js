@@ -8,30 +8,34 @@ const allFeatures = require('../utils/features');
 // const authMiddlewares = require('../middlewares/request.validator');
 staffingRouter.get(
   '/user-current-engagements/:userId',
+  authMiddlewares.validateToken,
   checkRolePermission(allFeatures.read_engagement),
   staffingDetailsController.getUserCurrentEngagements
 );
 
 staffingRouter.get(
   '/all-users/:engagementId',
+  authMiddlewares.validateToken,
   checkRolePermission(allFeatures.read_engagement),
   staffingDetailsController.getUsersInvolvedInEngagement
 );
 staffingRouter.get(
   '/current-users/:engagementId',
+  authMiddlewares.validateToken,
   checkRolePermission(allFeatures.read_users_in_engagement),
   staffingDetailsController.getUsersInEngagement
 );
 staffingRouter.get(
   '/user-past-engagements/:userId',
+  authMiddlewares.validateToken,
   checkRolePermission(allFeatures.read_users_in_engagement),
   staffingDetailsController.getUserPastEngagements
 );
 
 staffingRouter.post(
   '/',
-  checkRolePermission(allFeatures.create_staffing_entry),
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.create_staffing_entry),
   validator,
   staffingDetailsController.createStaffingEntry
 );

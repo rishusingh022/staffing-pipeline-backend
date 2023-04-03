@@ -10,24 +10,31 @@ const { checkRolePermission } = require('../middlewares/role-permission.validato
 const allFeatures = require('../utils/features');
 const router = express.Router();
 
-router.get('/users', authMiddlewares.validateToken, userControllers.listUsers);
+router.get(
+  '/users',
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_user),
+  userControllers.listUsers
+);
 router.get(
   '/users/:userId',
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_user),
   requestValidator.validate(schemas.userIdSchema, 'params'),
   userControllers.getUser
 );
 
 router.post(
   '/users',
+  authMiddlewares.validateToken,
   checkRolePermission(allFeatures.create_user),
   authMiddlewares.validateToken,
   userControllers.createUser
 );
 router.delete(
   '/users/:id',
-  checkRolePermission(allFeatures.delete_user),
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.delete_user),
   userControllers.deleteUser
 );
 router.put(

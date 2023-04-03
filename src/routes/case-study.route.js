@@ -24,18 +24,18 @@ router.put(
 );
 router.delete(
   '/:id',
-  checkRolePermission(allFeatures.delete_case_study),
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.delete_case_study),
   caseStudyValidator.caseStudyIdValidator,
   deleteCaseStudy
 );
-router.get('/:id', checkRolePermission(allFeatures.read_case_study), authMiddlewares.validateToken, getCaseStudy);
-router.get('/', checkRolePermission(allFeatures.read_case_study), authMiddlewares.validateToken, listCaseStudies);
+router.get('/:id', authMiddlewares.validateToken, checkRolePermission(allFeatures.read_case_study), getCaseStudy);
+router.get('/', authMiddlewares.validateToken, checkRolePermission(allFeatures.read_case_study), listCaseStudies);
 
 router.post(
   '/',
-  checkRolePermission(allFeatures.create_case_study),
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.create_case_study),
   caseStudyValidator.createCaseStudyValidator,
   createCaseStudy
 );

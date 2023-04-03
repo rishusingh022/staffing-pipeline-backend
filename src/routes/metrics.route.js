@@ -8,7 +8,8 @@ const allFeatures = require('../utils/features');
 
 metricsRouter.get(
   '/staffing/users',
-  checkRolePermission(allFeatures.metrics),
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_metrics),
   staffingDetailsController.getCurrentStaffingDetails
 );
 metricsRouter.get(
@@ -17,7 +18,12 @@ metricsRouter.get(
   checkRolePermission(allFeatures.read_metrics),
   projectController.getProjectsInMonths
 );
-metricsRouter.get('/engagementStatus', checkRolePermission(allFeatures.metrics), projectController.getEngagementStatus);
+metricsRouter.get(
+  '/engagementStatus',
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_metrics),
+  projectController.getEngagementStatus
+);
 metricsRouter.get(
   '/users',
   authMiddlewares.validateToken,

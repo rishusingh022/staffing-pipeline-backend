@@ -8,18 +8,18 @@ const allFeatures = require('../utils/features');
 
 countRouter.get(
   '/projects',
-  checkRolePermission(allFeatures.read_engagement),
   validateToken,
+  checkRolePermission(allFeatures.read_engagement),
   projectController.getEngagementsCount
 );
 
 countRouter.get(
   '/case-studies',
-  checkRolePermission(allFeatures.read_case_study),
   validateToken,
+  checkRolePermission(allFeatures.read_case_study),
   caseStudyController.getCaseStudiesCount
 );
 
-countRouter.get('/users', checkRolePermission(allFeatures.read_user), validateToken, userController.getUsersCount);
+countRouter.get('/users', validateToken, checkRolePermission(allFeatures.read_user), userController.getUsersCount);
 
 module.exports = countRouter;

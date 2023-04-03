@@ -8,24 +8,24 @@ const allFeatures = require('../utils/features');
 router.get(
   '/users',
   searchValidator.validateSeachQuery,
-  checkRolePermission(allFeatures.search_user),
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.search_user),
   searchControllers.getUsersByName
 );
 
 router.get(
   '/projects',
   searchValidator.validateSeachQuery,
-  checkRolePermission(allFeatures.search_engagement),
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.search_engagement),
   searchControllers.getProjectsByName
 );
 
 router.get(
   '/case-studies',
   searchValidator.validateSeachQuery,
-  checkRolePermission(allFeatures.search_case_study),
   authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.search_case_study),
   searchControllers.getCaseStudyByName
 );
 
