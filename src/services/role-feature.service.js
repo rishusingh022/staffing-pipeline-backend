@@ -1,4 +1,5 @@
 const db = require('../models');
+const { HttpError } = require('../utils/httpError');
 
 const getRoles = async () => {
   const roles = await db.role.findAll();
@@ -7,6 +8,7 @@ const getRoles = async () => {
 
 const getRole = async roleId => {
   const role = await db.role.findByPk(roleId);
+  if (!role) throw new HttpError(404, 'Role not found');
   return role;
 };
 

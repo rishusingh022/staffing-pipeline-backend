@@ -26,8 +26,7 @@ const addSkill = async (req, res) => {
     const user = await userServices.getUser(id);
     if (!user) throw new HttpError(404, 'User not found');
     const skill = await skillsService.addSkill(id, req.body);
-
-    res.status(200).json({ data: skill });
+    res.status(201).json({ data: skill });
   } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
