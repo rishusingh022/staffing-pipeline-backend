@@ -1,5 +1,13 @@
 const create = {
+  count: 5,
   mockReq: {
+    params: {
+      id: '1',
+      name: 'test',
+    },
+    query: {
+      page: 0,
+    },
     body: {
       name: 'test',
       description: 'test',
@@ -7,6 +15,12 @@ const create = {
     },
     user: {
       role: 'engineer 1',
+      dataValues: {
+        caseStudyIds: [],
+      },
+      __proto__: {
+        save: jest.fn(),
+      },
     },
   },
   mockRes: {

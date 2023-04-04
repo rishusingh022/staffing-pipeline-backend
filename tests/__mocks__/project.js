@@ -1,8 +1,14 @@
 const project = {
   mockReq: {
-    params: jest.fn(),
+    params: {
+      id: 1,
+    },
     user: {
       role: 'engineer 1',
+    },
+    body: {
+      name: 'Project 1',
+      startDate: '2020-01-01',
     },
   },
   mockRes: {

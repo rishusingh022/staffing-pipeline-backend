@@ -138,6 +138,7 @@ const updateUser = {
 };
 
 module.exports = {
+  testData,
   createUser,
   getUser,
   deleteUser,

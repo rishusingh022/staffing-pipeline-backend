@@ -51,23 +51,15 @@ const updateCaseStudy = async (req, res) => {
 
 const deleteCaseStudy = async (req, res) => {
   try {
-    try {
-      logger.info('deleting case study with id: ' + req.params.id);
-      const { id } = req.params;
-      await userServices.removeCaseStudyFromUser(id);
-      await projectServices.removeCaseStudyFromProject(id);
-      const deletedCaseStudy = await caseStudyServices.deleteCaseStudy(id);
-      if (!deletedCaseStudy) {
-        res.status(404).json({ message: 'Case study not found', user: req.user });
-      }
-      res.status(200).json({ data: deletedCaseStudy, user: req.user });
-    } catch (error) {
-      logger.error(error);
-      res.status(500).json({
-        message: 'Something went wrong',
-        user: req.user,
-      });
+    logger.info('deleting case study with id: ' + req.params.id);
+    const { id } = req.params;
+    await userServices.removeCaseStudyFromUser(id);
+    await projectServices.removeCaseStudyFromProject(id);
+    const deletedCaseStudy = await caseStudyServices.deleteCaseStudy(id);
+    if (!deletedCaseStudy) {
+      res.status(404).json({ message: 'Case study not found', user: req.user });
     }
+    res.status(200).json({ data: deletedCaseStudy, user: req.user });
   } catch (error) {
     logger.error(error);
     res.status(500).json({

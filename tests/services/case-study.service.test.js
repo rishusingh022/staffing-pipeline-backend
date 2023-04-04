@@ -15,7 +15,35 @@ describe('Case Study Services', () => {
       expect(caseStudy).toEqual(resolvedValue);
     });
   });
-
+  describe('Function createCaseStudy', () => {
+    it('Should create a new case study', async () => {
+      const resolvedValue = { ...mockData.create.resolvedValue, save: jest.fn() };
+      jest.spyOn(case_studies, 'create').mockResolvedValue(resolvedValue);
+      const caseStudy = await updateCaseStudyServices.createCaseStudy(mockData.create.mockReq.body);
+      expect(caseStudy).toEqual(resolvedValue);
+    });
+  });
+  describe('Function getCaseStudiesBytEngagementId', () => {
+    it('Should get case studies by engagement id', async () => {
+      jest.spyOn(case_studies, 'findAll').mockResolvedValue([mockData.create.resolvedValue]);
+      const caseStudy = await updateCaseStudyServices.getCaseStudiesByEngagementId(mockData.create.mockReq.params.id);
+      expect(caseStudy).toEqual([mockData.create.resolvedValue]);
+    });
+  });
+  describe('Function getCaseStudyByName', () => {
+    it('Should get case study by name', async () => {
+      jest.spyOn(case_studies, 'findOne').mockResolvedValue([mockData.create.resolvedValue]);
+      const caseStudy = await updateCaseStudyServices.getCaseStudyByName(mockData.create.mockReq.params.name);
+      expect(caseStudy).toEqual([mockData.create.resolvedValue]);
+    });
+  });
+  describe('Function getCaseStudiesCount', () => {
+    it('Should get case studies count', async () => {
+      jest.spyOn(case_studies, 'count').mockResolvedValue(mockData.create.count);
+      const caseStudy = await updateCaseStudyServices.getCaseStudiesCount();
+      expect(caseStudy).toEqual(mockData.create.count);
+    });
+  });
   describe('function deleteCaseStudy', () => {
     it('Should delete case study', async () => {
       const resolvedValue = { ...mockData.toDelete.resolvedValue, destroy: jest.fn() };

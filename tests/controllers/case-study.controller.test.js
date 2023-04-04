@@ -9,6 +9,29 @@ const projectServices = require('../../src/services/project.service');
 describe('CaseStudyController', () => {
   jest.spyOn(userServices, 'updateCaseStudyInUser').mockResolvedValue(true);
   jest.spyOn(projectServices, 'updateCaseStudyInProject').mockResolvedValue(true);
+  describe('Function createCaseStudy', () => {
+    it('Should create a new case study', async () => {
+      jest.spyOn(caseStudiesServices, 'createCaseStudy').mockResolvedValue(mockData.create.resolvedValue);
+      jest.spyOn(userServices, 'getUser').mockResolvedValue(mockData.create.mockReq.user);
+      jest.spyOn(projectServices, 'getProject').mockResolvedValue(mockData.create.mockEngagement);
+      await caseStudiesController.createCaseStudy(mockData.create.mockReq, mockData.create.mockRes);
+      expect(mockData.create.mockRes.status).toHaveBeenCalledWith(201);
+      expect(mockData.create.mockRes.json).toHaveBeenCalledWith({
+        data: mockData.create.resolvedValue,
+        user: mockData.create.mockReq.user,
+      });
+    });
+    it('Should throw an error if something goes wrong', async () => {
+      jest.spyOn(caseStudiesServices, 'createCaseStudy').mockRejectedValue(new Error('Something went wrong'));
+      await caseStudiesController.createCaseStudy(mockData.create.mockReq, mockData.create.mockRes);
+      expect(mockData.create.mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockData.create.mockRes.json).toHaveBeenCalledWith({
+        message: 'Something went wrong',
+        success: false,
+        user: mockData.create.mockReq.user,
+      });
+    });
+  });
   describe('updateCaseStudyController', () => {
     it('should update caseStudy details', async () => {
       jest.spyOn(updateCaseStudyServices, 'updateCaseStudy').mockResolvedValue(mockData.update.resolvedValue);
@@ -71,30 +94,43 @@ describe('CaseStudyController', () => {
       });
     });
   });
-
-  describe('createCaseStudy', () => {
-    it('should create a new case study', async () => {
-      // const { mockReq, mockRes, resolvedValue, mockUser, mockEngagement } = mockData.create;
-      // jest.spyOn(caseStudiesServices, 'createCaseStudy').mockResolvedValue(resolvedValue);
-      // jest.spyOn(userServices, 'getUser').mockResolvedValueOnce(mockUser);
-      // jest.spyOn(userServices, 'updateUser').mockResolvedValue();
-      // jest.spyOn(engagements, 'findByPk').mockResolvedValue(mockEngagement);
-      // await caseStudiesController.createCaseStudy(mockReq, mockRes);
-      // //expect(mockRes.status).toHaveBeenCalledWith(201);
-      // expect(mockRes.json).toHaveBeenCalledWith(resolvedValue);
+  describe('listCaseStudiesController', () => {
+    it('should list all caseStudies', async () => {
+      jest.spyOn(updateCaseStudyServices, 'listCaseStudies').mockResolvedValue(mockData.create.resolvedValue);
+      jest.spyOn(Promise, 'all').mockResolvedValue([mockData.create.resolvedValue]);
+      await updateCaseStudy.listCaseStudies(mockData.create.mockReq, mockData.create.mockRes);
+      expect(mockData.create.mockRes.status).toHaveBeenCalled();
+      expect(mockData.create.mockRes.json).toHaveBeenCalled();
     });
-
-    it('should throw an internal server error', async () => {
-      const { mockReq, mockRes } = mockData.create;
-
-      jest.spyOn(caseStudiesServices, 'createCaseStudy').mockRejectedValue(new Error());
-
-      await caseStudiesController.createCaseStudy(mockReq, mockRes);
-      expect(mockRes.status).toHaveBeenCalledWith(500);
-      expect(mockRes.json).toHaveBeenCalledWith({
+    it('Should throw an error if something goes wrong', async () => {
+      jest.spyOn(updateCaseStudyServices, 'listCaseStudies').mockRejectedValue(new Error('Something went wrong'));
+      await updateCaseStudy.listCaseStudies(mockData.create.mockReq, mockData.create.mockRes);
+      expect(mockData.create.mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockData.create.mockRes.json).toHaveBeenCalledWith({
         message: 'Something went wrong',
         success: false,
-        user: mockReq.user,
+        user: mockData.create.mockReq.user,
+      });
+    });
+  });
+  describe('Controller getCaseStudiesCount', () => {
+    it('Should return count of caseStudies', async () => {
+      jest.spyOn(updateCaseStudyServices, 'getCaseStudiesCount').mockResolvedValue(1);
+      await updateCaseStudy.getCaseStudiesCount(mockData.create.mockReq, mockData.create.mockRes);
+      expect(mockData.create.mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockData.create.mockRes.json).toHaveBeenCalledWith({
+        data: 1,
+        user: mockData.create.mockReq.user,
+      });
+    });
+    it('Should throw an error if something goes wrong', async () => {
+      jest.spyOn(updateCaseStudyServices, 'getCaseStudiesCount').mockRejectedValue(new Error('Something went wrong'));
+      await updateCaseStudy.getCaseStudiesCount(mockData.create.mockReq, mockData.create.mockRes);
+      expect(mockData.create.mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockData.create.mockRes.json).toHaveBeenCalledWith({
+        message: 'Something went wrong',
+        success: false,
+        user: mockData.create.mockReq.user,
       });
     });
   });
