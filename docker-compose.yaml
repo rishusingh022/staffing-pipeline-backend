@@ -37,6 +37,8 @@ services:
       JWT_SECRET: your_jwt_secret
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      OKTA_CLIENT_ID: 0oa8vl9qyx4intX1S5d7
+      OKTA_DOMAIN: dev-36589701.okta.com
 
     depends_on:
       staffing-pipeline-backend-migration:
