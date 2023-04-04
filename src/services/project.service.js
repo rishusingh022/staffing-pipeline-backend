@@ -38,6 +38,9 @@ const listProjects = async page => {
     const allProjects = await db.engagements.findAll({
       limit: PAGE_LIMIT,
       offset: page ? (page - 1) * PAGE_LIMIT : 0,
+      include: {
+        model: db.sectors,
+      },
     });
     return allProjects;
   } catch (error) {
@@ -51,6 +54,9 @@ const getProjectsByName = async name => {
   const engagements = await db.engagements.findAll({
     where: {
       name: db.Sequelize.where(db.Sequelize.fn('LOWER', db.Sequelize.col('name')), 'LIKE', `%${name}%`),
+    },
+    include: {
+      model: db.sectors,
     },
   });
   return engagements;
@@ -142,6 +148,9 @@ const getProjectsInMonths = async () => {
       startDate: {
         [db.Sequelize.Op.gte]: startDate,
       },
+    },
+    include: {
+      model: db.sectors,
     },
   });
   const engagementsCount = {};

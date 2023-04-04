@@ -48,13 +48,31 @@ const removeProjectFromCaseStudy = async projectId => {
 
 const getCaseStudy = async id => {
   logger.info('find case study with the given id');
-  const caseStudy = await db.case_studies.findOne({ where: { case_study_id: id } });
+  const caseStudy = await db.case_studies.findOne({
+    include: [
+      {
+        model: db.sectors,
+      },
+      {
+        model: db.sub_sectors,
+      },
+    ],
+    where: { case_study_id: id },
+  });
   return caseStudy;
 };
 
 const listCaseStudies = async page => {
   logger.info('get all the case studies from the database');
   const allCaseStudies = await db.case_studies.findAll({
+    include: [
+      {
+        model: db.sectors,
+      },
+      {
+        model: db.sub_sectors,
+      },
+    ],
     limit: PAGE_LIMIT,
     offset: page ? (page - 1) * PAGE_LIMIT : 0,
   });
@@ -70,7 +88,17 @@ const addCurrentEngagement = async (caseStudyId, engagementId) => {
 
 const getCaseStudiesByEngagementId = async engagementId => {
   logger.info(`get case studies by engagement id: ${engagementId}`);
-  const caseStudies = await db.case_studies.findAll({ where: { engagementId: engagementId } });
+  const caseStudies = await db.case_studies.findAll({
+    include: [
+      {
+        model: db.sectors,
+      },
+      {
+        model: db.sub_sectors,
+      },
+    ],
+    where: { engagementId: engagementId },
+  });
   return caseStudies;
 };
 const getCaseStudyByName = async name => {
@@ -79,6 +107,14 @@ const getCaseStudyByName = async name => {
     where: {
       name: db.Sequelize.where(db.Sequelize.fn('LOWER', db.Sequelize.col('name')), 'LIKE', `%${name}%`),
     },
+    include: [
+      {
+        model: db.sectors,
+      },
+      {
+        model: db.sub_sectors,
+      },
+    ],
   });
   return caseStudies;
 };

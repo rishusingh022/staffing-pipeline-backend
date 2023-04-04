@@ -8,7 +8,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.sectors,{
+        foreignKey:'sectorId'
+      });
+      this.belongsTo(models.sub_sectors,{
+        foreignKey:'subSectorId'
+      });
     }
   }
   Engagements.init(
@@ -25,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
         type:DataTypes.STRING,
         unique: true
       },
+      sectorId: DataTypes.UUID,
+      subSectorId: DataTypes.UUID,
       skills: DataTypes.ARRAY(DataTypes.STRING),
       guild: DataTypes.ENUM('swe', 'product', 'data', 'unspecified'),
       caseStudyIds: DataTypes.ARRAY(DataTypes.STRING),

@@ -8,7 +8,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.sectors,{
+        foreignKey:'sectorId'
+      });
+      this.belongsTo(models.sub_sectors,{
+        foreignKey:'subSectorId'
+      });
     }
   }
   CaseStudies.init(
@@ -21,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       description: DataTypes.STRING,
+      sectorId: DataTypes.UUID,
+      subSectorId: DataTypes.UUID,
       collaboratorsIds: DataTypes.ARRAY(DataTypes.STRING),
       image: DataTypes.STRING,
       boxLink: DataTypes.STRING,

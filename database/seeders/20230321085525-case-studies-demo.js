@@ -21,6 +21,8 @@ module.exports = {
           name: 'The Marshmallow Experiment',
           description:
             'The Marshmallow Experiment is a classic study in delayed gratification. It was conducted by Walter Mischel, a psychologist at Stanford University, in the early 1970s.',
+          sector_id:'54981c7b-b85c-4e4d-a590-7e4abe312c3e',
+          sub_sector_id:null,
           collaborators_ids: [
             '844cd563-04e6-4f19-894b-32e0b70cd66b',
             '0d7556dc-f3dc-4baf-9c34-0371b2de4a64',
@@ -37,6 +39,8 @@ module.exports = {
         {
           case_study_id: 'dddb1641-76ab-45f5-b7ee-b54bdfccbe8b',
           name: 'The Bystander Effect',
+          sector_id:'93a3d40b-33a6-459e-96c2-bae49185bd61',
+          sub_sector_id:'7d1dbfd1-b3b6-4a5f-92fe-e76504c7bb99',
           description:
             'The bystander effect, or bystander apathy, is a social psychological theory that states that individuals are less likely to offer help to a victim in presence of other people.',
           collaborators_ids: [
@@ -55,6 +59,8 @@ module.exports = {
         {
           case_study_id: '386cf7be-69d9-4a9b-91f5-9f38f92962d0',
           name: 'Asch Conformity Study',
+          sector_id:'54981c7b-b85c-4e4d-a590-7e4abe312c3e',
+          sub_sector_id:null,
           description:
             'In psychology, the Asch conformity experiments or the Asch paradigm were a series of studies directed by Solomon Asch studying if and how individuals yielded to or defied a majority group and the effect of such influences on beliefs and opinions.',
           collaborators_ids: ['31b0f929-e974-4c4a-b369-99b0ba022e88', 'cba5e933-fc01-4a02-ac96-d982cd32acc7'],
@@ -68,6 +74,8 @@ module.exports = {
         {
           case_study_id: 'f7617de5-573f-4db3-a0a8-ae65437416e1',
           name: 'The Bobo Doll Experiment',
+          sector_id:'70916eca-d321-4048-9c6a-e1d3728ea449',
+          sub_sector_id:'db4418cb-a980-4ff2-b674-dc5b55fcc9cd',
           description:
             'The Bobo doll experiment is a classic study in social learning theory. It was conducted by Albert Bandura, a psychologist at Stanford University, in the early 1960s.',
           collaborators_ids: [
@@ -85,6 +93,8 @@ module.exports = {
         {
           case_study_id: '9f0d6ee2-eb55-4ec3-a772-05c03f56f950',
           name: 'Stanford Prison Experiment.',
+          sector_id:'70916eca-d321-4048-9c6a-e1d3728ea449',
+          sub_sector_id:'0a0ed5e0-7e59-48eb-b613-f061aa26ca84',
           description:
             "It was a two-week simulation of a prison environment that examined the effects of situational variables on participants' reactions and behaviors. ",
           collaborators_ids: [
