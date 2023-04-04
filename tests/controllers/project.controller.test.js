@@ -109,7 +109,7 @@ describe('Engagements Controllers', () => {
     expect(mockData.allProjects.mockRes.status).toBeCalledWith(200);
     expect(mockData.allProjects.mockRes.json).toBeCalledWith({
       data: mockData.allProjects.resolvedValue,
-      user: mockData.allProjects.mockReq.user,
+      success: true,
     });
   });
   it('should return error', async () => {
@@ -118,7 +118,7 @@ describe('Engagements Controllers', () => {
     expect(mockData.allProjects.mockRes.status).toBeCalledWith(500);
     expect(mockData.allProjects.mockRes.json).toBeCalledWith({
       error: mockData.allProjects.errorMessage,
-      user: mockData.allProjects.mockReq.user,
+      success: false,
     });
   });
   describe('Function getEngagementStatus', () => {

@@ -71,7 +71,21 @@ const getProject = async (req, res) => {
     }
   }
 };
-
+const listSectors = async (req, res) => {
+  try {
+    logger.info('fetching all the sectors');
+    const sectors = await projectServices.getSectors();
+    res.status(200).json({ data: sectors, success: true });
+  } catch (error) {
+    logger.error(error);
+    {
+      res.status(500).json({
+        error: error.message,
+        success: true,
+      });
+    }
+  }
+};
 const listProjects = async (req, res) => {
   try {
     logger.info('fetching all the projects');
@@ -81,13 +95,13 @@ const listProjects = async (req, res) => {
     } else {
       allProjects = await projectServices.listProjects();
     }
-    res.status(200).json({ data: allProjects, user: req.user });
+    res.status(200).json({ data: allProjects, success: true });
   } catch (error) {
     logger.error(error);
     {
       res.status(500).json({
         error: error.message,
-        user: req.user,
+        success: false,
       });
     }
   }
@@ -241,4 +255,5 @@ module.exports = {
   getProjectsInMonths,
   getEngagementStatus,
   getProjectsMonthwise,
+  listSectors,
 };

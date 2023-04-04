@@ -19,6 +19,12 @@ projectRouter.post(
   projectMiddlewares.validateProject,
   projectController.createProject
 );
+projectRouter.get(
+  '/sectors',
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_engagement),
+  projectController.listSectors
+);
 projectRouter.post(
   '/projects-monthly',
   authMiddlewares.validateToken,

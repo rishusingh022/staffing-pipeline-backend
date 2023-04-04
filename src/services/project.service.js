@@ -11,6 +11,7 @@ const getProject = async projectId => {
     where: {
       engagementId: projectId,
     },
+    include: [{ model: db.sectors }, { model: db.sub_sectors }],
   });
   // console.log(projectId, engagement);
   if (!engagement) {
@@ -25,6 +26,12 @@ const getProjectByChargeCode = async chargeCode => {
     where: {
       chargeCode,
     },
+    include: [
+      { model: db.sector },
+      {
+        model: db.sub_sector,
+      },
+    ],
   });
   if (!engagement) {
     throw new CustomErrors.NotFoundError('Engagement not found');
@@ -38,9 +45,14 @@ const listProjects = async page => {
     const allProjects = await db.engagements.findAll({
       limit: PAGE_LIMIT,
       offset: page ? (page - 1) * PAGE_LIMIT : 0,
-      include: {
-        model: db.sectors,
-      },
+      include: [
+        {
+          model: db.sectors,
+        },
+        {
+          model: db.sub_sectors,
+        },
+      ],
     });
     return allProjects;
   } catch (error) {
@@ -55,9 +67,7 @@ const getProjectsByName = async name => {
     where: {
       name: db.Sequelize.where(db.Sequelize.fn('LOWER', db.Sequelize.col('name')), 'LIKE', `%${name}%`),
     },
-    include: {
-      model: db.sectors,
-    },
+    include: [{ model: db.sectors }, { model: db.sub_sectors }],
   });
   return engagements;
 };
@@ -149,9 +159,7 @@ const getProjectsInMonths = async () => {
         [db.Sequelize.Op.gte]: startDate,
       },
     },
-    include: {
-      model: db.sectors,
-    },
+    include: [{ model: db.sectors }, { model: db.sub_sectors }],
   });
   const engagementsCount = {};
   engagements.map(engagement => {
@@ -206,8 +214,20 @@ const getEngagementsCount = async () => {
     throw new CustomErrors.HttpError(error.message, 500);
   }
 };
+const getSectors = async () => {
+  try {
+    logger.info('get sectors and subsectors');
+    return await db.sectors.findAll({
+      include: db.sub_sectors,
+    });
+  } catch (error) {
+    logger.error({ error: error, text: 'error in fetching sectors from database' });
+    throw new CustomErrors.HttpError(error.message, 500);
+  }
+};
 
 module.exports = {
+  getSectors,
   getProject,
   listProjects,
   deleteProject,
