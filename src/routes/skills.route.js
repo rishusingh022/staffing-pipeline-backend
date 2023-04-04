@@ -29,7 +29,8 @@ router.delete(
   '/:id',
   authMiddlewares.validateToken,
   checkRolePermission(allFeatures.delete_skill_self),
-  skillsValidator.validate,
+  skillsValidator.deleteValidator(skillsValidator.deleteParamSchema, 'params'),
+  skillsValidator.deleteValidator(skillsValidator.deleteBodySchema, 'body'),
   skillsController.deleteSkill
 );
 
