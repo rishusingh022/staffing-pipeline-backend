@@ -26,6 +26,8 @@ const createCaseStudySchema = Joi.object({
   collaboratorsIds: Joi.array().items(uuidType),
   image: Joi.string(),
   boxLink: Joi.string(),
+  sectorId: Joi.string(),
+  subSectorId: Joi.string(),
   engagementId: uuidType,
 });
 

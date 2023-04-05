@@ -244,6 +244,50 @@ const getEngagementsCount = async (req, res) => {
   }
 };
 
+const getProjectSectorsMetrics = async (req, res) => {
+  try {
+    logger.info('fetching sector metrics');
+    const allEngagements = await projectServices.listProjects();
+    const allSectors = await projectServices.getSectors();
+    const metrics = allSectors.map(sector => {
+      const engagements = allEngagements.filter(engagement => engagement.sector.name === sector.name);
+      return {
+        name: sector.name,
+        y: engagements.length,
+      };
+    });
+    res.status(200).json({ data: metrics, user: req.user });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      error: error.message,
+      user: req.user,
+    });
+  }
+};
+
+const getCaseStudiesSectorMetrics = async (req, res) => {
+  try {
+    logger.info('fetching sector metrics');
+    const allCaseStudies = await caseStudyService.listCaseStudies();
+    const allSectors = await projectServices.getSectors();
+    const metrics = allSectors.map(sector => {
+      const caseStudies = allCaseStudies.filter(caseStudy => caseStudy.sector.name === sector.name);
+      return {
+        name: sector.name,
+        y: caseStudies.length,
+      };
+    });
+    res.status(200).json({ data: metrics, user: req.user });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      error: error.message,
+      user: req.user,
+    });
+  }
+};
+
 module.exports = {
   getWholeProject,
   getProject,
@@ -256,4 +300,6 @@ module.exports = {
   getEngagementStatus,
   getProjectsMonthwise,
   listSectors,
+  getProjectSectorsMetrics,
+  getCaseStudiesSectorMetrics,
 };

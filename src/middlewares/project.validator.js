@@ -11,6 +11,8 @@ const projectSchema = Joi.object({
   status: Joi.string().min(3).max(30),
   startDate: Joi.date(),
   endDate: Joi.date(),
+  sectorId: Joi.string(),
+  subSectorId: Joi.string(),
   // uppercase alphanumeric string of characters
   chargeCode: Joi.string().regex(/^[A-Z0-9]+$/),
   image: Joi.string().min(3),

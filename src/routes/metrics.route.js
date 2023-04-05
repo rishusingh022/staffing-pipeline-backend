@@ -31,4 +31,17 @@ metricsRouter.get(
   userController.getUserMetrics
 );
 
+metricsRouter.get(
+  '/projects/sectors',
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_metrics),
+  projectController.getProjectSectorsMetrics
+);
+metricsRouter.get(
+  '/case-studies/sectors',
+  authMiddlewares.validateToken,
+  checkRolePermission(allFeatures.read_metrics),
+  projectController.getCaseStudiesSectorMetrics
+);
+
 module.exports = metricsRouter;
