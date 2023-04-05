@@ -22,7 +22,7 @@ projectRouter.post(
 projectRouter.get(
   '/sectors',
   authMiddlewares.validateToken,
-  checkRolePermission(allFeatures.read_engagement),
+  checkRolePermission(allFeatures.read_sectors),
   projectController.listSectors
 );
 projectRouter.post(

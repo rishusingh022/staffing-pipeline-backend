@@ -71,6 +71,34 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+          // pd can read_sectors
+          role_id: '8543e9fe-a420-4cfb-9f0b-a9bea4d0962c',
+          feature_id: '569d4828-1741-4cd8-be42-dd2984b1797a',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          // leadership can read-sectors
+          role_id: '7739b2b2-4dd2-41ee-aa3e-782783939127',
+          feature_id: '569d4828-1741-4cd8-be42-dd2984b1797a',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          // user can read_sectors
+          role_id: '26fcc518-756f-4f4f-8a02-da357b5bd346',
+          feature_id: '569d4828-1741-4cd8-be42-dd2984b1797a',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        // {
+        //   // admin can read_sectors
+        //   role_id: 'b0c5b0c5-5b0c-5b0c-5b0c-5b0c5b0c5b0c',
+        //   feature_id: '569d4828-1741-4cd8-be42-dd2984b1797a',
+        //   created_at: new Date(),
+        //   updated_at: new Date(),
+        // },
       ],
       {}
     );

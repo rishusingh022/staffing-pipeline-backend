@@ -32,6 +32,7 @@ const allFeatures = {
   read_past_users_in_engagement: 'read_past_users_in_engagement',
   create_staffing_entry: 'create_staffing_entry',
   read_metrics: 'read_metrics',
+  read_sectors: 'read_sectors',
 };
 
 module.exports = allFeatures;

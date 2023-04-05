@@ -50,6 +50,13 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+          feature_id: '569d4828-1741-4cd8-be42-dd2984b1797a',
+          feature_name: 'read_sectors',
+          feature_available: true,
+          created_at: new Date(),
+          updated_at: new Date(),
+        }
       ],
       {}
     );
