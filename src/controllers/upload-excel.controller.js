@@ -7,6 +7,7 @@ const uploadExcel = async (req, res) => {
     res.status(200).json({ data: result, success: true });
   } catch (error) {
     fs.unlinkSync(req.file.path);
+    console.log(error);
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({
         error: error.message,

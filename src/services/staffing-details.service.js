@@ -33,78 +33,70 @@ const createStaffingEntry = async entryDetails => {
   const newEntry = await db.staffing_details.bulkCreate(entryDetails);
   return newEntry;
 };
-const parse_xlsx_sheets = fname => {
+const parse_xlsx_sheets = async fname => {
   const file = reader.readFile(fname);
   const sheets = file.SheetNames;
 
   var temp = reader.utils.sheet_to_json(file.Sheets[sheets[0]]);
-  return Promise.all(
-    temp.map(async res => {
-      const user = JSON.parse(
-        JSON.stringify(
-          await db.users.findOne({
-            attributes: ['userId'],
-            where: {
-              fmno: res['Fmno'].toString(),
-              email: res['Mckinsey E-mail Address'],
-            },
-          })
-        )
-      );
-      const engagement = JSON.parse(
-        JSON.stringify(
-          await db.engagements.findOne({
-            attributes: ['engagementId'],
-            where: {
-              chargeCode: res['Charge Code'],
-            },
-          })
-        )
-      );
-      let newEngagementId = undefined;
-      if (!engagement) {
-        const newEngagement = await projectService.createProject({
-          name: res['Study'],
-          chargeCode: res['Charge Code'],
-        });
-        newEngagementId = newEngagement.engagementId;
-      }
-      if (!user) {
-        throw new HttpError('User not found', 400);
-      }
-      return {
-        fmno: res.Fmno,
-        name: res['Full Name'],
-        userId: user ? user.userId : undefined,
-        engagementId: engagement ? engagement.engagementId : newEngagementId,
-        assignmentType: res['Assignment Type'],
-        study: res['Study'],
-        utilizationPercentage: parseInt(res['Utilization %'] * 100),
-        staffingStatus: res['Staffing Status'],
-        assignmentStartDate: ExcelDateToJSDate(res['Assignment Start Date']),
-        assignmentEndDate: ExcelDateToJSDate(res['Assignment End Date']),
-        APName: res['AP Name'],
-        EDName: res['ED Name'],
-        EMName: res['EM Name'],
-        staffingManager: res['Staffing Manager'],
-        guild: res['Guild'],
-        country: res['Country'],
-        departmentCode: res['Department Code'],
-        role: res['Role'],
-        practice: res['Practice'],
-        departmentName: res['Department Name'],
-        integrated: res['Integrated?'],
+  const staffingEntries = [];
+  for (res of temp) {
+    const user = await db.users.findOne({
+      attributes: ['userId'],
+      where: {
+        fmno: res['Fmno'].toString(),
         email: res['Mckinsey E-mail Address'],
-        path: res['Path'],
-        practiceFunction: res['Practice Function'],
-        practiceIndustry: res['Practice Industry'],
-        region: res['Region'],
-        roleCategory: res['Role Category'],
-        roleSubCategory: res['Role SubCategory'],
-        staffingOffice: res['Staffing Office'],
-      };
-    })
-  );
+      },
+    });
+    const engagement = await db.engagements.findOne({
+      attributes: ['engagementId'],
+      where: {
+        chargeCode: String(res['Charge Code']),
+      },
+    });
+    let newEngagementId = undefined;
+    if (!engagement) {
+      const newEngagement = await projectService.createProject({
+        name: res['Study'],
+        chargeCode: res['Charge Code'],
+      });
+      newEngagementId = newEngagement.engagementId;
+    }
+    if (!user) {
+      throw new HttpError('User not found', 400);
+    }
+    staffingEntries.push({
+      fmno: res.Fmno,
+      name: res['Full Name'],
+      userId: user ? user.userId : undefined,
+      engagementId: engagement ? engagement.engagementId : newEngagementId,
+      assignmentType: res['Assignment Type'],
+      study: res['Study'],
+      utilizationPercentage: parseInt(res['Utilization %'] * 100),
+      staffingStatus: res['Staffing Status'],
+      assignmentStartDate: ExcelDateToJSDate(res['Assignment Start Date']),
+      assignmentEndDate: ExcelDateToJSDate(res['Assignment End Date']),
+      APName: res['AP Name'],
+      EDName: res['ED Name'],
+      EMName: res['EM Name'],
+      staffingManager: res['Staffing Manager'],
+      guild: res['Guild'],
+      country: res['Country'],
+      departmentCode: res['Department Code'],
+      role: res['Role'],
+      practice: res['Practice'],
+      departmentName: res['Department Name'],
+      integrated: res['Integrated?'],
+      email: res['Mckinsey E-mail Address'],
+      path: res['Path'],
+      practiceFunction: res['Practice Function'],
+      practiceIndustry: res['Practice Industry'],
+      region: res['Region'],
+      roleCategory: res['Role Category'],
+      roleSubCategory: res['Role SubCategory'],
+      staffingOffice: res['Staffing Office'],
+    });
+  }
+  return staffingEntries;
 };
 
 function ExcelDateToJSDate(serial) {
