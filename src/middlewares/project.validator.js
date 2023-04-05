@@ -45,4 +45,4 @@ const validateProject = (req, res, next) => {
   }
 };
 
-module.exports = { validateProject };
+module.exports = { validateProject, projectSchema };

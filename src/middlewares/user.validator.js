@@ -33,7 +33,7 @@ const updateIdValidator = (req, res, next) => {
     next();
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).json({ message: error.message });
+      res.status(error.statusCode).json({ message: error.message });
     } else {
       res.status(500).json({ message: error.message });
     }
