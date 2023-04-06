@@ -1,25 +1,5 @@
 const roleFeatureServices = require('../../src/services/role-feature.service');
 const roleFeatureControllers = require('../../src/controllers/role-feature.controller');
-const mockRole = {
-  roleId: 1,
-  roleName: 'Admin',
-  features: [
-    {
-      featureName: 'add_user',
-      featureAvailable: true,
-    },
-    {
-      featureName: 'delete_user',
-      featureAvailable: true,
-    },
-  ],
-};
-
-const permissions = {
-  add_user: true,
-  delete_user: true,
-};
-
 const allRoles = [
   {
     roleId: 1,

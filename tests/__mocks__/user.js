@@ -93,7 +93,7 @@ const deleteUser = {
     },
   },
   mockRes: {
-    status: jest.fn(),
+    status: jest.fn().mockReturnThis(),
     json: jest.fn(),
   },
   resolvedValue: testData[1],

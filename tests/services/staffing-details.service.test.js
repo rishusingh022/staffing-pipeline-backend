@@ -1,7 +1,5 @@
 const db = require('../../src/models');
-const { HttpError } = require('../../src/utils/httpError');
 const staffingDetailsService = require('../../src/services/staffing-details.service');
-const reader = require('xlsx');
 const mockData = require('../__mocks__/upload-excel');
 
 describe('staffing details services', () => {
