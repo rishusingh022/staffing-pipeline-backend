@@ -17,4 +17,4 @@ const validateSeachQuery = (req, res, next) => {
   }
 };
 
-module.exports = { validateSeachQuery };
+module.exports = { validateSeachQuery, querySchema };
