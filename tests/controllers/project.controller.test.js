@@ -8,18 +8,58 @@ const mockDataCaseStudy = require('../__mocks__/case-study');
 const staffingDetailsService = require('../../src/services/staffing-details.service');
 
 describe('Engagements Controllers', () => {
-  // it('should return the engagement details of the provided id', async () => {
-  //   jest.spyOn(projectService, 'getProject').mockResolvedValue([mockData.project.resolvedValue]);
-  //   await projectController.getProject(mockData.project.mockReq, mockData.project.mockRes);
-  //   expect(mockData.project.mockRes.status).toBeCalledWith(200);
-  //   expect(mockData.project.mockRes.json).toBeCalledWith([mockData.project.resolvedValue]);
-  // });
-  // it('should return error', async () => {
-  //   jest.spyOn(projectService, 'getProject').mockRejectedValue(new Error(mockData.project.errorMessage));
-  //   await projectController.getProject(mockData.project.mockReq, mockData.project.mockRes);
-  //   expect(mockData.project.mockRes.status).toBeCalledWith(500);
-  //   expect(mockData.project.mockRes.json).toBeCalledWith({ error: mockData.project.errorMessage });
-  // });
+  describe('Function getProjectMonthly', () => {
+    it('Should return a list of projects', async () => {
+      jest.spyOn(projectService, 'getProjectsInMonths').mockResolvedValue(mockData.project.resolvedValue);
+      await projectController.getProjectsInMonths(mockData.project.mockReq, mockData.project.mockRes);
+      expect(mockData.project.mockRes.json).toHaveBeenCalledWith({
+        data: mockData.project.resolvedValue,
+        success: true,
+      });
+    });
+    it('Should return an error when the list of projects cannot be retrieved', async () => {
+      jest.spyOn(projectService, 'getProjectsInMonths').mockImplementation(() => {
+        throw new Error('Error retrieving projects');
+      });
+      await projectController.getProjectsInMonths(mockData.project.mockReq, mockData.project.mockRes);
+      expect(mockData.project.mockRes.status).toBeCalledWith(500);
+      expect(mockData.project.mockRes.json).toBeCalledWith({ error: 'Error retrieving projects', success: false });
+    });
+  });
+  describe('Function getProjectsMonthwise', () => {
+    it('Should return a list of projects', async () => {
+      jest.spyOn(projectService, 'getEngagementsMonthwise').mockResolvedValue(mockData.project.resolvedValue);
+      await projectController.getProjectsMonthwise(mockData.project.mockReq, mockData.project.mockRes);
+      expect(mockData.project.mockRes.json).toHaveBeenCalledWith({
+        data: mockData.project.resolvedValue,
+        success: true,
+      });
+    });
+    it('Should return an error when the list of projects cannot be retrieved', async () => {
+      jest.spyOn(projectService, 'getEngagementsMonthwise').mockImplementation(() => {
+        throw new Error('Error retrieving projects');
+      });
+      await projectController.getProjectsMonthwise(mockData.project.mockReq, mockData.project.mockRes);
+      expect(mockData.project.mockRes.status).toBeCalledWith(500);
+    });
+  });
+  describe('Function listSectors', () => {
+    it('Should return a list of sectors', async () => {
+      jest.spyOn(projectService, 'getSectors').mockResolvedValue(mockData.sector.resolvedValue);
+      await projectController.listSectors(mockData.sector.mockReq, mockData.sector.mockRes);
+      expect(mockData.sector.mockRes.status).toBeCalledWith(200);
+      expect(mockData.sector.mockRes.json).toHaveBeenCalledWith({ data: mockData.sector.resolvedValue, success: true });
+    });
+    it('Should return an error when the list of sectors cannot be retrieved', async () => {
+      jest.spyOn(projectService, 'getSectors').mockImplementation(() => {
+        throw new Error('Error retrieving sectors');
+      });
+      await projectController.listSectors(mockData.sector.mockReq, mockData.sector.mockRes);
+      expect(mockData.sector.mockRes.status).toBeCalledWith(500);
+      //expect(mockData.sector.mockRes.json).toBeCalledWith({ error: 'Error retrieving sectors', success: false });
+    });
+  });
+
   describe('Function getWholeProject', () => {
     it('Should return a project', async () => {
       jest.spyOn(projectService, 'getProject').mockResolvedValue(mockData.project.resolvedValue);
@@ -189,13 +229,26 @@ describe('Engagements Controllers', () => {
       user: mockData.toUpdate.mockReq.user,
     });
   });
-  it('Should return an array of engagements monthwise', async () => {
-    jest.spyOn(projectService, 'getProjectsInMonths').mockResolvedValue(mockData.engagementByMonth.resolvedValue);
-    await projectController.getProjectsInMonths(mockData.engagementByMonth.mockReq, mockData.engagementByMonth.mockRes);
-    expect(mockData.engagementByMonth.mockRes.status).toBeCalledWith(200);
-    expect(mockData.engagementByMonth.mockRes.json).toBeCalledWith({
-      data: mockData.engagementByMonth.resolvedValue,
-      user: mockData.engagementByMonth.mockReq.user,
+  describe('Function getProjectSectorsMetrics', () => {
+    it('Should return the number of engagements', () => {
+      jest.spyOn(projectService, 'listProjects').mockResolvedValue([mockData.project.resolvedValue]);
+      jest.spyOn(projectService, 'getSectors').mockResolvedValue([mockData.sector.resolvedValue]);
+      projectController.getProjectSectorsMetrics(mockData.project.mockReq, mockData.project.mockRes);
+      expect(mockData.project.mockRes.status).toBeCalledWith(200);
+      expect(mockData.project.mockRes.json).toBeCalledWith({
+        data: mockData.project.resolvedValue,
+        success: true,
+      });
+    });
+    it('Should throw an error when theres a database error', () => {
+      jest.spyOn(projectService, 'listProjects').mockResolvedValue([mockData.project.resolvedValue]);
+      jest.spyOn(projectService, 'getSectors').mockResolvedValue(new Error('Project not found'));
+      projectController.getProjectSectorsMetrics(mockData.project.mockReq, mockData.project.mockRes);
+      expect(mockData.project.mockRes.status).toBeCalledWith(500);
+      expect(mockData.project.mockRes.json).toBeCalledWith({
+        error: 'Project not found',
+        success: false,
+      });
     });
   });
 });

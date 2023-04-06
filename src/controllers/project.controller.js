@@ -204,13 +204,13 @@ const getProjectsInMonths = async (req, res) => {
     const projectsInMonths = await projectServices.getProjectsInMonths();
     res.status(200).json({
       data: projectsInMonths,
-      user: req.user,
+      success: true,
     });
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       error: error.message,
-      user: req.user,
+      success: false,
     });
   }
 };
@@ -256,12 +256,12 @@ const getProjectSectorsMetrics = async (req, res) => {
         y: engagements.length,
       };
     });
-    res.status(200).json({ data: metrics, user: req.user });
+    res.status(200).json({ data: metrics, success: true });
   } catch (error) {
     logger.error(error);
     res.status(500).json({
       error: error.message,
-      user: req.user,
+      success: false,
     });
   }
 };

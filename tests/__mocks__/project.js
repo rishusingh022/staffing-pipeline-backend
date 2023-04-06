@@ -77,7 +77,17 @@ const todelete = {
     userIds: [1, 2, 3],
   },
 };
-
+const sector = {
+  mockRes: {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  },
+  resolvedValue: {
+    name: 'Banking',
+    sectorId: '1',
+  },
+  mockReq: {},
+};
 const toUpdate = {
   mockReq: {
     params: jest.fn(),
@@ -117,4 +127,5 @@ module.exports = {
   todelete,
   toUpdate,
   engagementByMonth,
+  sector,
 };

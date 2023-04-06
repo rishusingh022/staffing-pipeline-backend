@@ -1,6 +1,6 @@
 const excelData = [
   {
-    fmno: 'Fmno',
+    Fmno: 'Fmno',
     name: 'Full Name',
     userId: undefined,
     engagementId: undefined,
@@ -31,8 +31,45 @@ const excelData = [
     staffingOffice: 'Staffing Office',
   },
 ];
+const mockStaffingEntry = {
+  // khushil in NexusForge
+  entry_id: '0a672fb5-ecb8-4d48-a9c8-5c7c5d94092b',
+  fmno: 123450,
+  name: 'Khushil',
+  user_id: 'some-id',
+  email: 'Khushil@mckinsey.com',
+  engagement_id: '4e733f84-92af-4cc9-b0ab-d71dab092e85',
+  charge_code: 'X2FEO7Q',
+  assignment_type: 'staffed',
+  study: 'Photo',
+  utilization_percentage: 28,
+  assignment_start_date: '2022-12-04T00:25:06.919Z',
+  assignment_end_date: '2023-03-25T00:28:45.949Z',
+  a_p_name: 'Gretchen',
+  e_d_name: 'Maudie',
+  e_m_name: 'Kareem',
+  staffing_manager: 'Jo Kautzer',
+  guild: 'Guild',
+  country: 'Comoros',
+  department_code: 'Department Code',
+  practice: 'Practice',
+  department_name: 'Department Name',
+  integrated: 'Integrated',
+  path: 'Path',
+  practice_function: 'Practice Function',
+  practice_industry: 'Practice Industry',
+  region: 'Region',
+  role_category: 'Role Category',
+  role_sub_category: 'Role Sub Category',
+  staffing_office: 'Staffing Office',
+  created_at: '2023-03-18T05:50:54.489Z',
+  updated_at: '2023-03-17T18:44:16.467Z',
+};
 const filePath = 'tests/__mocks__/upload-excel.js';
+const error = { message: 'server error', success: false };
 module.exports = {
   excelData,
   filePath,
+  error,
+  mockStaffingEntry,
 };
